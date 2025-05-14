@@ -16,15 +16,8 @@ import { useEffect, useState } from 'react'
 //const weatherUrl ='https://api.openweathermap.org/data/2.5/weather?lat=-23.5505&lon=-46.6333&appid=44d5404359ef466582d9af9646eaad70&units=metric'
 
 //Dublin coordenates.
-//const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
+// const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
 
-const weatherUrl ='https://api.openweathermap.org/data/2.5/weather'
- const lat= -23.5505; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
-      const lon= -46.6333;// see the link in the top of the page? that is an example link where everything start.
-      //i took that link and now i am breaking it so that i can manage.
-  const APIKey = `44d5404359ef466582d9af9646eaad70`;
-  //its not a good practice to leave the key here, there is a better method, which is adding it to env file, ignore from gitignore and use it.
-  //the reason why i did not do it, is because it is not a coffidencial key, for something extremily important
 
 type Weather = {
   name: string;
@@ -43,14 +36,25 @@ type Weather = {
  const weatherScreen = () => {
 // tne user State should be outside from the main code or it wont work.
  const [weather, setWeather] = useState<Weather>();
+
+
   //this function we are going to get the data from the user
   const getWeatherData = async () =>{
-    try{
-     
 
+    // const weatherUrl ='https://api.openweathermap.org/data/2.5/weather'
+const APIUrl = `https://api.openweathermap.org/data/2.5/weather`;
+ const lat= -23.5505; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
+      const lon= -46.6333;// see the link in the top of the page? that is an example link where everything start.
+      //i took that link and now i am breaking it so that i can manage.
+  const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
+  //its not a good practice to leave the key here, there is a better method, which is adding it to env file, ignore from gitignore and use it.
+  //the reason why i did not do it, is because it is not a coffidencial key, for something extremily important
+
+    try{
       const resuslts = await fetch(
-        `${weatherScreen}?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
+        `${APIUrl}?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
       ); // fetch is a command from react that i can use to get a API.
+
       const data = await resuslts.json();
       console.log(JSON.stringify(data, null, 2));
       setWeather(data);
