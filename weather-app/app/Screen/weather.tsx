@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import { useEffect } from 'react'
 
 
 //here i have got a API from this website below, and im a going to use in the weather aplication.
@@ -21,8 +22,12 @@ const weatherScreen = () => {
 
   //this function we are going to get the data from the user
   const getWeatherData = () =>{
-      
+      console.log();
   }
+
+    useEffect(() => {
+    getWeatherData();
+  }, []);
 
 
   
