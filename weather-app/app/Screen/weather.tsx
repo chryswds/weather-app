@@ -1,6 +1,6 @@
 import React, { View, Text, ActivityIndicator } from 'react-native'
 import { useEffect, useState } from 'react'
-
+import * as Location from 'expo-location';
 
 
 //here i have got a API from this website below, and im a going to use in the weather aplication.
@@ -35,8 +35,9 @@ type Weather = {
 
  const weatherScreen = () => {
 // tne user State should be outside from the main code or it wont work.
- const [weather, setWeather] = useState<Weather>();
-
+const [weather, setWeather] = useState<Weather>();
+const [location, setLocation] = useState<Location.LocationObject>();//create a object to use it after
+const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
 
   //this function we are going to get the data from the user
   const getWeatherData = async () =>{
@@ -49,6 +50,28 @@ const APIUrl = `https://api.openweathermap.org/data/2.5/weather`;
   const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
   //its not a good practice to leave the key here, there is a better method, which is adding it to env file, ignore from gitignore and use it.
   //the reason why i did not do it, is because it is not a coffidencial key, for something extremily important
+
+    useEffect(() => {
+    getWeatherData();
+  }, []);
+
+  //code copied from https://docs.expo.dev/
+  useEffect(() => {// this function is the standard function from the docs.expo.dev/ website
+  // I did not modify yet  
+    async function getCurrentLocation() {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    }
+
+    getCurrentLocation();
+  }, []);
 
     try{
       const resuslts = await fetch(
@@ -65,9 +88,7 @@ const APIUrl = `https://api.openweathermap.org/data/2.5/weather`;
       // console.log(weather);
   }
 
-    useEffect(() => {
-    getWeatherData();
-  }, []);
+  
 
   //test
   if(!weather){
