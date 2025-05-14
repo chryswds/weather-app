@@ -1,6 +1,6 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { useEffect } from 'react'
+import React, { View, Text, ActivityIndicator } from 'react-native'
+import { useEffect, useState } from 'react'
+
 
 
 //here i have got a API from this website below, and im a going to use in the weather aplication.
@@ -15,25 +15,53 @@ import { useEffect } from 'react'
 
 const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
 
+type Weather = {
+  name: string;
+  main: {
+      temp: number;
+      feels_like: number;
+      temp_min: number;
+      temp_max: number;
+      pressure: number;
+      humidity: number;
+      sea_level: number;
+      grnd_level: number;
+   },
+}  
 
-
-
-const weatherScreen = () => {
-
+ const weatherScreen = () => {
+// tne user State should be outside from the main code or it wont work.
+ const [weather, setWeather] = useState<Weather>();
   //this function we are going to get the data from the user
-  const getWeatherData = () =>{
-      console.log();
+  const getWeatherData = async () =>{
+    try{
+
+      const resuslts = await fetch(weatherUrl); // fetch is a command from react that i can use to get a API.
+      const data = await resuslts.json();
+      console.log(JSON.stringify(data, null, 2));
+      setWeather(data);
+
+      }catch(error){
+        console.error(error);
+      }
+      // console.log(weather);
   }
 
     useEffect(() => {
     getWeatherData();
   }, []);
 
+  //test
+  if(!weather){
+      return <ActivityIndicator />
+  }
 
   
   return (
     <View>
-      <Text>weather</Text>
+      <Text>{weather.name}</Text>
+      
+      <Text>{weather.main.temp}</Text>
     </View>
   )
 }
