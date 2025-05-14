@@ -1,6 +1,7 @@
-import React, { View, Text, ActivityIndicator } from 'react-native'
+import React, { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
 import { useEffect, useState } from 'react'
 import * as Location from 'expo-location';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 
 //here i have got a API from this website below, and im a going to use in the weather aplication.
@@ -9,7 +10,6 @@ import * as Location from 'expo-location';
 //IP key 44d5404359ef466582d9af9646eaad70
 //API link to use in the application.
 //https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric//dublin irland
-
 // I am making the URL a string so i will be able to manage easier
 
 //Brasil coordenates
@@ -105,13 +105,107 @@ const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
       return <ActivityIndicator />
   }
 
-  
-  return (
-    <View>
-      <Text>{weather.name}</Text>
-      <Text>{weather.main.temp}</Text>
+
+
+return (
+  <View style={styles.container}>
+    <Text style={styles.location}>
+      <FontAwesome5 name="map-marker-alt" size={20} color="#FFD43B" /> {weather.name}
+    </Text>
+
+    <View style={styles.topCard}>
+      <View style={styles.row}>
+        <FontAwesome5 name="temperature-high" size={24} color="#FFD43B"/>
+        <Text style={styles.title}> Temperature</Text>
+      </View>
+      <Text style={styles.tempText}>{weather.main.temp}°C</Text>
+      <Text style={styles.description}>Feels Like: {weather.main.feels_like}°C</Text>
+
+      <View style={styles.tempRange}>
+        <Text style={styles.rangeText}>
+          <FontAwesome5 name="arrow-up" size={14} /> Max: {weather.main.temp_max}°C
+        </Text>
+        <Text style={styles.rangeText}>
+          <FontAwesome5 name="arrow-down" size={14} /> Min: {weather.main.temp_min}°C
+        </Text>
+      </View>
     </View>
-  )
-}
+
+    <View style={styles.forecastContainer}>
+      <Text style={styles.forecastText}>
+        <FontAwesome5 name="tint" size={16} /> Humidity: {weather.main.humidity}%
+      </Text>
+      <Text style={styles.forecastText}>
+        <FontAwesome5 name="tachometer-alt" size={16} /> Pressure: {weather.main.pressure} hPa
+      </Text>
+      <Text style={styles.forecastText}>
+        <FontAwesome5 name="water" size={16} /> Sea Level: {weather.main.sea_level ?? 'N/A'} hPa
+      </Text>
+      <Text style={styles.forecastText}>
+        <FontAwesome5 name="globe" size={16} /> Ground Level: {weather.main.grnd_level ?? 'N/A'} hPa
+      </Text>
+    </View>
+  </View>
+);
+;}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#5E2EFF',
+    padding: 20,
+  },
+  location: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  topCard: {
+    alignItems: 'center',
+    backgroundColor: '#7E5CFF',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 20,
+  },
+  title: {
+    
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#FFD43B',
+    marginBottom: 8,
+  },
+  tempText: {
+    fontSize: 72,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  description: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    marginTop: 5,
+  },
+  tempRange: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 30,
+  },
+  rangeText: {
+    fontSize: 16,
+    color: '#FFD43B',
+  },
+  forecastContainer: {
+    backgroundColor: '#6A4BE8',
+    borderRadius: 16,
+    padding: 16,
+  },
+  forecastText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    marginBottom: 6,
+  },
+});
 
 export default weatherScreen
