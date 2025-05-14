@@ -36,14 +36,17 @@ type Weather = {
  const weatherScreen = () => {
 // tne user State should be outside from the main code or it wont work.
 const [weather, setWeather] = useState<Weather>();
-const [location, setLocation] = useState<Location.LocationObject>();//create a object to use it after
+const [location, setLocation] = useState<Location.LocationObject | null>(null);
+// const [location, setLocation] = useState<Location.LocationObject>();//create a object to use it after
 const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
 
 
-
+  
   useEffect(() => {
+    if (location){
     getWeatherData();
-  }, []);
+    }
+  }, [location]);
 
   //code copied from https://docs.expo.dev/
   useEffect(() => {// this function is the standard function from the docs.expo.dev/ website
@@ -64,22 +67,21 @@ const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
     getCurrentLocation();
   }, []);
 
-
   //this function we are going to get the data from the user
   const getWeatherData = async () =>{
 
   // const weatherUrl ='https://api.openweathermap.org/data/2.5/weather'
+  
+  //here i have replace the manual coordenates to this location?.coords.latitude;
   const APIUrl = `https://api.openweathermap.org/data/2.5/weather`;
-  const lat= -23.5505; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
-  const lon= -46.6333;// see the link in the top of the page? that is an example link where everything start.
+  const lat= location?.coords.latitude; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
+
+  //here i have replace the manual coordenates to this location?.coords.longitude;
+  const lon= location?.coords.longitude;// see the link in the top of the page? that is an example link where everything start.
   //i took that link and now i am breaking it so that i can manage.
   const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
   //its not a good practice to leave the key here, there is a better method, which is adding it to env file, ignore from gitignore and use it.
   //the reason why i did not do it, is because it is not a coffidencial key, for something extremily important
-
-  
-
-  
 
     try{
       const resuslts = await fetch(
