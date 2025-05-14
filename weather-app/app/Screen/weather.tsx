@@ -8,12 +8,17 @@ import { useEffect, useState } from 'react'
 //API website link. https://home.openweathermap.org/api_keys
 //IP key 44d5404359ef466582d9af9646eaad70
 //API link to use in the application.
-//https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric
+//https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric//dublin irland
 
 // I am making the URL a string so i will be able to manage easier
 
+//Brasil coordenates
+//const weatherUrl ='https://api.openweathermap.org/data/2.5/weather?lat=-23.5505&lon=-46.6333&appid=44d5404359ef466582d9af9646eaad70&units=metric'
 
-const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
+//Dublin coordenates.
+//const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
+
+const weatherUrl ='https://api.openweathermap.org/data/2.5/weather'
 
 type Weather = {
   name: string;
@@ -35,8 +40,13 @@ type Weather = {
   //this function we are going to get the data from the user
   const getWeatherData = async () =>{
     try{
+      const lat= -23.5505; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
+      const lon= -46.6333;// see the link in the top of the page? that is an example link where everything start.
+      //i took that link and now i am breaking it so that i can manage.
 
-      const resuslts = await fetch(weatherUrl); // fetch is a command from react that i can use to get a API.
+      const resuslts = await fetch(
+        `${weatherScreen}?lat=${lat}&lon=${lon}&appid=44d5404359ef466582d9af9646eaad70&units=metric`
+      ); // fetch is a command from react that i can use to get a API.
       const data = await resuslts.json();
       console.log(JSON.stringify(data, null, 2));
       setWeather(data);
@@ -60,7 +70,6 @@ type Weather = {
   return (
     <View>
       <Text>{weather.name}</Text>
-      
       <Text>{weather.main.temp}</Text>
     </View>
   )
