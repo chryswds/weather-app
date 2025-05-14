@@ -9,9 +9,23 @@ import React from 'react'
 //API link to use in the application.
 //https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric
 
+// I am making the URL a string so i will be able to manage easier
+
+
+const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
+
+
 
 
 const weatherScreen = () => {
+
+  //this function we are going to get the data from the user
+  const getWeatherData = () =>{
+      
+  }
+
+
+  
   return (
     <View>
       <Text>weather</Text>
