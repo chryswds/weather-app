@@ -41,10 +41,11 @@ const [location, setLocation] = useState<Location.LocationObject | null>(null);
 const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
 
 
-  
+  // this function will load all the others function
   useEffect(() => {
     if (location){
     getWeatherData();
+    fetchForcast();
     }
   }, [location]);
 
@@ -67,13 +68,10 @@ const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
     getCurrentLocation();
   }, []);
 
-  //this function we are going to get the data from the user
-  const getWeatherData = async () =>{
-
   // const weatherUrl ='https://api.openweathermap.org/data/2.5/weather'
   
   //here i have replace the manual coordenates to this location?.coords.latitude;
-  const APIUrl = `https://api.openweathermap.org/data/2.5/weather`;
+  const APIUrl = `https://api.openweathermap.org/data/2.5`;
   const lat= location?.coords.latitude; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
 
   //here i have replace the manual coordenates to this location?.coords.longitude;
@@ -89,10 +87,14 @@ const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
     
   const  forecastData = `api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}`
   
+  //this function we are going to get the data from the user
+  const getWeatherData = async () =>{
+
+  
 
     try{
       const resuslts = await fetch(
-        `${APIUrl}?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
+        `${APIUrl}/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
       ); // fetch is a command from react that i can use to get a API.
 
       const data = await resuslts.json();
@@ -105,7 +107,20 @@ const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
       // console.log(weather);
   }
 
-  
+    const fetchForcast = async () => {
+      if(!location){
+        return;
+      }
+      
+      const numberOfDays = 5;
+      const results = await fetch(
+         `${APIUrl}/forecast/daily?lat=${lat}&lon=${lon}&cnt=${numberOfDays}&appid=${APIKey}&units=metric`
+        );
+        const data = await results.json();
+        //v console.log("forcast",JSON.stringify(data, null, 2));
+         //setWeather(data);
+    }
+
 
   //test
   if(!weather){
