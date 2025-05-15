@@ -2,6 +2,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import React, { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
 //here i have got a API from this website below, and im a going to use in the weather aplication.
 
@@ -17,18 +18,25 @@ import React, { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 //Dublin coordenates.
 // const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
 
+type MainWeather = {
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  pressure: number;
+  humidity: number;
+  sea_level: number;
+  grnd_level: number;
+};
+
 type Weather = {
   name: string;
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min: number;
-    temp_max: number;
-    pressure: number;
-    humidity: number;
-    sea_level: number;
-    grnd_level: number;
-  };
+  main: MainWeather;
+};
+
+type WeatherForecast = {
+  main: MainWeather;
+  dt: number;
 };
 
 const weatherScreen = () => {
@@ -39,6 +47,7 @@ const weatherScreen = () => {
   );
   // const [location, setLocation] = useState<Location.LocationObject>();//create a object to use it after
   const [errorMsg, setErrorMsg] = useState(""); //we will trigger any error with it
+  const [forecast, setForecast] = useState<WeatherForecast[]>(); // create a state to store the forecast data
 
   // this function will load all the others function
   useEffect(() => {
@@ -107,11 +116,12 @@ const weatherScreen = () => {
       return;
     }
     const results = await fetch(
-      `${APIUrl}/forecast/?lat=${lat}&lon=${lon}&appid=${APIKey}`
+      `${APIUrl}/forecast/?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
     );
     const data = await results.json();
     //console.log("forcast",JSON.stringify(data, null, 2));
     //setWeather(data);
+    setForecast(data.list);
   };
 
   //test
@@ -166,6 +176,16 @@ const weatherScreen = () => {
           {weather.main.grnd_level ?? "N/A"} hPa
         </Text>
       </View>
+
+      <FlatList
+        data={forecast}
+        horizontal
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.main.temp}°C</Text>
+          </View>
+        )}
+      />
     </View>
   );
 };
