@@ -175,17 +175,16 @@ const weatherScreen = () => {
           <FontAwesome5 name="globe" size={16} /> Ground Level:{" "}
           {weather.main.grnd_level ?? "N/A"} hPa
         </Text>
+        <FlatList
+          data={forecast}
+          horizontal
+          renderItem={({ item }) => (
+            <View>
+              <Text style={styles.forecastTemperature}>{item.main.temp}°C</Text>
+            </View>
+          )}
+        />
       </View>
-
-      <FlatList
-        data={forecast}
-        horizontal
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.main.temp}°C</Text>
-          </View>
-        )}
-      />
     </View>
   );
 };
@@ -240,6 +239,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#6A4BE8",
     borderRadius: 16,
     padding: 16,
+
+  },
+  forecastTemperature: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    backgroundColor: "#7E5CFF",
+    borderRadius: 8,
+    margin: 4,
+    padding: 4
   },
   forecastText: {
     color: "#FFFFFF",
