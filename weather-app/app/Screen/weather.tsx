@@ -83,6 +83,13 @@ const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
   //its not a good practice to leave the key here, there is a better method, which is adding it to env file, ignore from gitignore and use it.
   //the reason why i did not do it, is because it is not a coffidencial key, for something extremily important
 
+  // working with forecast data.
+  // i got this link from the website //https://openweathermap.org/forecast16
+  //const  forecastData = `api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}`
+    
+  const  forecastData = `api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}`
+  
+
     try{
       const resuslts = await fetch(
         `${APIUrl}?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
