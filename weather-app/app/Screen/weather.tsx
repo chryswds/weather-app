@@ -73,7 +73,7 @@ const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
   // const weatherUrl ='https://api.openweathermap.org/data/2.5/weather'
   
   //here i have replace the manual coordenates to this location?.coords.latitude;
-  const APIUrl = `https://api.openweathermap.org/data/2.5/weather`;
+  const APIUrl = `https://api.openweathermap.org/data/2.5`;
   const lat= location?.coords.latitude; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
 
   //here i have replace the manual coordenates to this location?.coords.longitude;
@@ -92,7 +92,7 @@ const [errorMsg, setErrorMsg] = useState('');//we will trigger any error with it
 
     try{
       const resuslts = await fetch(
-        `${APIUrl}?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
+        `${APIUrl}/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
       ); // fetch is a command from react that i can use to get a API.
 
       const data = await resuslts.json();
