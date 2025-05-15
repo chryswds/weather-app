@@ -2,7 +2,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import React, { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 
 //here i have got a API from this website below, and im a going to use in the weather aplication.
 
@@ -41,7 +41,7 @@ type WeatherForecast = {
 
 const weatherScreen = () => {
   // tne user State should be outside from the main code or it wont work.
-  const [weather, setWeather] = useState<Weather>();
+  const [weather, setWeather] = useState<Weather | null>(null);
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
@@ -121,7 +121,7 @@ const weatherScreen = () => {
     const data = await results.json();
     //console.log("forcast",JSON.stringify(data, null, 2));
     //setWeather(data);
-    setForecast(data.list);
+    setForecast(data.list || []);
   };
 
   //test
@@ -130,62 +130,68 @@ const weatherScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.location}>
-        <FontAwesome5 name="map-marker-alt" size={20} color="#FFD43B" />{" "}
-        {weather.name}
-      </Text>
-
-      <View style={styles.topCard}>
-        <View style={styles.row}>
-          <FontAwesome5 name="temperature-high" size={24} color="#FFD43B" />
-          <Text style={styles.title}> Temperature</Text>
-        </View>
-        <Text style={styles.tempText}>{weather.main.temp}°C</Text>
-        <Text style={styles.description}>
-          Feels Like: {weather.main.feels_like}°C
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text style={styles.location}>
+          <FontAwesome5 name="map-marker-alt" size={20} color="#FFD43B" />{" "}
+          {weather.name}
         </Text>
 
-        <View style={styles.tempRange}>
-          <Text style={styles.rangeText}>
-            <FontAwesome5 name="arrow-up" size={14} /> Max:{" "}
-            {weather.main.temp_max}°C
+        <View style={styles.topCard}>
+          <View style={styles.row}>
+            <FontAwesome5 name="temperature-high" size={24} color="#FFD43B" />
+            <Text style={styles.title}> Temperature</Text>
+          </View>
+          <Text style={styles.tempText}>{weather.main.temp}°C</Text>
+          <Text style={styles.description}>
+            Feels Like: {weather.main.feels_like}°C
           </Text>
-          <Text style={styles.rangeText}>
-            <FontAwesome5 name="arrow-down" size={14} /> Min:{" "}
-            {weather.main.temp_min}°C
+
+          <View style={styles.tempRange}>
+            <Text style={styles.rangeText}>
+              <FontAwesome5 name="arrow-up" size={14} /> Max:{" "}
+              {weather.main.temp_max}°C
+            </Text>
+            <Text style={styles.rangeText}>
+              <FontAwesome5 name="arrow-down" size={14} /> Min:{" "}
+              {weather.main.temp_min}°C
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.forecastContainer}>
+          <Text style={styles.forecastText}>
+            <FontAwesome5 name="tint" size={16} /> Humidity:{" "}
+            {weather.main.humidity}%
           </Text>
+          <Text style={styles.forecastText}>
+            <FontAwesome5 name="tachometer-alt" size={16} /> Pressure:{" "}
+            {weather.main.pressure} hPa
+          </Text>
+          <Text style={styles.forecastText}>
+            <FontAwesome5 name="water" size={16} /> Sea Level:{" "}
+            {weather.main.sea_level ?? "N/A"} hPa
+          </Text>
+          <Text style={styles.forecastText}>
+            <FontAwesome5 name="globe" size={16} /> Ground Level:{" "}
+            {weather.main.grnd_level ?? "N/A"} hPa
+          </Text>
+
+          <FlatList
+            data={forecast}
+            horizontal
+            keyExtractor={(item) => item.dt.toString()}
+            renderItem={({ item }) => (
+              <View>
+                <Text style={styles.forecastTemperature}>
+                  {item.main.temp}°C
+                </Text>
+              </View>
+            )}
+          />
         </View>
       </View>
-
-      <View style={styles.forecastContainer}>
-        <Text style={styles.forecastText}>
-          <FontAwesome5 name="tint" size={16} /> Humidity:{" "}
-          {weather.main.humidity}%
-        </Text>
-        <Text style={styles.forecastText}>
-          <FontAwesome5 name="tachometer-alt" size={16} /> Pressure:{" "}
-          {weather.main.pressure} hPa
-        </Text>
-        <Text style={styles.forecastText}>
-          <FontAwesome5 name="water" size={16} /> Sea Level:{" "}
-          {weather.main.sea_level ?? "N/A"} hPa
-        </Text>
-        <Text style={styles.forecastText}>
-          <FontAwesome5 name="globe" size={16} /> Ground Level:{" "}
-          {weather.main.grnd_level ?? "N/A"} hPa
-        </Text>
-        <FlatList
-          data={forecast}
-          horizontal
-          renderItem={({ item }) => (
-            <View>
-              <Text style={styles.forecastTemperature}>{item.main.temp}°C</Text>
-            </View>
-          )}
-        />
-      </View>
-    </View>
+    </GestureHandlerRootView>
   );
 };
 const styles = StyleSheet.create({
@@ -239,7 +245,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#6A4BE8",
     borderRadius: 16,
     padding: 16,
-
   },
   forecastTemperature: {
     fontSize: 16,
@@ -248,7 +253,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#7E5CFF",
     borderRadius: 8,
     margin: 4,
-    padding: 4
+    padding: 4,
   },
   forecastText: {
     color: "#FFFFFF",
