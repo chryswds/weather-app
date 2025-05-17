@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import React, { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ForecastList from "../Screen/forecastItem";
+import { searchLocation } from "../Screen/searchLocation";
 
 //here i have got a API from this website below, and im a going to use in the weather aplication.
 
@@ -85,7 +86,6 @@ const weatherScreen = () => {
 
   const lat = location?.coords.latitude; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
 
-
   //here i have replace the manual coordenates to this location?.coords.longitude;
   const lon = location?.coords.longitude; // see the link in the top of the page? that is an example link where everything start.
   //i took that link and now i am breaking it so that i can manage.
@@ -96,7 +96,6 @@ const weatherScreen = () => {
   // working with forecast data.
   // i got this link from the website //https://openweathermap.org/forecast16
   //const  forecastData = `api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}`
-
 
   const forecastData = `api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}`;
 
@@ -136,6 +135,7 @@ const weatherScreen = () => {
   if (!weather) {
     return <ActivityIndicator />;
   }
+
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
