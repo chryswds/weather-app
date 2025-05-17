@@ -1,19 +1,10 @@
 import { FontAwesome5 } from "@expo/vector-icons";
+import "dayjs/locale/en";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import React, { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
-import dayjs from 'dayjs';
-import "dayjs/locale/en"; 
-import weekday from "dayjs/plugin/weekday";
-import localeData from "dayjs/plugin/localeData";
-import ForecastList from '../Screen/forecastItem';
-
-
-dayjs.extend(weekday);
-dayjs.extend(localeData);
-dayjs.locale("en"); 
-
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import ForecastList from "../Screen/forecastItem";
 
 //here i have got a API from this website below, and im a going to use in the weather aplication.
 
@@ -123,21 +114,20 @@ const weatherScreen = () => {
   };
 
   const fetchForecast = async () => {
-  if (!location) return;
+    if (!location) return;
 
-  const results = await fetch(
-    `${APIUrl}/forecast?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
-  );
-  const data = await results.json();
+    const results = await fetch(
+      `${APIUrl}/forecast?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
+    );
+    const data = await results.json();
 
-  // Keep only one forecast per day (e.g., 12:00 PM)
-  const dailyForecast = data.list.filter((item: any) =>
-    item.dt_txt.includes("12:00:00")
-  );
+    // Keep only one forecast per day (e.g., 12:00 PM)
+    const dailyForecast = data.list.filter((item: any) =>
+      item.dt_txt.includes("12:00:00")
+    );
 
-  setForecast(dailyForecast || []);
-};
-
+    setForecast(dailyForecast || []);
+  };
 
   //test
   if (!weather) {
@@ -191,10 +181,8 @@ const weatherScreen = () => {
             <FontAwesome5 name="globe" size={16} /> Ground Level:{" "}
             {weather.main.grnd_level ?? "N/A"} hPa
           </Text>
-   
-<ForecastList forecast={forecast ?? []} />
 
-
+          <ForecastList forecast={forecast ?? []} />
         </View>
       </View>
     </GestureHandlerRootView>
