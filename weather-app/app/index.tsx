@@ -7,21 +7,13 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-{/* 
       <Image
-  source={{ uri: 'https://github.com/chryswds/weather-app/raw/master/weather-app/assets/images/icon.png' }}
-  style={styles.logo}
-  resizeMode="contain"
-/> */}
-      <Image
-       source ={{uri:'https://github.com/chryswds/weather-app/blob/UI-app/weather-app/assets/images/image.png?raw=true'}} // i am getting this link from our github
+       source ={{uri:'https://github.com/chryswds/weather-app/blob/UI-app/weather-app/assets/images/image.png?raw=true'}}
         style={styles.logo}
         resizeMode="contain"
       />
-
       <Text style={styles.title}>Weather</Text>
       <Text style={styles.subtitle}>ForeCasts</Text>
-
       <TouchableOpacity style={styles.button} onPress={() => router.push('/Screen/weather')}>
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
