@@ -15,5 +15,7 @@ const styles = StyleSheet.create({
   temp: {
     color: "#FFFFFF",
     fontSize: 16,
+  },
+});
 
 export default styles;
