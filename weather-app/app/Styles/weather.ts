@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   topCard: {
     alignItems: "center",
-    backgroundColor: "#7E5CFF", 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
     borderRadius: 20,
     padding: 20,
     marginBottom: 20,
@@ -58,17 +58,17 @@ const styles = StyleSheet.create({
     color: "#FFD43B",
   },
 
-  forecastTemperature: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    backgroundColor: "#7E5CFF",
-    borderRadius: 8,
-    margin: 4,
-    padding: 4,
-  },
+  // forecastTemperature: {
+  //   fontSize: 16,
+  //   fontWeight: "bold",
+  //   color: "#FFFFFF",
+  //   backgroundColor: "#7E5CFF",
+  //   borderRadius: 8,
+  //   margin: 4,
+  //   padding: 4,
+  // },
 weatherTextcontainer: {
-  backgroundColor: 'rgba(126, 92, 255, 0.85)', // semi-transparent purple
+  backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent purple
   borderRadius: 12,
   paddingVertical: 10,
   paddingHorizontal: 16,

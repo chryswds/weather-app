@@ -5,7 +5,7 @@ import localeData from "dayjs/plugin/localeData";
 import weekday from "dayjs/plugin/weekday";
 import React from "react";
 import { FlatList, Text, View } from "react-native";
-import styles from "../Styles/forecast";
+import styles from '../Styles/forecast';
 import FontAwesome5 from "@expo/vector-icons/build/FontAwesome5";
 
 
@@ -41,9 +41,9 @@ const ForecastList: React.FC<Props> = ({ forecast }) => {
             {/* Format the timestamp into a readable day and date */}
             {dayjs(item.dt * 1000).format("dddd, DD/MM")}
           </Text>
-          <Text style={styles.temp}><FontAwesome5 name="thermometer-half" size={20} color="yellow" /> 
-            {/* Display the temperature */}
-            {item.main.temp}°C
+          <Text style={styles.temp}><FontAwesome5  name="thermometer-half"/>
+            {/* Display the temperature */}{"  "} {/*this will give a space in the thermometer*/}
+            {item.main.temp} °C
           </Text>
         </View>
       )}

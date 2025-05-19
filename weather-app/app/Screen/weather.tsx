@@ -238,7 +238,7 @@ const weatherScreen = () => {
 
       // here i apply the styles to the text and boxs
       <View style={styles.weatherTextcontainer}>
-        <FontAwesome5 name={item.icon} size={16} color="white" />
+        <FontAwesome5 name={item.icon} size={16} color="#FFD43B" />
         <Text style={{ color: 'white', fontWeight: 'bold', marginLeft: 8 }}>{item.label}</Text>
       </View>
     )}
