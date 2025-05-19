@@ -47,5 +47,7 @@ const ForecastList: React.FC<Props> = ({ forecast }) => {
     />
   );
 };
+
+
 // Export the component so it can be used in other files
 export default ForecastList;

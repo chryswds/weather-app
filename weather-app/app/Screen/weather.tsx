@@ -11,6 +11,7 @@ import React, {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ForecastList from "../Screen/forecastItem";
+
 import { searchLocation } from "../Screen/searchLocation";
 import styles from "../Styles/weather";
 //here i have got a API from this website below, and im a going to use in the weather aplication.
