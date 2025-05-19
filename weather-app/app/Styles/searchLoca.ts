@@ -4,24 +4,19 @@ const searchBarStyles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 12,
+    paddingHorizontal: 12,
     marginVertical: 16,
+  },
+  icon: {
+    marginRight: 8,
   },
   searchInput: {
     flex: 1,
     height: 44,
-    color: '#FFFFFF',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 8,
-    paddingHorizontal: 12,
+    color: '#fff',
     fontSize: 16,
-  },
-  searchButton: {
-    marginLeft: 8,
-    backgroundColor: '#5E2EFF',
-    padding: 10,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 

@@ -18,3 +18,5 @@ export const searchLocation = async (location: string) => {
     return null;
   }
 };
+
+

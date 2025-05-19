@@ -186,15 +186,19 @@ const weatherScreen = () => {
            
             
      {/* start search bar container */}
-              <View style={searchBarStyles.searchContainer}>
-                  <TextInput style={searchBarStyles.searchInput} 
-                    placeholder="Search city..." value={searchText}
-                    onChangeText={setSearchText}
-                    returnKeyType="search"
-                    onSubmitEditing={handleSearch}
-                    placeholderTextColor="#aaa"
-                  />
-              </View>
+           <View style={searchBarStyles.searchContainer}>
+  <FontAwesome5 name="search" size={20} color="#aaa" style={searchBarStyles.icon} />
+  <TextInput
+    style={searchBarStyles.searchInput}
+    placeholder="Search city..."
+    value={searchText}
+    onChangeText={setSearchText}
+    returnKeyType="search"
+    onSubmitEditing={handleSearch}
+    placeholderTextColor="#aaa"
+  />
+</View>
+
           {/* finish the search bar. */}
 
 {/* start top card */}
