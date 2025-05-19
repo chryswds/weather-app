@@ -58,15 +58,7 @@ const styles = StyleSheet.create({
     color: "#FFD43B",
   },
 
-  // forecastTemperature: {
-  //   fontSize: 16,
-  //   fontWeight: "bold",
-  //   color: "#FFFFFF",
-  //   backgroundColor: "#7E5CFF",
-  //   borderRadius: 8,
-  //   margin: 4,
-  //   padding: 4,
-  // },
+
 weatherTextcontainer: {
   backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent purple
   borderRadius: 12,

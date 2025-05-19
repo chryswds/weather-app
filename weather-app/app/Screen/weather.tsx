@@ -9,6 +9,10 @@ import ForecastList from "../Screen/forecastItem";
 import { searchLocation } from "../Screen/searchLocation";
 import styles from "../Styles/weather";
 import searchBarStyles from "../Styles/searchLoca"
+import SearchBar from '../components/searchbar';
+import WeatherDetailsSlider from '../components/weatherDataDisplay';
+import { getWeatherData } from "../utils/fetcheWeatherData";
+
 
 //here i have got a API from this website below, and im a going to use in the weather aplication. //API website link. https://home.openweathermap.org/api_keys
 //API link to use in the application. //https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric//dublin irland
@@ -45,7 +49,12 @@ const weatherScreen = () => {
   // this function will load all the others function
   useEffect(() => {
     if (location) {
-      getWeatherData();
+      getWeatherData(// i am getting from utils
+      location.coords.latitude,
+      location.coords.longitude,
+      setWeather,
+      setBackgroundUrl);
+
       fetchForecast();
     }
   }, [location]);
@@ -83,22 +92,22 @@ const weatherScreen = () => {
   const forecastData = `api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}`;
 
   
-  const getWeatherData = async () => {//this function we are going to get the data from the user
-    try {
-      const results = await fetch(
-        `${APIUrl}/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
-      ); // fetch is a command from react that i can use to get a API.
+  // const getWeatherData = async () => {//this function we are going to get the data from the user
+  //   try {
+  //     const results = await fetch(
+  //       `${APIUrl}/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
+  //     ); // fetch is a command from react that i can use to get a API.
 
-      const data = await results.json();
-      console.log(JSON.stringify(data, null, 2));
-      setWeather(data);
+  //     const data = await results.json();
+  //     console.log(JSON.stringify(data, null, 2));
+  //     setWeather(data);
 
-      const bgUrl = background(data.main.temp);
-      setBackgroundUrl(bgUrl);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     const bgUrl = background(data.main.temp);
+  //     setBackgroundUrl(bgUrl);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
     const fetchForecast = async () => {
     if (!location) return;
@@ -185,20 +194,12 @@ const weatherScreen = () => {
         <View style={styles.container}>
            
             
-     {/* start search bar container */}
-           <View style={searchBarStyles.searchContainer}>
-  <FontAwesome5 name="search" size={20} color="#aaa" style={searchBarStyles.icon} />
-  <TextInput
-    style={searchBarStyles.searchInput}
-    placeholder="Search city..."
-    value={searchText}
-    onChangeText={setSearchText}
-    returnKeyType="search"
-    onSubmitEditing={handleSearch}
-    placeholderTextColor="#aaa"
-  />
-</View>
-
+         {/* start search bar container */}
+                  <SearchBar
+                searchText={searchText}
+                setSearchText={setSearchText}
+                handleSearch={handleSearch}
+                    />
           {/* finish the search bar. */}
 
 {/* start top card */}
@@ -228,26 +229,15 @@ const weatherScreen = () => {
 
 
 {/* START THE HORIZONTAL SCROLL */}
-  <FlatList
-    data={weatherDetails}// here I am getting the humidity, pressure, sea level
-    horizontal// here i make it be in horizontal
-    showsHorizontalScrollIndicator={false} // i can show or not the indicator
-    keyExtractor={(item) => item.id} 
-    contentContainerStyle={{ paddingHorizontal: 8 }}
-    renderItem={({ item }) => (
 
-      // here i apply the styles to the text and boxs
-      <View style={styles.weatherTextcontainer}>
-        <FontAwesome5 name={item.icon} size={16} color="#FFD43B" />
-        <Text style={{ color: 'white', fontWeight: 'bold', marginLeft: 8 }}>{item.label}</Text>
-      </View>
-    )}
-  />
+<WeatherDetailsSlider weatherDetails={weatherDetails} />
+
   {/* FINSIH THE HORIZONTAL SCROLL */}
 
 <ForecastList forecast={forecast ?? []} /> 
 </View>
  </ImageBackground>  
+
     </GestureHandlerRootView>
   );
 };
