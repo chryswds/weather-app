@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import React, { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ForecastList from "../Screen/forecastItem";
-import { searchLocation } from "../Screen/searchLocation";
-
+import {searchLocation} from "../Screen/searchLocation"
 //here i have got a API from this website below, and im a going to use in the weather aplication.
 
 //API website link. https://home.openweathermap.org/api_keys
@@ -51,7 +50,8 @@ const weatherScreen = () => {
   // const [location, setLocation] = useState<Location.LocationObject>();//create a object to use it after
   const [errorMsg, setErrorMsg] = useState(""); //we will trigger any error with it
   const [forecast, setForecast] = useState<[]>(); // create a state to store the forecast data
-
+  const [searchText, setSearchText] = useState("");// state to search location
+  
   // this function will load all the others function
   useEffect(() => {
     if (location) {
@@ -135,7 +135,6 @@ const weatherScreen = () => {
   if (!weather) {
     return <ActivityIndicator />;
   }
-
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
