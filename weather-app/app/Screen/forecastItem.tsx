@@ -4,6 +4,7 @@ import { FlatList, Text, View, StyleSheet } from 'react-native';
 import dayjs from 'dayjs'; // Library used to format dates
 import weekday from "dayjs/plugin/weekday";
 import localeData from "dayjs/plugin/localeData";
+import styles from "../Styles/forecast"
 
 dayjs.extend(weekday);
 dayjs.extend(localeData);
@@ -47,24 +48,6 @@ const ForecastList: React.FC<Props> = ({ forecast }) => {
   );
 };
 
-// Define custom styles for the forecast item UI
-const styles = StyleSheet.create({
-  forecastItem: {
-    backgroundColor: '#7E5CFF', 
-    borderRadius: 8,           
-    margin: 4,                  
-    padding: 8,                 
-  },
-  date: {
-    color: '#FFD43B',           
-    fontWeight: 'bold',         
-    fontSize: 14,               
-  },
-  temp: {
-    color: '#FFFFFF',           
-    fontSize: 16,               
-  },
-});
 
 // Export the component so it can be used in other files
 export default ForecastList;
