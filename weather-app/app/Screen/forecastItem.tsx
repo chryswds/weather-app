@@ -1,13 +1,14 @@
 // Import React and necessary components from React Native
-import React from 'react';
-import { FlatList, Text, View, StyleSheet } from 'react-native';
-import dayjs from 'dayjs'; // Library used to format dates
-import weekday from "dayjs/plugin/weekday";
+import dayjs from "dayjs"; // Library used to format dates
 import localeData from "dayjs/plugin/localeData";
+import weekday from "dayjs/plugin/weekday";
+import React from "react";
+import { FlatList, Text, View } from "react-native";
+import styles from "../Styles/forecast";
 
 dayjs.extend(weekday);
 dayjs.extend(localeData);
-dayjs.locale("en"); 
+dayjs.locale("en");
 
 // Define the structure of a single forecast item
 type WeatherForecast = {
@@ -35,7 +36,7 @@ const ForecastList: React.FC<Props> = ({ forecast }) => {
         <View style={styles.forecastItem}>
           <Text style={styles.date}>
             {/* Format the timestamp into a readable day and date */}
-            {dayjs(item.dt * 1000).format('dddd, DD/MM')}
+            {dayjs(item.dt * 1000).format("dddd, DD/MM")}
           </Text>
           <Text style={styles.temp}>
             {/* Display the temperature */}
@@ -46,25 +47,5 @@ const ForecastList: React.FC<Props> = ({ forecast }) => {
     />
   );
 };
-
-// Define custom styles for the forecast item UI
-const styles = StyleSheet.create({
-  forecastItem: {
-    backgroundColor: '#7E5CFF', 
-    borderRadius: 8,           
-    margin: 4,                  
-    padding: 8,                 
-  },
-  date: {
-    color: '#FFD43B',           
-    fontWeight: 'bold',         
-    fontSize: 14,               
-  },
-  temp: {
-    color: '#FFFFFF',           
-    fontSize: 16,               
-  },
-});
-
 // Export the component so it can be used in other files
 export default ForecastList;
