@@ -2,7 +2,14 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import "dayjs/locale/en";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import React, { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import React, {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ForecastList from "../Screen/forecastItem";
 import { searchLocation } from "../Screen/searchLocation";
@@ -169,6 +176,33 @@ const weatherScreen = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={{ flexDirection: "row", marginBottom: 16 }}>
+        <TextInput
+          style={{
+            flex: 1,
+            borderRadius: 8,
+            padding: 10,
+            marginRight: 8,
+          }}
+          placeholder="Search city..."
+          value={searchText}
+          onChangeText={setSearchText}
+          returnKeyType="search"
+          onSubmitEditing={handleSearch}
+        />
+        <TouchableOpacity
+          style={{
+            borderRadius: 8,
+            padding: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onPress={handleSearch}
+        >
+          <FontAwesome5 name="search" size={20} color="#5E2EFF" />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.container}>
         <Text style={styles.location}>
           <FontAwesome5 name="map-marker-alt" size={20} color="#FFD43B" />{" "}
