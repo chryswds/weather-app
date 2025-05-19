@@ -1,10 +1,12 @@
 // Import React and necessary components from React Native
 import dayjs from "dayjs"; // Library used to format dates
 import localeData from "dayjs/plugin/localeData";
+
 import weekday from "dayjs/plugin/weekday";
 import React from "react";
 import { FlatList, Text, View } from "react-native";
 import styles from "../Styles/forecast";
+
 
 dayjs.extend(weekday);
 dayjs.extend(localeData);

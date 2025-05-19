@@ -2,8 +2,12 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import "dayjs/locale/en";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
+import {background} from '../Screen/background'
 import React, {
   ActivityIndicator,
+  FlatList,
+  ImageBackground,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -11,9 +15,9 @@ import React, {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ForecastList from "../Screen/forecastItem";
-
 import { searchLocation } from "../Screen/searchLocation";
 import styles from "../Styles/weather";
+
 //here i have got a API from this website below, and im a going to use in the weather aplication.
 
 //API website link. https://home.openweathermap.org/api_keys
@@ -59,6 +63,10 @@ const weatherScreen = () => {
   const [errorMsg, setErrorMsg] = useState(""); //we will trigger any error with it
   const [forecast, setForecast] = useState<[]>(); // create a state to store the forecast data
   const [searchText, setSearchText] = useState(""); // state to search location
+
+
+  const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
+
 
   // this function will load all the others function
   useEffect(() => {
@@ -117,10 +125,20 @@ const weatherScreen = () => {
       const data = await results.json();
       console.log(JSON.stringify(data, null, 2));
       setWeather(data);
+
+      const bgUrl = background(data.main.temp);
+      setBackgroundUrl(bgUrl);
     } catch (error) {
       console.error(error);
     }
     // console.log(weather);
+
+
+
+
+
+
+   
   };
 
   const fetchForecast = async () => {
@@ -175,8 +193,36 @@ const weatherScreen = () => {
     return <ActivityIndicator />;
   }
 
+  const weatherDetails = [
+  {
+    id: '1',
+    icon: 'tint',
+    label: `Humidity: ${weather.main.humidity}%`
+  },
+  {
+    id: '2',
+    icon: 'tachometer-alt',
+    label: `Pressure: ${weather.main.pressure} hPa`
+  },
+  {
+    id: '3',
+    icon: 'water',
+    label: `Sea Level: ${weather.main.sea_level ?? 'N/A'} hPa`
+  },
+  {
+    id: '4',
+    icon: 'globe',
+    label: `Ground Level: ${weather.main.grnd_level ?? 'N/A'} hPa`
+  }
+];
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+            <ImageBackground
+    source={{ uri: backgroundUrl || '' }}
+    resizeMode="cover"
+    style={{ flex: 1 }}
+      >
       <View style={{ flexDirection: "row", marginBottom: 16 }}>
         <TextInput
           style={{
@@ -203,7 +249,6 @@ const weatherScreen = () => {
           <FontAwesome5 name="search" size={20} color="#5E2EFF" />
         </TouchableOpacity>
       </View>
-
       <View style={styles.container}>
         <Text style={styles.location}>
           <FontAwesome5 name="map-marker-alt" size={20} color="#FFD43B" />{" "}
@@ -221,6 +266,7 @@ const weatherScreen = () => {
           </Text>
 
           <View style={styles.tempRange}>
+          
             <Text style={styles.rangeText}>
               <FontAwesome5 name="arrow-up" size={14} /> Max:{" "}
               {weather.main.temp_max}°C
@@ -232,29 +278,40 @@ const weatherScreen = () => {
           </View>
         </View>
 
-        <View style={styles.forecastContainer}>
-          <Text style={styles.forecastText}>
-            <FontAwesome5 name="tint" size={16} /> Humidity:{" "}
-            {weather.main.humidity}%
-          </Text>
-          <Text style={styles.forecastText}>
-            <FontAwesome5 name="tachometer-alt" size={16} /> Pressure:{" "}
-            {weather.main.pressure} hPa
-          </Text>
-          <Text style={styles.forecastText}>
-            <FontAwesome5 name="water" size={16} /> Sea Level:{" "}
-            {weather.main.sea_level ?? "N/A"} hPa
-          </Text>
-          <Text style={styles.forecastText}>
-            <FontAwesome5 name="globe" size={16} /> Ground Level:{" "}
-            {weather.main.grnd_level ?? "N/A"} hPa
-          </Text>
+  <FlatList
+    data={weatherDetails}// here I am getting the humidity, pressure, sea level
+    horizontal// here i make it be in horizontal
+    showsHorizontalScrollIndicator={false} // i can show or not the indicator
+    keyExtractor={(item) => item.id} 
+    contentContainerStyle={{ paddingHorizontal: 8 }}
+    renderItem={({ item }) => (
 
-          <ForecastList forecast={forecast ?? []} />
-        </View>
+      // here i apply the styles to the text and boxs
+      <View style={styles.weatherTextcontainer}>
+        <FontAwesome5 name={item.icon} size={16} color="white" />
+        <Text style={{ color: 'white', fontWeight: 'bold', marginLeft: 8 }}>{item.label}</Text>
       </View>
+    )}
+  />
+
+  <ForecastList forecast={forecast ?? []} />
+      </View>
+
+     
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+  <FontAwesome5 name="thermometer-half" size={20} color="yellow" />
+  <Text style={styles.title}></Text>
+</View>
+ </ImageBackground>
+
+
+      
     </GestureHandlerRootView>
+
+    
   );
+
+
 };
 
 export default weatherScreen;
