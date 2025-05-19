@@ -4,7 +4,7 @@ import { FlatList, Text, View, StyleSheet } from 'react-native';
 import dayjs from 'dayjs'; // Library used to format dates
 import weekday from "dayjs/plugin/weekday";
 import localeData from "dayjs/plugin/localeData";
-import styles from "../Styles/forecast"
+import styles from "../Styles/forecast"; 
 
 dayjs.extend(weekday);
 dayjs.extend(localeData);
