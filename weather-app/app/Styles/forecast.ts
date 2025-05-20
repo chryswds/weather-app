@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   forecastItem: {
-    backgroundColor: "#7E5CFF",
+    backgroundColor:'rgba(0, 0, 0, 0.5)',
     borderRadius: 8,
     margin: 4,
     padding: 8,
@@ -15,5 +15,7 @@ const styles = StyleSheet.create({
   temp: {
     color: "#FFFFFF",
     fontSize: 16,
+  },
+});
 
 export default styles;
