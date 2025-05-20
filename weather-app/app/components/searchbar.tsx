@@ -1,5 +1,7 @@
 import { FontAwesome5 } from "@expo/vector-icons";
-import React, { useState } from "react";
+import debounce from "lodash/debounce";
+
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Text,
@@ -50,6 +52,15 @@ const SearchBar: React.FC<Props> = ({
       setSuggestions([]);
     }
   };
+
+  const debouncedFetch = debounce(fetchCitySuggestions, 300);
+
+  useEffect(() => {
+    debouncedFetch(searchText);
+    return () => {
+      debouncedFetch.cancel();
+    };
+  }, [searchText]);
 
   const handleCitySelect = (city: City) => {
     setSearchText(`${city.name}, ${city.country}`);
