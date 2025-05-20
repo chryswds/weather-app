@@ -3,6 +3,12 @@ import { View, TextInput, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import searchBarStyles from '../Styles/searchLoca';
 
+type City = {
+  name: string;
+  lat: number;
+  lon: number;
+  country: string;
+}
 
 type Props = {
   searchText: string;
