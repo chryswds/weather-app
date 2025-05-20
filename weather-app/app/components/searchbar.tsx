@@ -89,13 +89,16 @@ const SearchBar: React.FC<Props> = ({
       </View>
 
       {showSuggestions && suggestions.length > 0 && (
-        <View>
+        <View style={searchBarStyles.suggestionsContainer}>
           <FlatList
             data={suggestions}
             keyExtractor={(item) => `${item.lat}-${item.lon}`}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleCitySelect(item)}>
-                <Text>
+              <TouchableOpacity
+                style={searchBarStyles.suggestionItem}
+                onPress={() => handleCitySelect(item)}
+              >
+                <Text style={searchBarStyles.suggestionText}>
                   {item.name}, {item.country}
                 </Text>
               </TouchableOpacity>
