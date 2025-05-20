@@ -1,6 +1,6 @@
 const APIUrl = `http://api.openweathermap.org/geo/1.0/direct?`;
 const limit = 1;
-const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
+const APIKey = process.env.OPENWEATHER_API_KEY;
 
 // Function that returns latitude and longigude based on a given position
 export const searchLocation = async (location: string) => {

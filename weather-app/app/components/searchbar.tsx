@@ -40,7 +40,7 @@ const SearchBar: React.FC<Props> = ({
     }
 
     try {
-      const apiKey = "127ec3a0b8768a330c3b0f8c3ef48420";
+      const apiKey = process.env.OPENWEATHER_API_KEY;
       const response = await fetch(
         `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`
       );

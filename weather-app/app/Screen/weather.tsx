@@ -89,7 +89,7 @@ const weatherScreen = () => {
   const APIUrl = `https://api.openweathermap.org/data/2.5`;
   const lat = location?.coords.latitude; // Olha o link no top da pagina, esse link eu abreviei ele, e agora eu consigo manipular.
   const lon = location?.coords.longitude; // see the link in the top of the page? that is an example link where everything start.//i took that link and now i am breaking it so that i can manage.
-  const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`; //its not a good practice to leave the key here, there is a better method, which is adding it to env file, ignore from gitignore and use it. //the reason why i did not do it, is because it is not a coffidencial key, for something extremily important
+  const APIKey = process.env.OPENWEATHER_API_KEY;
 
   // working with forecast data.
   // i got this link from the website //https://openweathermap.org/forecast16
