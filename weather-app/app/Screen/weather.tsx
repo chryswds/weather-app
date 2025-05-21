@@ -6,6 +6,7 @@ import React, {
   ActivityIndicator,
   ImageBackground,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -15,6 +16,7 @@ import styles from "../Styles/weather";
 import SearchBar from "../components/searchbar";
 import WeatherDetailsSlider from "../components/weatherDataDisplay";
 import { getWeatherData } from "../utils/fetcheWeatherData";
+import { useTemperatureUnit } from '../hooks/useTemperatureUnit';
 
 //here i have got a API from this website below, and im a going to use in the weather aplication. //API website link. https://home.openweathermap.org/api_keys
 //API link to use in the application. //https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric//dublin irland
@@ -49,6 +51,7 @@ const weatherScreen = () => {
   const [forecast, setForecast] = useState<[]>(); // create a state to store the forecast data
   const [searchText, setSearchText] = useState(""); // state to search location
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
+  const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
 
   // this function will load all the others function
   useEffect(() => {
@@ -61,10 +64,10 @@ const weatherScreen = () => {
         setBackgroundUrl
       );
 
+
       fetchForecast();
     }
   }, [location]);
-
   //code copied from https://docs.expo.dev/
   useEffect(() => {
     // this function is the standard function from the docs.expo.dev/ website
@@ -226,30 +229,41 @@ const weatherScreen = () => {
               {weather.name}
             </Text>
             <View style={styles.title}>
-              <Text style={styles.title}>
+          <TouchableOpacity style={styles.toggleButton} onPress={toggleUnit}>
+     <Text style={styles.title}>
                 {" "}
-                <FontAwesome5
-                  name="temperature-high"
-                  size={24}
-                  color="#FFD43B"
-                />{" "}
-                Temperature
+                <FontAwesome5 name="temperature-high" size={24} color="#FFD43B"/>{" "}
+                {isCelsius ? 'Show °F' : 'Show °C'}
               </Text>
-              <Text style={styles.tempText}>{weather.main.temp}°C</Text>
-              <Text style={styles.description}>
-                Feels Like: {weather.main.feels_like}°C
-              </Text>
-              <View style={styles.tempRange}>
-                <Text style={styles.description}>
-                  <FontAwesome5 name="arrow-up" size={14} /> Max:{" "}
-                  {weather.main.temp_max}°C
-                </Text>
-                <Text style={styles.description}>
-                  <FontAwesome5 name="arrow-down" size={14} /> Min:{" "}
-                  {weather.main.temp_min}°C
-                </Text>
-              </View>
-            </View>
+  </TouchableOpacity>
+</View>
+
+
+              {/* <Text style={styles.tempText}>{weather.main.temp}°C</Text>
+               */}
+
+                             <Text style={styles.tempText}>
+  {convertTemperature(weather.main.temp).toFixed(1)}°{isCelsius ? 'C' : 'F'}
+</Text>
+
+<Text style={styles.description}>
+  Feels Like: {convertTemperature(weather.main.feels_like).toFixed(1)}°{isCelsius ? 'C' : 'F'}
+</Text>
+<View style={styles.tempRange}>
+<Text style={styles.description}>
+   <FontAwesome5 name="arrow-up" size={14} />
+  Max: {convertTemperature(weather.main.temp_max).toFixed(1)}°{isCelsius ? 'C' : 'F'}
+</Text>
+<Text style={styles.description}>
+  <FontAwesome5 name="arrow-down" size={14} />
+  Min: {convertTemperature(weather.main.temp_min).toFixed(1)}°{isCelsius ? 'C' : 'F'}
+</Text>
+   </View>
+              
+              
+               
+           
+            
           </View>
           {/* finsih top card */}
 

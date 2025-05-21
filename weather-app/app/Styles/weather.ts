@@ -69,6 +69,13 @@ weatherTextcontainer: {
   flexDirection: 'row',
   alignItems: 'center',
 },
+
+toggleButton: {
+  padding: 10,
+  backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  borderRadius: 10,
+},
+
 });
 
 export default styles;
