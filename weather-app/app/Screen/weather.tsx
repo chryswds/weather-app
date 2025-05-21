@@ -100,23 +100,6 @@ const weatherScreen = () => {
 
   const forecastData = `api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}`;
 
-  // const getWeatherData = async () => {//this function we are going to get the data from the user
-  //   try {
-  //     const results = await fetch(
-  //       `${APIUrl}/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
-  //     ); // fetch is a command from react that i can use to get a API.
-
-  //     const data = await results.json();
-  //     console.log(JSON.stringify(data, null, 2));
-  //     setWeather(data);
-
-  //     const bgUrl = background(data.main.temp);
-  //     setBackgroundUrl(bgUrl);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const fetchForecast = async () => {
     if (!location) return;
 
@@ -259,11 +242,7 @@ const weatherScreen = () => {
   Min: {convertTemperature(weather.main.temp_min).toFixed(1)}°{isCelsius ? 'C' : 'F'}
 </Text>
    </View>
-              
-              
-               
-           
-            
+      
           </View>
           {/* finsih top card */}
 
