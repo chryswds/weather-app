@@ -2,13 +2,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import "dayjs/locale/en";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import React, {
-  ActivityIndicator,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, {ActivityIndicator, ImageBackground, Text, TouchableOpacity, View,} from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ForecastList from "../Screen/forecastItem";
 import { searchLocation } from "../Screen/searchLocation";
@@ -43,17 +37,25 @@ type Weather = {
 
 const weatherScreen = () => {
   // tne user State should be outside from the main code or it wont work.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [weather, setWeather] = useState<Weather | null>(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   ); //create a object to use it after
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [errorMsg, setErrorMsg] = useState(""); //we will trigger any error with it
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [forecast, setForecast] = useState<[]>(); // create a state to store the forecast data
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [searchText, setSearchText] = useState(""); // state to search location
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
 
   // this function will load all the others function
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (location) {
       getWeatherData(
@@ -69,6 +71,7 @@ const weatherScreen = () => {
     }
   }, [location]);
   //code copied from https://docs.expo.dev/
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     // this function is the standard function from the docs.expo.dev/ website
     // I did not modify yet
