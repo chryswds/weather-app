@@ -1,7 +1,7 @@
 import { background } from '../Screen/background';
 
 const APIUrl = `https://api.openweathermap.org/data/2.5`;
-const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`; // Consider moving this to .env later
+ const APIKey = process.env.OPENWEATHER_API_KEY;
 
 export const getWeatherData = async (
   lat: number,
