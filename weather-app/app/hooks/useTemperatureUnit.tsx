@@ -6,6 +6,7 @@ export function useTemperatureUnit() {
 
   const toggleUnit = () => {
     setIsCelsius((prev) => !prev);
+    
   };
 
   const convertTemperature = (temp: number) => {

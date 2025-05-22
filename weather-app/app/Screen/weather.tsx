@@ -17,6 +17,11 @@ import SearchBar from "../components/searchbar";
 import WeatherDetailsSlider from "../components/weatherDataDisplay";
 import { getWeatherData } from "../utils/fetcheWeatherData";
 import { useTemperatureUnit } from '../hooks/useTemperatureUnit';
+import ThemeToggle from "../components/themeToggle";
+
+// import {TempUnitToggle} from '../components/weatherToggle;
+// adjust path as needed
+
 
 //here i have got a API from this website below, and im a going to use in the weather aplication. //API website link. https://home.openweathermap.org/api_keys
 //API link to use in the application. //https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric//dublin irland
@@ -24,6 +29,21 @@ import { useTemperatureUnit } from '../hooks/useTemperatureUnit';
 //const weatherUrl ='https://api.openweathermap.org/data/2.5/weather?lat=-23.5505&lon=-46.6333&appid=44d5404359ef466582d9af9646eaad70&units=metric'
 //Dublin coordenates.
 // const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
+
+const lightTheme = {
+  // background: '#fff',
+  text: '#000',
+  card: 'white',
+  accent: '#FFD43B',
+};
+
+const darkTheme = {
+  // background: '#121212',
+  text: '#fff',
+  card: '#1e1e1e',
+  accent: '#FFD43B',
+};
+
 
 type MainWeather = {
   temp: number;
@@ -40,6 +60,58 @@ type Weather = {
   name: string;
   main: MainWeather;
 };
+import { StyleSheet } from 'react-native';
+import TempUnitToggle from "../components/weatherToggle";
+
+const createWeatherStyles = (theme: typeof lightTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+    },
+    topCard: {
+      backgroundColor: theme.card,
+      padding: 20,
+      borderRadius: 16,
+      marginBottom: 20,
+    },
+    location: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      color: theme.text,
+      textAlign: 'center',
+      marginBottom: 10,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: theme.accent,
+      marginBottom: 8,
+    },
+    tempText: {
+      fontSize: 64,
+      fontWeight: 'bold',
+      color: theme.text,
+    },
+    description: {
+      fontSize: 16,
+      color: theme.text,
+      marginTop: 8,
+    },
+    tempRange: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
+      marginTop: 10,
+    },
+    toggleButton: {
+      backgroundColor: theme.card,
+      padding: 10,
+      borderRadius: 8,
+      alignSelf: 'flex-end',
+      marginBottom: 10,
+    },
+  });
 
 const weatherScreen = () => {
   // tne user State should be outside from the main code or it wont work.
@@ -52,6 +124,12 @@ const weatherScreen = () => {
   const [searchText, setSearchText] = useState(""); // state to search location
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
   const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
+
+  const [isDark, setIsDark] = useState(false);
+const theme = isDark ? darkTheme : lightTheme;
+const styles = createWeatherStyles(theme);
+// const { isCelsius, toggleUnit } = useTemperatureUnit();
+
 
   // this function will load all the others function
   useEffect(() => {
@@ -228,15 +306,24 @@ const weatherScreen = () => {
               <FontAwesome5 name="map-marker-alt" size={20} color="#FFD43B" />{" "}
               {weather.name}
             </Text>
-            <View style={styles.title}>
-          <TouchableOpacity style={styles.toggleButton} onPress={toggleUnit}>
-     <Text style={styles.title}>
-                {" "}
-                <FontAwesome5 name="temperature-high" size={24} color="#FFD43B"/>{" "}
-                {isCelsius ? 'Show °F' : 'Show °C'}
-              </Text>
-  </TouchableOpacity>
-</View>
+            {/* <View style={styles.title}>
+              
+       <TouchableOpacity onPress={toggleUnit} style={styles.toggleButton}>
+  <Text style={styles.title}>
+    <FontAwesome5 name="temperature-high" size={20} color={theme.accent} />
+    {" "}
+    {isCelsius ? "Show °F" : "Show °C"}
+  </Text>
+</TouchableOpacity>
+</View> */}
+
+
+<TempUnitToggle isCelsius={isCelsius} onToggle={toggleUnit} />
+
+
+
+<ThemeToggle onThemeChange={setIsDark} />
+
 
 
               {/* <Text style={styles.tempText}>{weather.main.temp}°C</Text>
