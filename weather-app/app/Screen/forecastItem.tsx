@@ -5,8 +5,10 @@ import localeData from "dayjs/plugin/localeData";
 import weekday from "dayjs/plugin/weekday";
 import React from "react";
 import { FlatList, Text, View } from "react-native";
-import styles from '../Styles/forecast';
+// import styles from '../Styles/weather';
 import FontAwesome5 from "@expo/vector-icons/build/FontAwesome5";
+import { createStyles } from '../Styles/weather';
+import { lightTheme, darkTheme } from '../Styles/theme';
 
 
 dayjs.extend(weekday);
@@ -24,10 +26,14 @@ type WeatherForecast = {
 // Define the expected props that the ForecastList component will receive
 type Props = {
   forecast: WeatherForecast[]; // An array of forecast items
+  isDark: boolean;
+
 };
 
 // Functional component that receives forecast data and renders a list
-const ForecastList: React.FC<Props> = ({ forecast }) => {
+const ForecastList: React.FC<Props> = ({ forecast, isDark}) => {
+  const theme = isDark ? darkTheme : lightTheme;
+const styles = createStyles(theme);
   return (
     <FlatList
       // Pass the forecast array as data to the FlatList

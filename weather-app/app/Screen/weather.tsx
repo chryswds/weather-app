@@ -12,12 +12,15 @@ import React, {
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ForecastList from "../Screen/forecastItem";
 import { searchLocation } from "../Screen/searchLocation";
-import styles from "../Styles/weather";
+// import styles from "../Styles/weather";
 import SearchBar from "../components/searchbar";
 import WeatherDetailsSlider from "../components/weatherDataDisplay";
 import { getWeatherData } from "../utils/fetcheWeatherData";
 import { useTemperatureUnit } from '../hooks/useTemperatureUnit';
 import ThemeToggle from "../components/themeToggle";
+// import { useState } from 'react';r
+import { createStyles } from '../Styles/weather';
+import { darkTheme, lightTheme } from '../Styles/theme';
 
 // import {TempUnitToggle} from '../components/weatherToggle;
 // adjust path as needed
@@ -30,19 +33,39 @@ import ThemeToggle from "../components/themeToggle";
 //Dublin coordenates.
 // const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=53.3441204&lon=6.2673368&appid=44d5404359ef466582d9af9646eaad70&units=metric`
 
-const lightTheme = {
-  // background: '#fff',
-  text: '#000',
-  card: 'white',
-  accent: '#FFD43B',
-};
+// export const lightTheme = {
+//   background: '#FFFFFF',
+//   text: '#000000',
+//   card: '#F0F0F0',
+//   overlay: 'rgba(0, 0, 0, 0.05)',
+//   accent: '#FFD43B',
+//   containerOpacity: 0.95,
+//   tempText: '#000000',
+//   descriptionText: '#000000',
+//   toggleBg: 'rgba(0, 0, 0, 0.1)',
+//   weatherPropertyBg: '#D3D3D3',
+//   forecastItemBg: 'rgba(0, 0, 0, 0.05)',
+//   forecastDate: '#FFD43B',
+//   forecastTemp: '#000000',
+// };
 
-const darkTheme = {
-  // background: '#121212',
-  text: '#fff',
-  card: '#1e1e1e',
-  accent: '#FFD43B',
-};
+// export const darkTheme = {
+//   background: '#121212',
+//   text: '#FFFFFF',
+//   card: 'rgba(0, 0, 0, 0.5)',
+//   overlay: 'rgba(0, 0, 0, 0.5)',
+//   accent: '#FFD43B',
+//   containerOpacity: 0.8,
+//   tempText: '#FFFFFF',
+//   descriptionText: '#FFFFFF',
+//   toggleBg: 'rgba(0, 0, 0, 0.8)',
+//   weatherPropertyBg: 'pink',
+//   forecastItemBg: 'rgba(0, 0, 0, 0.5)',
+//   forecastDate: '#FFD43B',
+//   forecastTemp: '#FFFFFF',
+// };
+
+
 
 
 type MainWeather = {
@@ -63,55 +86,98 @@ type Weather = {
 import { StyleSheet } from 'react-native';
 import TempUnitToggle from "../components/weatherToggle";
 
-const createWeatherStyles = (theme: typeof lightTheme) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-    },
-    topCard: {
-      backgroundColor: theme.card,
-      padding: 20,
-      borderRadius: 16,
-      marginBottom: 20,
-    },
-    location: {
-      fontSize: 22,
-      fontWeight: 'bold',
-      color: theme.text,
-      textAlign: 'center',
-      marginBottom: 10,
-    },
-    title: {
-      fontSize: 18,
-      fontWeight: '600',
-      color: theme.accent,
-      marginBottom: 8,
-    },
-    tempText: {
-      fontSize: 64,
-      fontWeight: 'bold',
-      color: theme.text,
-    },
-    description: {
-      fontSize: 16,
-      color: theme.text,
-      marginTop: 8,
-    },
-    tempRange: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: '100%',
-      marginTop: 10,
-    },
-    toggleButton: {
-      backgroundColor: theme.card,
-      padding: 10,
-      borderRadius: 8,
-      alignSelf: 'flex-end',
-      marginBottom: 10,
-    },
-  });
+// const createWeatherStyles = (theme: typeof lightTheme) =>
+//   StyleSheet.create({
+//     forecastItem: {
+//   backgroundColor: theme.forecastItemBg,
+//   borderRadius: 8,
+//   margin: 4,
+//   padding: 8,
+// },
+
+// date: {
+//   color: theme.forecastDate,
+//   fontWeight: 'bold',
+//   fontSize: 14,
+// },
+
+// temp: {
+//   color: theme.forecastTemp,
+//   fontSize: 16,
+// },
+//     container: {
+//       flex: 1,
+//       padding: 20,
+//       opacity: theme.containerOpacity,
+//       // backgroundColor: theme.background,
+//     },
+//  weatherTextcontainer: {
+//   backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent purple
+//   borderRadius: 12,
+//   paddingVertical: 10,
+//   paddingHorizontal: 16,
+//   marginHorizontal: 6,
+//   marginVertical: 8,
+//   flexDirection: 'row',
+//   alignItems: 'center',
+// },
+//     location: {
+//       fontSize: 22,
+//       fontWeight: 'bold',
+//       color: theme.text,
+//       marginBottom: 20,
+//       textAlign: 'center',
+//     },
+//     topCard: {
+//       alignItems: 'center',
+//       backgroundColor: theme.card,
+//       borderRadius: 20,
+//       padding: 20,
+//       marginBottom: 20,
+//     },
+//     title: {
+//       fontSize: 20,
+//       fontWeight: '600',
+//       color: theme.accent,
+//       marginBottom: 8,
+//     },
+//     tempText: {
+//       fontSize: 72,
+//       fontWeight: 'bold',
+//       color: theme.tempText,
+//     },
+//     description: {
+//       fontSize: 16,
+//       color: theme.descriptionText,
+//       marginTop: 5,
+//     },
+//     tempRange: {
+//       marginTop: 10,
+//       flexDirection: 'row',
+//       justifyContent: 'space-between',
+//       width: '100%',
+//       paddingHorizontal: 30,
+//     },
+//     rangeText: {
+//       fontSize: 16,
+//       color: theme.accent,
+//     },
+//     // weatherTextcontainer: {
+//     //   backgroundColor: theme.overlay,
+//     //   borderRadius: 12,
+//     //   paddingVertical: 10,
+//     //   paddingHorizontal: 16,
+//     //   marginHorizontal: 6,
+//     //   marginVertical: 8,
+//     //   flexDirection: 'row',
+//     //   alignItems: 'center',
+//     // },
+//     toggleButton: {
+//       padding: 10,
+//       backgroundColor: theme.toggleBg,
+//       borderRadius: 10,
+//     },
+//   });
 
 const weatherScreen = () => {
   // tne user State should be outside from the main code or it wont work.
@@ -125,10 +191,14 @@ const weatherScreen = () => {
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
   const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
 
-  const [isDark, setIsDark] = useState(false);
-const theme = isDark ? darkTheme : lightTheme;
-const styles = createWeatherStyles(theme);
+//   const [isDark, setIsDark] = useState(false);
+// const theme = isDark ? darkTheme : lightTheme;
+// const styles = createWeatherStyles(theme);
 // const { isCelsius, toggleUnit } = useTemperatureUnit();
+
+const [isDark, setIsDark] = useState(false);
+const theme = isDark ? darkTheme : lightTheme;
+const styles = createStyles(theme);
 
 
   // this function will load all the others function
@@ -296,8 +366,7 @@ const styles = createWeatherStyles(theme);
             searchText={searchText}
             setSearchText={setSearchText}
             handleSearch={handleSearch}
-            onCitySelect={handleCitySelect}
-          />
+            onCitySelect={handleCitySelect} isDark={false}          />
           {/* finish the search bar. */}
 
           {/* start top card */}
@@ -356,11 +425,11 @@ const styles = createWeatherStyles(theme);
 
           {/* START THE HORIZONTAL SCROLL */}
 
-          <WeatherDetailsSlider weatherDetails={weatherDetails} />
+          <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={false} />
 
           {/* FINSIH THE HORIZONTAL SCROLL */}
 
-          <ForecastList forecast={forecast ?? []} />
+          <ForecastList forecast={forecast ?? []} isDark={false} />
         </View>
       </ImageBackground>
     </GestureHandlerRootView>

@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import searchBarStyles from "../Styles/searchLoca";
+import { createStyles } from '../Styles/weather';
+import { lightTheme, darkTheme } from '../Styles/theme';
+
 
 type City = {
   name: string;
@@ -23,6 +25,7 @@ type Props = {
   setSearchText: (text: string) => void;
   handleSearch: () => void;
   onCitySelect: (lat: number, lon: number) => void;
+  isDark: boolean;
 };
 
 const SearchBar: React.FC<Props> = ({
@@ -30,7 +33,12 @@ const SearchBar: React.FC<Props> = ({
   setSearchText,
   handleSearch,
   onCitySelect,
+   isDark
+  
 }) => {
+
+  const theme = isDark ? darkTheme : lightTheme;
+  const styles = createStyles(theme);
   const [suggestions, setSuggestions] = useState<City[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const fetchCitySuggestions = async (query: string) => {
@@ -70,15 +78,15 @@ const SearchBar: React.FC<Props> = ({
 
   return (
     <View>
-      <View style={searchBarStyles.searchContainer}>
+      <View style={styles.searchContainer}>
         <FontAwesome5
           name="search"
           size={20}
           color="#aaa"
-          style={searchBarStyles.icon}
+          style={styles.icon}
         />
         <TextInput
-          style={searchBarStyles.searchInput}
+          style={styles.searchInput}
           placeholder="Search city..."
           value={searchText}
           onChangeText={setSearchText}
@@ -89,16 +97,16 @@ const SearchBar: React.FC<Props> = ({
       </View>
 
       {showSuggestions && suggestions.length > 0 && (
-        <View style={searchBarStyles.suggestionsContainer}>
+        <View style={styles.suggestionsContainer}>
           <FlatList
             data={suggestions}
             keyExtractor={(item) => `${item.lat}-${item.lon}`}
             renderItem={({ item }) => (
               <TouchableOpacity
-                style={searchBarStyles.suggestionItem}
+                style={styles.suggestionItem}
                 onPress={() => handleCitySelect(item)}
               >
-                <Text style={searchBarStyles.suggestionText}>
+                <Text style={styles.suggestionText}>
                   {item.name}, {item.country}
                 </Text>
               </TouchableOpacity>

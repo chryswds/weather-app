@@ -1,7 +1,9 @@
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import styles from '../Styles/weather';
+import { createStyles } from '../Styles/weather';
+import { lightTheme, darkTheme } from '../Styles/theme';
+
 
 type WeatherDetailItem = {
   id: string;
@@ -11,9 +13,13 @@ type WeatherDetailItem = {
 
 type Props = {
   weatherDetails: WeatherDetailItem[];
+  isDark: boolean;
 };
 
-const WeatherDetailsSlider: React.FC<Props> = ({ weatherDetails }) => {
+const WeatherDetailsSlider: React.FC<Props> = ({ weatherDetails, isDark }) => {
+
+   const theme = isDark ? darkTheme : lightTheme;
+  const styles = createStyles(theme);
   return (
   <FlatList
     data={weatherDetails}// here I am getting the humidity, pressure, sea level
