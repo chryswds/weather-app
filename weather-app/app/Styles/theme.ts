@@ -15,23 +15,25 @@ export const lightTheme: Theme = {
   forecastTemp: "#000000",
   inputBg: "#F5F5F5",
   suggestionBg: "#ffffff",
-  suggestionText: "#333333",
+  suggestionText: "black",
+  // background: ''
 };
 
 export const darkTheme: Theme = {
-  background: "#121212",
-  text: "#FFFFFF",
-  card: "rgba(0, 0, 0, 0.5)",
-  overlay: "rgba(0, 0, 0, 0.5)",
-  accent: "#FFD43B",
-  tempText: "#FFFFFF",
-  descriptionText: "#FFFFFF",
-  toggleBg: "rgba(0, 0, 0, 0.8)",
-  weatherPropertyBg: "grey",
-  forecastItemBg: "rgba(0, 0, 0, 0.5)",
-  forecastDate: "#FFD43B",
-  forecastTemp: "#FFFFFF",
-  inputBg: "#2a2a2a",
-  suggestionBg: "#333333",
+  background: "#000000",               // solid black
+  text: "#FFFFFF", // white text for contrast
+  card: "#1E1E1E", // dark gray, readable
+  overlay: "#2A2A2A", // slightly lighter overlay
+  accent: "#FFD43B", // yellow accent
+  tempText: "#FFFFFF", // readable
+  descriptionText: "#CCCCCC", // light gray for descriptions
+  toggleBg: "#333333", // darker toggle background
+  weatherPropertyBg: "#1E1E1E", // unify with card
+  forecastItemBg: "#1E1E1E", // match card for uniformity
+  forecastDate: "#FFD43B", // yellow for title
+  forecastTemp: "#FFFFFF", // readable white
+  inputBg: "#222222", // dark input
+  suggestionBg: "#2C2C2C", // dark suggestion dropdown
   suggestionText: "#FFFFFF",
+  // background: ''
 };

@@ -47,7 +47,7 @@ const styles = createStyles(theme);
             {/* Format the timestamp into a readable day and date */}
             {dayjs(item.dt * 1000).format('dddd, MMMM D • h:mm A')}
           </Text>
-          <Text style={styles.temp}><FontAwesome5  name="thermometer-half"/>
+          <Text style={styles.suggestionText}><FontAwesome5  name="thermometer-half"/>
             {/* Display the temperature */}{"  "} {/*this will give a space in the thermometer*/}
             {item.main.temp} °C
           </Text>

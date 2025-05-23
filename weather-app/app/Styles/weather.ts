@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-// Types for themes
+// Theme interface for typed styling
 export type Theme = {
   background: string;
   text: string;
@@ -19,26 +19,17 @@ export type Theme = {
   suggestionText: string;
 };
 
+// Dynamically generated styles based on theme
 export const createStyles = (theme: Theme) =>
   StyleSheet.create({
+    // Screen layout
     container: {
       flex: 1,
       padding: 20,
-      opacity: 0.8,
       backgroundColor: theme.background,
     },
-    weatherProperties: {
-      borderRadius: 16,
-      padding: 16,
-      backgroundColor: theme.weatherPropertyBg,
-    },
-    location: {
-      fontSize: 22,
-      fontWeight: "bold",
-      color: theme.text,
-      marginBottom: 20,
-      textAlign: "center",
-    },
+
+    // Top weather summary card
     topCard: {
       alignItems: "center",
       backgroundColor: theme.card,
@@ -46,22 +37,39 @@ export const createStyles = (theme: Theme) =>
       padding: 20,
       marginBottom: 20,
     },
+
+    // City name
+    location: {
+      fontSize: 22,
+      fontWeight: "bold",
+      color: theme.text,
+      marginBottom: 20,
+      textAlign: "center",
+    },
+
+    // Title/subheadings
     title: {
       fontSize: 20,
       fontWeight: "600",
       color: theme.accent,
       marginBottom: 8,
     },
+
+    // Temperature text
     tempText: {
       fontSize: 72,
       fontWeight: "bold",
       color: theme.tempText,
     },
+
+    // Feels like and other descriptions
     description: {
       fontSize: 16,
       color: theme.descriptionText,
       marginTop: 5,
     },
+
+    // Max/Min temperature layout
     tempRange: {
       marginTop: 10,
       flexDirection: "row",
@@ -69,40 +77,74 @@ export const createStyles = (theme: Theme) =>
       width: "100%",
       paddingHorizontal: 30,
     },
+
     rangeText: {
       fontSize: 16,
       color: theme.accent,
     },
+
+    // Toggle row (°C/°F or theme)
+    toggleRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+      alignSelf: "flex-end",
+      marginBottom: 20,
+      paddingRight: 16,
+    },
+
+    toggleButton: {
+      padding: 10,
+      backgroundColor: theme.toggleBg,
+      borderRadius: 10,
+    },
+
+    label: {
+      fontSize: 16,
+      marginHorizontal: 6,
+      fontWeight: "bold",
+      marginLeft: 8,
+    },
+
+    // Weather info items (humidity, pressure, etc)
+    weatherProperties: {
+      borderRadius: 16,
+      padding: 16,
+      backgroundColor: theme.weatherPropertyBg,
+    },
+
     weatherTextcontainer: {
       backgroundColor: theme.overlay,
       borderRadius: 12,
       paddingVertical: 10,
       paddingHorizontal: 16,
       marginHorizontal: 6,
-      marginVertical: 8,
+      marginVertical: 10,
+      height: 60,
       flexDirection: "row",
       alignItems: "center",
     },
-    toggleButton: {
-      padding: 10,
-      backgroundColor: theme.toggleBg,
-      borderRadius: 10,
-    },
+
+    // Forecast list item
     forecastItem: {
       backgroundColor: theme.forecastItemBg,
       borderRadius: 8,
-      margin: 4,
+      margin: 6,
       padding: 8,
     },
+
     date: {
       color: theme.forecastDate,
       fontWeight: "bold",
       fontSize: 14,
     },
+
     temp: {
       color: theme.forecastTemp,
       fontSize: 16,
     },
+
+    // Search bar
     searchContainer: {
       flexDirection: "row",
       alignItems: "center",
@@ -111,15 +153,19 @@ export const createStyles = (theme: Theme) =>
       paddingHorizontal: 12,
       marginVertical: 16,
     },
+
     icon: {
       marginRight: 8,
     },
+
     searchInput: {
       flex: 1,
       height: 44,
       color: theme.text,
       fontSize: 16,
     },
+
+    // Autocomplete suggestions
     suggestionsContainer: {
       position: "absolute",
       top: 50,
@@ -135,11 +181,13 @@ export const createStyles = (theme: Theme) =>
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
     },
+
     suggestionItem: {
       padding: 15,
       borderBottomWidth: 1,
       borderBottomColor: "#eee",
     },
+
     suggestionText: {
       fontSize: 16,
       color: theme.suggestionText,

@@ -4,7 +4,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { createStyles } from '../Styles/weather';
 import { lightTheme, darkTheme } from '../Styles/theme';
 
-
 type WeatherDetailItem = {
   id: string;
   icon: string;
@@ -17,25 +16,23 @@ type Props = {
 };
 
 const WeatherDetailsSlider: React.FC<Props> = ({ weatherDetails, isDark }) => {
-
-   const theme = isDark ? darkTheme : lightTheme;
+  const theme = isDark ? darkTheme : lightTheme;
   const styles = createStyles(theme);
-  return (
-  <FlatList
-    data={weatherDetails}// here I am getting the humidity, pressure, sea level
-    horizontal// here i make it be in horizontal
-    showsHorizontalScrollIndicator={false} // i can show or not the indicator
-    keyExtractor={(item) => item.id} 
-    contentContainerStyle={{ paddingHorizontal: 8 }}
-    renderItem={({ item }) => (
 
-      // here i apply the styles to the text and boxs
-      <View style={styles.weatherTextcontainer}>
-        <FontAwesome5 name={item.icon} size={16} color="#FFD43B" />
-        <Text style={{ color: 'white', fontWeight: 'bold', marginLeft: 8 }}>{item.label}</Text>
-      </View>
-    )}
-  />
+  return (
+    <FlatList
+      data={weatherDetails}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={(item) => item.id}
+      contentContainerStyle={{ paddingHorizontal: 8 }}
+      renderItem={({ item }) => (
+        <View style={styles.weatherTextcontainer}>
+          <FontAwesome5 name={item.icon} size={16} color={theme.text} />
+          <Text style={[styles.label, { color: theme.text }]}>{item.label}</Text>
+        </View>
+      )}
+    />
   );
 };
 
