@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   ImageBackground,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -153,16 +154,27 @@ const WeatherScreen = () => {
     { id: "4", icon: "globe", label: `Ground Level: ${weather.main.grnd_level ?? "N/A"} hPa` },
   ];
   
+console.log("isDark mode:", isDark);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
- <ImageBackground
-  source={isDark ? undefined : backgroundUrl ? { uri: backgroundUrl } : undefined}
-  resizeMode="cover"
-  style={{ flex: 1 }}
+
+
+      <ScrollView style={[styles.scrollWrapper,{
+      backgroundColor: isDark ? theme.background : 'rgba(0,0,0,0)', // FULL transparency
+    },] } contentContainerStyle={styles.container}>
+
+            <ImageBackground
+  
 >
 
-        <View style={styles.container}>
+     <View
+  style={
+    styles.container
+   }
+>
+
+
           <SearchBar
             searchText={searchText}
             setSearchText={setSearchText}
@@ -200,7 +212,8 @@ const WeatherScreen = () => {
           <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
         </View>
-      </ImageBackground>
+            </ImageBackground>
+      </ScrollView>
     </GestureHandlerRootView>
   );
 };

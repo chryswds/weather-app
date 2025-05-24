@@ -23,11 +23,20 @@ export type Theme = {
 export const createStyles = (theme: Theme) =>
   StyleSheet.create({
     // Screen layout
-    container: {
-      flex: 1,
-      padding: 20,
-      backgroundColor: theme.background,
-    },
+scrollWrapper: {
+  flex: 1,
+},
+container: {
+  paddingHorizontal: 10,
+  paddingTop: 30,
+  paddingBottom: 40,
+},
+container2: {
+  paddingHorizontal: 30,
+  paddingTop: 30,
+  paddingBottom: 40,
+},
+
 
     // Top weather summary card
     topCard: {

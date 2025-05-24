@@ -82,7 +82,7 @@ const SearchBar: React.FC<Props> = ({
         <FontAwesome5
           name="search"
           size={20}
-          color="#aaa"
+          // color="#aaa"
           style={styles.icon}
         />
         <TextInput

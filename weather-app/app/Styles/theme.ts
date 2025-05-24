@@ -1,26 +1,26 @@
 import { Theme } from './weather';
 
 export const lightTheme: Theme = {
-  background: "#FFFFFF",
+  // background: "#FFFFFF",
   text: "#000000",
   card: "#F0F0F0",
-  overlay: "rgba(0, 0, 0, 0.05)",
-  accent: "#FFD43B",
+  overlay: "#F0F0F0",
+  accent: "#000000",
   tempText: "#000000",
   descriptionText: "#000000",
-  toggleBg: "rgba(0, 0, 0, 0.1)",
+  toggleBg: "rgba(0, 0, 0)",
   weatherPropertyBg: "#D3D3D3",
-  forecastItemBg: "rgba(0, 0, 0, 0.05)",
-  forecastDate: "#FFD43B",
+  forecastItemBg: "#F0F0F0",
+  forecastDate: "#000000",
   forecastTemp: "#000000",
   inputBg: "#F5F5F5",
   suggestionBg: "#ffffff",
   suggestionText: "black",
-  // background: ''
+  background: 'black'
 };
 
 export const darkTheme: Theme = {
-  background: "#000000",               // solid black
+                // solid black
   text: "#FFFFFF", // white text for contrast
   card: "#1E1E1E", // dark gray, readable
   overlay: "#2A2A2A", // slightly lighter overlay
@@ -35,5 +35,5 @@ export const darkTheme: Theme = {
   inputBg: "#222222", // dark input
   suggestionBg: "#2C2C2C", // dark suggestion dropdown
   suggestionText: "#FFFFFF",
-  // background: ''
+  background: 'white'
 };
