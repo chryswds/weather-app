@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 export type Theme = {
   background: string;
   text: string;
+  textOpposite: string;
   card: string;
   overlay: string;
   accent: string;
@@ -17,6 +18,8 @@ export type Theme = {
   inputBg: string;
   suggestionBg: string;
   suggestionText: string;
+  sidebarBg: string;
+  divider: string;
 };
 
 // Dynamically generated styles based on theme
@@ -152,6 +155,11 @@ export const createStyles = (theme: Theme) =>
       fontSize: 16,
     },
 
+    // Search bar container
+    searchWrapper: {
+      position: "relative",
+    },
+
     // Search bar
     searchContainer: {
       flexDirection: "row",
@@ -160,6 +168,11 @@ export const createStyles = (theme: Theme) =>
       borderRadius: 12,
       paddingHorizontal: 12,
       marginVertical: 16,
+    },
+
+    historyButton: {
+      padding: 8,
+      marginLeft: 8,
     },
 
     icon: {
@@ -194,6 +207,31 @@ export const createStyles = (theme: Theme) =>
       padding: 15,
       borderBottomWidth: 1,
       borderBottomColor: "#eee",
+    },
+
+    // History styles
+    historyHeader: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: "#eee",
+    },
+
+    historyTitle: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: theme.text,
+    },
+
+    clearHistory: {
+      color: theme.accent,
+      fontSize: 14,
+    },
+
+    historyIcon: {
+      marginRight: 10,
     },
 
     suggestionText: {
