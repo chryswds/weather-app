@@ -3,6 +3,7 @@ import { Theme } from "./weather";
 export const lightTheme: Theme = {
   // background: "#FFFFFF",
   text: "#000000",
+  textOpposite: "#FFFFFF",
   card: "#F0F0F0",
   overlay: "#F0F0F0",
   accent: "#000000",
@@ -22,6 +23,7 @@ export const lightTheme: Theme = {
 export const darkTheme: Theme = {
   // solid black
   text: "#FFFFFF", // white text for contrast
+  textOpposite: "#000000", // black text for contrast
   card: "#1E1E1E", // dark gray, readable
   overlay: "#2A2A2A", // slightly lighter overlay
   accent: "#FFD43B", // yellow accent
