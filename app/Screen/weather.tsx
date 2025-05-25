@@ -20,6 +20,7 @@ import { searchLocation } from "../Screen/searchLocation";
 import { darkTheme, lightTheme } from "../Styles/theme";
 import { createStyles } from "../Styles/weather";
 import { getWeatherData } from "../utils/fetcheWeatherData";
+import { background } from "./background";
 
 // Types for weather data structure
 
@@ -34,9 +35,15 @@ type MainWeather = {
   grnd_level: number;
 };
 
+type WeatherConditionType = {
+  main: string;
+  description: string;
+};
+
 type Weather = {
   name: string;
   main: MainWeather;
+  weather: WeatherConditionType[];
 };
 
 const WeatherScreen = () => {
@@ -180,8 +187,23 @@ const WeatherScreen = () => {
         ]}
         contentContainerStyle={styles.container}
       >
-        <ImageBackground>
-          <View style={styles.container}>
+        <ImageBackground
+          source={{
+            uri: backgroundUrl || background(weather.main.temp),
+          }}
+          style={{ flex: 1, width: "100%" }}
+          resizeMode="cover"
+        >
+          <View
+            style={[
+              styles.container,
+              {
+                backgroundColor: isDark
+                  ? "rgba(0,0,0,0.5)"
+                  : "rgba(255,255,255,0.3)",
+              },
+            ]}
+          >
             <SearchBar
               searchText={searchText}
               setSearchText={setSearchText}

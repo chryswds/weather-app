@@ -15,7 +15,6 @@ export const getWeatherData = async (
     ); // fetch is a command from react that i can use to get a API.
 
     const data = await results.json();
-    console.log(JSON.stringify(data, null, 2));
     setWeather(data);
 
     const bgUrl = background(data.main.temp);
