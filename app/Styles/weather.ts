@@ -31,16 +31,19 @@ export const createStyles = (theme: Theme) =>
     },
     container: {
       paddingHorizontal: 10,
-      paddingTop: 30,
+      paddingTop: 20, // Increased top padding to avoid camera notch
       paddingBottom: 40,
     },
     container2: {
       paddingHorizontal: 30,
-      paddingTop: 30,
+      paddingTop: 20, // Increased top padding to avoid camera notch
       paddingBottom: 40,
     },
 
-    container3: {},
+    container3: {
+      paddingTop: 40, // Added padding to avoid camera notch
+      paddingHorizontal: 10,
+    },
 
     // Top weather summary card
     topCard: {

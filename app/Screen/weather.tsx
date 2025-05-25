@@ -186,82 +186,71 @@ const WeatherScreen = () => {
         resizeMode="cover"
       >
         <ScrollView contentContainerStyle={styles.container3}>
-          <View
-            style={[
-              styles.container,
-              {
-                backgroundColor: isDark
-                  ? "rgba(0,0,0,0.5)"
-                  : "rgba(255,255,255,0.3)",
-              },
-            ]}
-          >
-            <SearchBar
-              searchText={searchText}
-              setSearchText={setSearchText}
-              handleSearch={handleSearch}
-              onCitySelect={handleCitySelect}
-              isDark={isDark}
-            />
+          <SearchBar
+            searchText={searchText}
+            setSearchText={setSearchText}
+            handleSearch={handleSearch}
+            onCitySelect={handleCitySelect}
+            isDark={isDark}
+          />
 
-            <View style={styles.topCard}>
-              <Text style={styles.location}>
-                <FontAwesome5
-                  name="map-marker-alt"
-                  size={20}
-                  color={theme.accent}
-                />{" "}
-                {weather.name}
-              </Text>
+          <View style={styles.topCard}>
+            <Text style={styles.location}>
+              <FontAwesome5
+                name="map-marker-alt"
+                size={20}
+                color={theme.accent}
+              />{" "}
+              {weather.name}
+            </Text>
 
-              <View
-                style={{
-                  left: 10,
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 10,
-                }}
-              >
-                <TempUnitToggle
-                  isCelsius={isCelsius}
-                  onToggle={toggleUnit}
-                  theme={theme}
-                />
-                <ThemeToggle onThemeChange={setIsDark} />
-              </View>
-
-              <Text style={styles.tempText}>
-                {convertTemperature(weather.main.temp).toFixed(1)}°
-                {isCelsius ? "C" : "F"}
-              </Text>
-
-              <Text style={styles.description}>
-                Feels Like:{" "}
-                {convertTemperature(weather.main.feels_like).toFixed(1)}°
-                {isCelsius ? "C" : "F"}
-              </Text>
-
-              <View style={styles.tempRange}>
-                <Text style={styles.description}>
-                  <FontAwesome5 name="arrow-up" size={14} /> Max:{" "}
-                  {convertTemperature(weather.main.temp_max).toFixed(1)}°
-                  {isCelsius ? "C" : "F"}
-                </Text>
-                <Text style={styles.description}>
-                  <FontAwesome5 name="arrow-down" size={14} /> Min:{" "}
-                  {convertTemperature(weather.main.temp_min).toFixed(1)}°
-                  {isCelsius ? "C" : "F"}
-                </Text>
-              </View>
+            <View
+              style={{
+                left: 10,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <TempUnitToggle
+                isCelsius={isCelsius}
+                onToggle={toggleUnit}
+                theme={theme}
+              />
+              <ThemeToggle onThemeChange={setIsDark} />
             </View>
 
-            <WeatherDetailsSlider
-              weatherDetails={weatherDetails}
-              isDark={isDark}
-            />
-            <ForecastList forecast={forecast ?? []} isDark={isDark} />
+            <Text style={styles.tempText}>
+              {convertTemperature(weather.main.temp).toFixed(1)}°
+              {isCelsius ? "C" : "F"}
+            </Text>
+
+            <Text style={styles.description}>
+              Feels Like:{" "}
+              {convertTemperature(weather.main.feels_like).toFixed(1)}°
+              {isCelsius ? "C" : "F"}
+            </Text>
+
+            <View style={styles.tempRange}>
+              <Text style={styles.description}>
+                <FontAwesome5 name="arrow-up" size={14} /> Max:{" "}
+                {convertTemperature(weather.main.temp_max).toFixed(1)}°
+                {isCelsius ? "C" : "F"}
+              </Text>
+              <Text style={styles.description}>
+                <FontAwesome5 name="arrow-down" size={14} /> Min:{" "}
+                {convertTemperature(weather.main.temp_min).toFixed(1)}°
+                {isCelsius ? "C" : "F"}
+              </Text>
+            </View>
           </View>
+
+          <WeatherDetailsSlider
+            weatherDetails={weatherDetails}
+            isDark={isDark}
+          />
+          <ForecastList forecast={forecast ?? []} isDark={isDark} />
         </ScrollView>
       </ImageBackground>
     </GestureHandlerRootView>

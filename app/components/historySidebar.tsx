@@ -114,10 +114,10 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: 0,
+    top: 56,
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: -500,
     zIndex: 9999,
     elevation: 9999,
   },
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   emptyText: {
+    top: -250,
     fontSize: 16,
     opacity: 0.7,
   },
