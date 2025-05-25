@@ -40,6 +40,8 @@ export const createStyles = (theme: Theme) =>
       paddingBottom: 40,
     },
 
+    container3: {},
+
     // Top weather summary card
     topCard: {
       alignItems: "center",

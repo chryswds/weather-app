@@ -178,22 +178,14 @@ const WeatherScreen = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ScrollView
-        style={[
-          styles.scrollWrapper,
-          {
-            backgroundColor: isDark ? theme.background : "rgba(0,0,0,0)", // FULL transparency
-          },
-        ]}
-        contentContainerStyle={styles.container}
+      <ImageBackground
+        source={{
+          uri: backgroundUrl || background(weather.main.temp),
+        }}
+        style={{ flex: 1, width: "100%" }}
+        resizeMode="cover"
       >
-        <ImageBackground
-          source={{
-            uri: backgroundUrl || background(weather.main.temp),
-          }}
-          style={{ flex: 1, width: "100%" }}
-          resizeMode="cover"
-        >
+        <ScrollView contentContainerStyle={styles.container3}>
           <View
             style={[
               styles.container,
@@ -222,12 +214,22 @@ const WeatherScreen = () => {
                 {weather.name}
               </Text>
 
-              <TempUnitToggle
-                isCelsius={isCelsius}
-                onToggle={toggleUnit}
-                theme={theme}
-              />
-              <ThemeToggle onThemeChange={setIsDark} />
+              <View
+                style={{
+                  left: 10,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 10,
+                }}
+              >
+                <TempUnitToggle
+                  isCelsius={isCelsius}
+                  onToggle={toggleUnit}
+                  theme={theme}
+                />
+                <ThemeToggle onThemeChange={setIsDark} />
+              </View>
 
               <Text style={styles.tempText}>
                 {convertTemperature(weather.main.temp).toFixed(1)}°
@@ -260,8 +262,8 @@ const WeatherScreen = () => {
             />
             <ForecastList forecast={forecast ?? []} isDark={isDark} />
           </View>
-        </ImageBackground>
-      </ScrollView>
+        </ScrollView>
+      </ImageBackground>
     </GestureHandlerRootView>
   );
 };
