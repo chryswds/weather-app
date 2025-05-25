@@ -21,6 +21,7 @@ import { darkTheme, lightTheme } from "../Styles/theme";
 import { createStyles } from "../Styles/weather";
 import { getWeatherData } from "../utils/fetcheWeatherData";
 import { background } from "./background";
+import dayjs from "dayjs";
 
 // Types for weather data structure
 
@@ -134,6 +135,16 @@ const WeatherScreen = () => {
     }
   };
 
+     const [currentTime, setCurrentTime] = useState(dayjs());
+    
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCurrentTime(dayjs());
+      }, 1000); // update every second
+    
+      return () => clearInterval(interval);
+    }, []);
+
   const handleCitySelect = (lat: number, lon: number) => {
     setLocation({
       coords: {
@@ -196,15 +207,46 @@ const WeatherScreen = () => {
 
           <View style={styles.topCard}>
             <Text style={styles.location}>
-              <FontAwesome5
+              <FontAwesome5 color={theme.icon}
                 name="map-marker-alt"
                 size={20}
-                color={theme.accent}
+                
               />{" "}
               {weather.name}
             </Text>
 
-            <View
+          
+             <Text style={styles.description}>
+                <FontAwesome5 color={theme.icon} name="clock" size={14} />{" "}
+             {currentTime.format("dddd, MMMM D • h:mm:ss A")}
+                        </Text>
+
+            <Text style={styles.tempText}>
+              {convertTemperature(weather.main.temp).toFixed(1)}°
+              {isCelsius ? "C" : "F"}
+            </Text>
+
+            <Text style={styles.fellslike}>
+              Feels Like:{" "}
+              {convertTemperature(weather.main.feels_like).toFixed(1)}°
+              {isCelsius ? "C" : "F"}
+            </Text>
+
+            <View style={styles.tempRange}>
+              <Text style={styles.description}>
+                <FontAwesome5  name="arrow-up"  size={14}  color={theme.icon} /> Max:{" "}
+                {convertTemperature(weather.main.temp_max).toFixed(1)}°
+                {isCelsius ? "C" : "F"}
+              </Text>
+              <Text style={styles.description}>
+                <FontAwesome5 name="arrow-down" color={theme.icon} size={14} /> Min:{" "}
+                {convertTemperature(weather.main.temp_min).toFixed(1)}°
+                {isCelsius ? "C" : "F"}
+              </Text>
+
+              
+            </View>
+                <View
               style={{
                 left: 10,
                 flexDirection: "row",
@@ -219,30 +261,6 @@ const WeatherScreen = () => {
                 theme={theme}
               />
               <ThemeToggle onThemeChange={setIsDark} />
-            </View>
-
-            <Text style={styles.tempText}>
-              {convertTemperature(weather.main.temp).toFixed(1)}°
-              {isCelsius ? "C" : "F"}
-            </Text>
-
-            <Text style={styles.description}>
-              Feels Like:{" "}
-              {convertTemperature(weather.main.feels_like).toFixed(1)}°
-              {isCelsius ? "C" : "F"}
-            </Text>
-
-            <View style={styles.tempRange}>
-              <Text style={styles.description}>
-                <FontAwesome5 name="arrow-up" size={14} /> Max:{" "}
-                {convertTemperature(weather.main.temp_max).toFixed(1)}°
-                {isCelsius ? "C" : "F"}
-              </Text>
-              <Text style={styles.description}>
-                <FontAwesome5 name="arrow-down" size={14} /> Min:{" "}
-                {convertTemperature(weather.main.temp_min).toFixed(1)}°
-                {isCelsius ? "C" : "F"}
-              </Text>
             </View>
           </View>
 

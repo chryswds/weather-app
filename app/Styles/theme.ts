@@ -19,6 +19,7 @@ export const lightTheme: Theme = {
   suggestionText: "#000000",
   sidebarBg: "#FFFFFF",
   divider: "#E0E0E0",
+   icon: "#FFD700",
 };
 
 export const darkTheme: Theme = {
@@ -40,4 +41,5 @@ export const darkTheme: Theme = {
   suggestionText: "#FFFFFF",
   sidebarBg: "#1C1C1E",
   divider: "#38383A",
+   icon: "#FFD700",
 };

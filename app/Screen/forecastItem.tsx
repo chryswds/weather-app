@@ -57,7 +57,7 @@ const ForecastList: React.FC<Props> = ({ forecast, isDark }) => {
               
             </Text>
             <Text style={styles.suggestionText}>
-              <FontAwesome5 name="thermometer-half" />{"  "}
+              <FontAwesome5 size={16} color={theme.icon} name="thermometer-half" />{"  "}
               {item.main.temp} °C
             </Text>
           </View>
