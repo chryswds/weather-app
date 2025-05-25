@@ -56,13 +56,13 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
         style={[
           styles.sidebar,
           {
-            backgroundColor: isDark ? theme.card : theme.background,
+            backgroundColor: theme.sidebarBg,
             transform: [{ translateX }],
           },
         ]}
       >
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.textOpposite }]}>
+        <View style={[styles.header, { borderBottomColor: theme.divider }]}>
+          <Text style={[styles.title, { color: theme.text }]}>
             Search History
           </Text>
           <TouchableOpacity onPress={onClearHistory}>
@@ -80,7 +80,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
               <TouchableOpacity
                 style={[
                   styles.historyItem,
-                  { borderBottomColor: theme.accent + "20" },
+                  { borderBottomColor: theme.divider },
                 ]}
                 onPress={() => {
                   onSelectHistory(item);
@@ -93,9 +93,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
                   color={theme.text}
                   style={styles.historyIcon}
                 />
-                <Text
-                  style={[styles.historyText, { color: theme.textOpposite }]}
-                >
+                <Text style={[styles.historyText, { color: theme.text }]}>
                   {item.name}
                 </Text>
               </TouchableOpacity>
@@ -103,7 +101,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
           />
         ) : (
           <View style={styles.emptyContainer}>
-            <Text style={[styles.emptyText, { color: theme.textOpposite }]}>
+            <Text style={[styles.emptyText, { color: theme.descriptionText }]}>
               No search history
             </Text>
           </View>
@@ -149,7 +147,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "rgba(0, 0, 0, 0.1)",
   },
   title: {
     fontSize: 20,

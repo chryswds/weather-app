@@ -1,41 +1,43 @@
 import { Theme } from "./weather";
 
 export const lightTheme: Theme = {
-  // background: "#FFFFFF",
+  background: "#FFFFFF",
   text: "#000000",
   textOpposite: "#FFFFFF",
   card: "#F0F0F0",
   overlay: "#F0F0F0",
-  accent: "#000000",
+  accent: "#007AFF",
   tempText: "#000000",
-  descriptionText: "#000000",
-  toggleBg: "rgba(0, 0, 0)",
-  weatherPropertyBg: "#D3D3D3",
+  descriptionText: "#666666",
+  toggleBg: "rgba(0, 0, 0, 0.1)",
+  weatherPropertyBg: "#F5F5F5",
   forecastItemBg: "#F0F0F0",
   forecastDate: "#000000",
   forecastTemp: "#000000",
   inputBg: "#F5F5F5",
-  suggestionBg: "#ffffff",
-  suggestionText: "black",
-  background: "black",
+  suggestionBg: "#FFFFFF",
+  suggestionText: "#000000",
+  sidebarBg: "#FFFFFF",
+  divider: "#E0E0E0",
 };
 
 export const darkTheme: Theme = {
-  // solid black
-  text: "#FFFFFF", // white text for contrast
-  textOpposite: "#000000", // black text for contrast
-  card: "#1E1E1E", // dark gray, readable
-  overlay: "#2A2A2A", // slightly lighter overlay
-  accent: "#FFD43B", // yellow accent
-  tempText: "#FFFFFF", // readable
-  descriptionText: "#CCCCCC", // light gray for descriptions
-  toggleBg: "#333333", // darker toggle background
-  weatherPropertyBg: "#1E1E1E", // unify with card
-  forecastItemBg: "#1E1E1E", // match card for uniformity
-  forecastDate: "#FFD43B", // yellow for title
-  forecastTemp: "#FFFFFF", // readable white
-  inputBg: "#222222", // dark input
-  suggestionBg: "#2C2C2C", // dark suggestion dropdown
+  background: "#000000",
+  text: "#FFFFFF",
+  textOpposite: "#000000",
+  card: "#1C1C1E",
+  overlay: "#2C2C2E",
+  accent: "#0A84FF",
+  tempText: "#FFFFFF",
+  descriptionText: "#CCCCCC",
+  toggleBg: "rgba(255, 255, 255, 0.1)",
+  weatherPropertyBg: "#2C2C2E",
+  forecastItemBg: "#1C1C1E",
+  forecastDate: "#FFFFFF",
+  forecastTemp: "#FFFFFF",
+  inputBg: "#1C1C1E",
+  suggestionBg: "#2C2C2E",
   suggestionText: "#FFFFFF",
-  background: "white",
+  sidebarBg: "#1C1C1E",
+  divider: "#38383A",
 };

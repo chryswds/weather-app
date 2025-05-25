@@ -18,6 +18,8 @@ export type Theme = {
   inputBg: string;
   suggestionBg: string;
   suggestionText: string;
+  sidebarBg: string;
+  divider: string;
 };
 
 // Dynamically generated styles based on theme
