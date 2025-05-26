@@ -1,50 +1,102 @@
-# Welcome to your Expo app 👋
+# Weather App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Overview
 
-## Get started
+A weather app built with React Native and Expo that shows current weather conditions and forecasts for any location.
 
-1. Install dependencies
+## Features
 
+### Current Weather Information
+
+- Real-time temperature and weather conditions
+- Feels-like temperature
+- Min/max temperature range
+- Detailed weather properties (humidity, pressure, sea level, ground level)
+- Dynamic background that changes based on current weather conditions
+
+### Location Services
+
+- Automatic detection of user's current location
+- Search functionality for any location worldwide
+- Autocomplete suggestions for city searches
+- Search history for quick access to previously viewed locations
+
+### Weather Forecast
+
+- 5-day weather forecast
+- Daily temperature and condition information
+
+### Map Integration
+
+- Interactive map view showing the selected location
+
+### Customization Options
+
+- Toggle between Celsius and Fahrenheit temperature units
+- Light and dark theme options for comfortable viewing in any environment
+
+## API Integrations
+
+### OpenWeatherMap API
+
+The app integrates with the OpenWeatherMap API to fetch various weather data:
+
+1. **Current Weather Data API**
+
+   - Provides real-time weather information including temperature, conditions, humidity, pressure, wind speed, etc.
+   - Endpoint: `https://api.openweathermap.org/data/2.5/weather`
+
+2. **5-Day Forecast API**
+
+   - Delivers a 5-day weather forecast with 3-hour intervals
+   - Endpoint: `https://api.openweathermap.org/data/2.5/forecast`
+
+3. **Geocoding API**
+   - Converts location names to geographic coordinates (latitude and longitude)
+   - Used for the search functionality
+   - Endpoint: `https://api.openweathermap.org/geo/1.0/direct`
+
+## Technical Implementation
+
+### State Management
+
+- React hooks for local state management
+- Custom hooks for shared functionality:
+  - useTemperatureUnit: Manages temperature unit preference (Celsius/Fahrenheit)
+  - useLocationHistory: Tracks recently searched locations
+  - useWeatherAlerts: Handles weather alert subscriptions
+  - useFavoriteLocations: Manages saved favorite locations
+  - useThemePreference: Controls light/dark theme settings
+
+### Data Persistence
+
+- AsyncStorage for saving user preferences and search history
+
+### UI Components
+
+- Custom components for weather display, search functionality, and map integration
+- Responsive design that works across different device sizes
+- Animated transitions for a polished user experience
+
+### Maps
+
+- Integration with React Native Maps for location visualization
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies:
    ```bash
    npm install
    ```
-
-2. Start the app
-
+3. Start the development server:
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Requirements
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Node.js
+- npm or yarn
+- Expo CLI
+- OpenWeatherMap API key
