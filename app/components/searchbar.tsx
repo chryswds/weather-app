@@ -45,6 +45,7 @@ const SearchBar: React.FC<Props> = ({
   const styles = createStyles(theme);
   const [suggestions, setSuggestions] = useState<City[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suppressSuggestions, setSuppressSuggestions] = useState(false);
   const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[]>([]);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
@@ -79,15 +80,19 @@ const SearchBar: React.FC<Props> = ({
   const debouncedFetch = debounce(fetchCitySuggestions, 300);
 
   useEffect(() => {
-    debouncedFetch(searchText);
+    if (!suppressSuggestions) {
+      debouncedFetch(searchText);
+    }
     return () => {
       debouncedFetch.cancel();
     };
-  }, [searchText]);
+  }, [searchText, suppressSuggestions]);
 
   const handleCitySelect = async (city: City) => {
     setSearchText(`${city.name}, ${city.country}`);
-    setShowSuggestions(false);
+    setShowSuggestions(false); // Hide suggestions
+    setSuggestions([]); // Clear suggestions array
+    setSuppressSuggestions(true); // Prevent suggestions from showing again
     setIsSidebarVisible(false);
     onCitySelect(city.lat, city.lon);
 
@@ -102,6 +107,9 @@ const SearchBar: React.FC<Props> = ({
 
   const handleHistorySelect = (item: SearchHistoryItem) => {
     setSearchText(item.name);
+    setShowSuggestions(false); // Hide suggestions
+    setSuggestions([]); // Clear suggestions array
+    setSuppressSuggestions(true); // Prevent suggestions from showing again
     setIsSidebarVisible(false);
     onCitySelect(item.lat, item.lon);
   };
@@ -121,9 +129,17 @@ const SearchBar: React.FC<Props> = ({
             style={styles.searchInput}
             placeholder="Search city..."
             value={searchText}
-            onChangeText={setSearchText}
+            onChangeText={(text) => {
+              setSearchText(text);
+              setSuppressSuggestions(false); // Allow suggestions to show again when typing
+            }}
             returnKeyType="search"
-            onSubmitEditing={handleSearch}
+            onSubmitEditing={() => {
+              handleSearch();
+              setShowSuggestions(false);
+              setSuggestions([]);
+              setSuppressSuggestions(true); // Prevent suggestions from showing again
+            }}
             placeholderTextColor="#aaa"
           />
           <TouchableOpacity
@@ -134,24 +150,27 @@ const SearchBar: React.FC<Props> = ({
           </TouchableOpacity>
         </View>
 
-        {showSuggestions && suggestions.length > 0 && (
-          <View style={styles.suggestionsContainer}>
-            <FlatList
-              data={suggestions}
-              keyExtractor={(item) => `${item.lat}-${item.lon}`}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.suggestionItem}
-                  onPress={() => handleCitySelect(item)}
-                >
-                  <Text style={styles.suggestionText}>
-                    {item.name}, {item.country}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        )}
+        {showSuggestions &&
+          suggestions.length > 0 &&
+          searchText.length >= 3 &&
+          !suppressSuggestions && (
+            <View style={styles.suggestionsContainer}>
+              <FlatList
+                data={suggestions}
+                keyExtractor={(item) => `${item.lat}-${item.lon}`}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={styles.suggestionItem}
+                    onPress={() => handleCitySelect(item)}
+                  >
+                    <Text style={styles.suggestionText}>
+                      {item.name}, {item.country}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          )}
       </View>
 
       <HistorySidebar
