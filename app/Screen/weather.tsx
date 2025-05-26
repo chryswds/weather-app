@@ -176,6 +176,18 @@ const WeatherScreen = () => {
 
   console.log("isDark mode:", isDark);
 
+  // Function to handle returning to current location
+  const handleReturnToCurrentLocation = async () => {
+    try {
+      const currentLocation = await Location.getCurrentPositionAsync({});
+      setLocation(currentLocation);
+      // Clear the search text when returning to current location
+      setSearchText("");
+    } catch (error) {
+      setErrorMsg("Error getting current location");
+    }
+  };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ImageBackground
@@ -195,14 +207,23 @@ const WeatherScreen = () => {
           />
 
           <View style={styles.topCard}>
-            <Text style={styles.location}>
+            <View style={styles.locationContainer}>
+              <Text style={styles.location}>
+                <FontAwesome5
+                  name="map-marker-alt"
+                  size={20}
+                  color={theme.accent}
+                />{" "}
+                {weather.name}
+              </Text>
               <FontAwesome5
-                name="map-marker-alt"
+                name="sync-alt"
                 size={20}
                 color={theme.accent}
-              />{" "}
-              {weather.name}
-            </Text>
+                style={styles.currentLocationButton}
+                onPress={handleReturnToCurrentLocation}
+              />
+            </View>
 
             <View
               style={{
