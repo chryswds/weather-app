@@ -69,6 +69,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
             <Text style={[styles.clearButton, { color: theme.accent }]}>
               Clear All
             </Text>
+            
           </TouchableOpacity>
         </View>
 

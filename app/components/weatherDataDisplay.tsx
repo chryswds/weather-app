@@ -28,7 +28,7 @@ const WeatherDetailsSlider: React.FC<Props> = ({ weatherDetails, isDark }) => {
       contentContainerStyle={{ paddingHorizontal: 8 }}
       renderItem={({ item }) => (
         <View style={styles.weatherTextcontainer}>
-          <FontAwesome5 name={item.icon} size={16} color={theme.text} />
+          <FontAwesome5 size={16} color={theme.icon} name={item.icon} />
           <Text style={[styles.label, { color: theme.text }]}>
             {item.label}
           </Text>

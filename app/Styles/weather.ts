@@ -20,6 +20,7 @@ export type Theme = {
   suggestionText: string;
   sidebarBg: string;
   divider: string;
+    icon: string;
 };
 
 // Dynamically generated styles based on theme
@@ -96,13 +97,23 @@ export const createStyles = (theme: Theme) =>
       marginTop: 5,
     },
 
+     fellslike: {
+      fontSize: 16,
+      color: theme.descriptionText,
+      marginTop: 10,
+      left: "35%"
+    },
+
+    
     // Max/Min temperature layout
     tempRange: {
-      marginTop: 10,
+      marginTop: 20,
+      marginBottom: 20,
       flexDirection: "row",
       justifyContent: "space-between",
       width: "100%",
-      paddingHorizontal: 30,
+      paddingHorizontal: -40,
+      // marginLeft: 12
     },
 
     rangeText: {
@@ -146,8 +157,8 @@ export const createStyles = (theme: Theme) =>
       paddingVertical: 10,
       paddingHorizontal: 16,
       marginHorizontal: 6,
-      marginVertical: 10,
-      height: 60,
+      marginVertical: 0,
+      height: 80,
       flexDirection: "row",
       alignItems: "center",
     },
@@ -157,13 +168,16 @@ export const createStyles = (theme: Theme) =>
       backgroundColor: theme.forecastItemBg,
       borderRadius: 8,
       margin: 6,
+      height: 60,
       padding: 8,
+      // marginTop: "none"
     },
 
     date: {
       color: theme.forecastDate,
+      padding: 4,
       fontWeight: "bold",
-      fontSize: 14,
+      fontSize: 16,
     },
 
     temp: {

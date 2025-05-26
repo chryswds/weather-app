@@ -21,6 +21,8 @@ import { darkTheme, lightTheme } from "../Styles/theme";
 import { createStyles } from "../Styles/weather";
 import { getWeatherData } from "../utils/fetcheWeatherData";
 import { background } from "./background";
+import dayjs from "dayjs";
+import MapView, { Polygon } from "react-native-maps";
 
 // Types for weather data structure
 
@@ -45,16 +47,19 @@ type Weather = {
   main: MainWeather;
   weather: WeatherConditionType[];
 };
+// ... all your imports
+// import { background } from "./background"; // ✅ Import your background util
+
+// ... MainWeather, WeatherConditionType, Weather types stay the same
 
 const WeatherScreen = () => {
   const [weather, setWeather] = useState<Weather | null>(null);
-  const [location, setLocation] = useState<Location.LocationObject | null>(
-    null
-  );
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [forecast, setForecast] = useState<[]>();
   const [searchText, setSearchText] = useState("");
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
+  const [currentTime, setCurrentTime] = useState(dayjs());
 
   const [isDark, setIsDark] = useState(false);
   const theme = isDark ? darkTheme : lightTheme;
@@ -62,20 +67,75 @@ const WeatherScreen = () => {
 
   const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
 
-  // Get current device location and fetch weather/forecast
+const [mapRegion, setMapRegion] = useState({
+  latitude: location?.coords.latitude ?? 0,
+  longitude: location?.coords.longitude ?? 0,
+  latitudeDelta: 0.05,
+  longitudeDelta: 0.05,
+});
+const [polygonCoords, setPolygonCoords] = useState([
+  { latitude: 33.5362475, longitude: -111.9267386 },
+  { latitude: 33.5104882, longitude: -111.9627875 },
+  { latitude: 33.5004686, longitude: -111.9027061 },
+]);
+
+
+
+
+
+
+  const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
+  const APIUrl = `https://api.openweathermap.org/data/2.5`;
+  const lat = location?.coords.latitude;
+  const lon = location?.coords.longitude;
+
+  // ✅ NEW: Fetch weather and update background URL
+  const fetchCurrentWeather = async () => {
+    if (!location) return;
+
+    const res = await fetch(
+      `${APIUrl}/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`
+    );
+    const data = await res.json();
+    setWeather(data);
+
+    const temp = data.main.temp;
+    const desc = data.weather?.[0]?.main ?? "";
+    setBackgroundUrl(background(temp, desc));
+  };
+
+  // ✅ Live clock
   useEffect(() => {
-    if (location) {
-      getWeatherData(
-        location.coords.latitude,
-        location.coords.longitude,
-        setWeather,
-        setBackgroundUrl
-      );
-      fetchForecast();
-    }
+    const interval = setInterval(() => {
+      setCurrentTime(dayjs());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // ✅ Weather refresh + forecast
+  useEffect(() => {
+    if (!location) return;
+    fetchCurrentWeather();
+    fetchForecast();
+    const interval = setInterval(fetchCurrentWeather, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+
+    
   }, [location]);
 
-  // Request location permission and get current location
+  useEffect(() => {
+  if (location) {
+    setMapRegion({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.05,
+      longitudeDelta: 0.05,
+    });
+  }
+}, [location]);
+
+
+  // ✅ Get device location
   useEffect(() => {
     async function getCurrentLocation() {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -89,12 +149,7 @@ const WeatherScreen = () => {
     getCurrentLocation();
   }, []);
 
-  const APIUrl = `https://api.openweathermap.org/data/2.5`;
-  const lat = location?.coords.latitude;
-  const lon = location?.coords.longitude;
-  const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
-
-  // Fetch 5-day forecast, 12 PM entries only
+  // ✅ Forecast
   const fetchForecast = async () => {
     if (!location) return;
     const results = await fetch(
@@ -107,7 +162,7 @@ const WeatherScreen = () => {
     setForecast(dailyForecast || []);
   };
 
-  // Handle city search and update location
+  // ✅ Manual search
   const handleSearch = async () => {
     if (!searchText) return;
     try {
@@ -149,32 +204,16 @@ const WeatherScreen = () => {
     });
   };
 
-  // Loading fallback
-  if (!weather) {
-    return <ActivityIndicator />;
-  }
+  if (!weather) return <ActivityIndicator />;
 
-  // Weather details rendered in slider
   const weatherDetails = [
     { id: "1", icon: "tint", label: `Humidity: ${weather.main.humidity}%` },
-    {
-      id: "2",
-      icon: "tachometer-alt",
-      label: `Pressure: ${weather.main.pressure} hPa`,
-    },
-    {
-      id: "3",
-      icon: "water",
-      label: `Sea Level: ${weather.main.sea_level ?? "N/A"} hPa`,
-    },
-    {
-      id: "4",
-      icon: "globe",
-      label: `Ground Level: ${weather.main.grnd_level ?? "N/A"} hPa`,
-    },
+    { id: "2", icon: "tachometer-alt", label: `Pressure: ${weather.main.pressure} hPa` },
+    { id: "3", icon: "water", label: `Sea Level: ${weather.main.sea_level ?? "N/A"} hPa` },
+    { id: "4", icon: "globe", label: `Ground Level: ${weather.main.grnd_level ?? "N/A"} hPa` },
   ];
 
-  console.log("isDark mode:", isDark);
+
 
   // Function to handle returning to current location
   const handleReturnToCurrentLocation = async () => {
@@ -187,12 +226,13 @@ const WeatherScreen = () => {
       setErrorMsg("Error getting current location");
     }
   };
-
+  
+  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ImageBackground
         source={{
-          uri: backgroundUrl || background(weather.main.temp),
+          uri: backgroundUrl ?? background(weather.main.temp, weather.weather?.[0]?.main),
         }}
         style={{ flex: 1, width: "100%" }}
         resizeMode="cover"
@@ -225,53 +265,54 @@ const WeatherScreen = () => {
               />
             </View>
 
-            <View
-              style={{
-                left: 10,
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 10,
-              }}
-            >
-              <TempUnitToggle
-                isCelsius={isCelsius}
-                onToggle={toggleUnit}
-                theme={theme}
-              />
-              <ThemeToggle onThemeChange={setIsDark} />
-            </View>
-
-            <Text style={styles.tempText}>
-              {convertTemperature(weather.main.temp).toFixed(1)}°
-              {isCelsius ? "C" : "F"}
+            <Text style={styles.description}>
+              <FontAwesome5 name="clock" size={14} color={theme.icon} />{" "}
+              {currentTime.format("dddd, MMMM D • h:mm:ss A")}
             </Text>
 
-            <Text style={styles.description}>
-              Feels Like:{" "}
-              {convertTemperature(weather.main.feels_like).toFixed(1)}°
-              {isCelsius ? "C" : "F"}
+            <Text style={styles.tempText}>
+              {convertTemperature(weather.main.temp).toFixed(1)}°{isCelsius ? "C" : "F"}
+            </Text>
+
+            <Text style={styles.fellslike}>
+              Feels Like: {convertTemperature(weather.main.feels_like).toFixed(1)}°{isCelsius ? "C" : "F"}
             </Text>
 
             <View style={styles.tempRange}>
               <Text style={styles.description}>
-                <FontAwesome5 name="arrow-up" size={14} /> Max:{" "}
-                {convertTemperature(weather.main.temp_max).toFixed(1)}°
-                {isCelsius ? "C" : "F"}
+                <FontAwesome5 name="arrow-up" size={14} color={theme.icon} /> Max:{" "}
+                {convertTemperature(weather.main.temp_max).toFixed(1)}°{isCelsius ? "C" : "F"}
               </Text>
               <Text style={styles.description}>
-                <FontAwesome5 name="arrow-down" size={14} /> Min:{" "}
-                {convertTemperature(weather.main.temp_min).toFixed(1)}°
-                {isCelsius ? "C" : "F"}
+                <FontAwesome5 name="arrow-down" size={14} color={theme.icon} /> Min:{" "}
+                {convertTemperature(weather.main.temp_min).toFixed(1)}°{isCelsius ? "C" : "F"}
               </Text>
+            </View>
+
+            <View style={{ flexDirection: "row", gap: 10, alignItems: "center", left: 10 }}>
+              <TempUnitToggle isCelsius={isCelsius} onToggle={toggleUnit} theme={theme} />
+              <ThemeToggle onThemeChange={setIsDark} />
             </View>
           </View>
 
-          <WeatherDetailsSlider
-            weatherDetails={weatherDetails}
-            isDark={isDark}
-          />
+          <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
+
+<MapView
+  style={{ width: '100%', height: 300, marginTop: 20, borderRadius: 10 }}
+  region={mapRegion} // ✅ dynamically controlled
+>
+
+  <Polygon
+    coordinates={polygonCoords}
+    fillColor="rgba(255, 0, 0, 0.3)"
+    strokeColor="#FF0000"
+    strokeWidth={2}
+  />
+</MapView>
+
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
+          
+
         </ScrollView>
       </ImageBackground>
     </GestureHandlerRootView>
