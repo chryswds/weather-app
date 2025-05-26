@@ -55,13 +55,24 @@ export const createStyles = (theme: Theme) =>
       marginBottom: 20,
     },
 
-    // City name
+    // City name and location button container
+    locationContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      marginBottom: 20,
+    },
     location: {
       fontSize: 22,
       fontWeight: "bold",
       color: theme.text,
-      marginBottom: 20,
       textAlign: "center",
+    },
+    currentLocationButton: {
+      marginLeft: 10,
+      padding: 8,
+      borderRadius: 20,
+      elevation: 3,
     },
 
     // Title/subheadings

@@ -213,6 +213,21 @@ const [polygonCoords, setPolygonCoords] = useState([
     { id: "4", icon: "globe", label: `Ground Level: ${weather.main.grnd_level ?? "N/A"} hPa` },
   ];
 
+
+
+  // Function to handle returning to current location
+  const handleReturnToCurrentLocation = async () => {
+    try {
+      const currentLocation = await Location.getCurrentPositionAsync({});
+      setLocation(currentLocation);
+      // Clear the search text when returning to current location
+      setSearchText("");
+    } catch (error) {
+      setErrorMsg("Error getting current location");
+    }
+  };
+  
+  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ImageBackground
@@ -232,9 +247,23 @@ const [polygonCoords, setPolygonCoords] = useState([
           />
 
           <View style={styles.topCard}>
-            <Text style={styles.location}>
-              <FontAwesome5 name="map-marker-alt" size={20} color={theme.icon} /> {weather.name}
-            </Text>
+            <View style={styles.locationContainer}>
+              <Text style={styles.location}>
+                <FontAwesome5
+                  name="map-marker-alt"
+                  size={20}
+                  color={theme.accent}
+                />{" "}
+                {weather.name}
+              </Text>
+              <FontAwesome5
+                name="sync-alt"
+                size={20}
+                color={theme.accent}
+                style={styles.currentLocationButton}
+                onPress={handleReturnToCurrentLocation}
+              />
+            </View>
 
             <Text style={styles.description}>
               <FontAwesome5 name="clock" size={14} color={theme.icon} />{" "}
