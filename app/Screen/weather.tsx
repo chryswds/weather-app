@@ -22,6 +22,7 @@ import { createStyles } from "../Styles/weather";
 import { getWeatherData } from "../utils/fetcheWeatherData";
 import { background } from "./background";
 import dayjs from "dayjs";
+import MapView, { Polygon } from "react-native-maps";
 
 // Types for weather data structure
 
@@ -66,6 +67,23 @@ const WeatherScreen = () => {
 
   const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
 
+const [mapRegion, setMapRegion] = useState({
+  latitude: location?.coords.latitude ?? 0,
+  longitude: location?.coords.longitude ?? 0,
+  latitudeDelta: 0.05,
+  longitudeDelta: 0.05,
+});
+const [polygonCoords, setPolygonCoords] = useState([
+  { latitude: 33.5362475, longitude: -111.9267386 },
+  { latitude: 33.5104882, longitude: -111.9627875 },
+  { latitude: 33.5004686, longitude: -111.9027061 },
+]);
+
+
+
+
+
+
   const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
   const APIUrl = `https://api.openweathermap.org/data/2.5`;
   const lat = location?.coords.latitude;
@@ -101,7 +119,21 @@ const WeatherScreen = () => {
     fetchForecast();
     const interval = setInterval(fetchCurrentWeather, 5 * 60 * 1000);
     return () => clearInterval(interval);
+
+    
   }, [location]);
+
+  useEffect(() => {
+  if (location) {
+    setMapRegion({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.05,
+      longitudeDelta: 0.05,
+    });
+  }
+}, [location]);
+
 
   // ✅ Get device location
   useEffect(() => {
@@ -235,7 +267,23 @@ const WeatherScreen = () => {
           </View>
 
           <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
+
+<MapView
+  style={{ width: '100%', height: 300, marginTop: 20, borderRadius: 10 }}
+  region={mapRegion} // ✅ dynamically controlled
+>
+
+  <Polygon
+    coordinates={polygonCoords}
+    fillColor="rgba(255, 0, 0, 0.3)"
+    strokeColor="#FF0000"
+    strokeWidth={2}
+  />
+</MapView>
+
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
+          
+
         </ScrollView>
       </ImageBackground>
     </GestureHandlerRootView>
