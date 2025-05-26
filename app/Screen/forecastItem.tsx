@@ -72,11 +72,12 @@ const ForecastList: React.FC<Props> = ({ forecast, isDark }) => {
         const iconName = getWeatherIcon(item.weather[0].main);
         return (
           <View style={styles.forecastItem}>
-              <Text style={styles.date}>
- {currentTime.format("dddd, MMMM D • h:mm:ss A")}
-              
-            </Text>
-            <Text style={styles.suggestionText}>
+       <Text style={styles.date}>
+  {currentTime.format("dddd, MMMM D") + "\n" + currentTime.format("h:mm:ss A")}
+          
+        
+</Text>
+    <Text style={styles.forecastIcon}>
               <FontAwesome5 size={16} color={theme.icon} name={iconName} />{" "}
               {item.main.temp} °C
             </Text>

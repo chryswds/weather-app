@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import ForecastList from "../Screen/forecastItem";
 
 // Theme interface for typed styling
 export type Theme = {
@@ -21,11 +22,16 @@ export type Theme = {
   sidebarBg: string;
   divider: string;
     icon: string;
+    borderColor: string;
 };
 
 // Dynamically generated styles based on theme
 export const createStyles = (theme: Theme) =>
   StyleSheet.create({
+
+
+
+    
     // Screen layout
     scrollWrapper: {
       flex: 1,
@@ -35,34 +41,13 @@ export const createStyles = (theme: Theme) =>
       paddingTop: 20, // Increased top padding to avoid camera notch
       paddingBottom: 40,
     },
-    container2: {
-      paddingHorizontal: 30,
-      paddingTop: 20, // Increased top padding to avoid camera notch
-      paddingBottom: 40,
-    },
-
+  
     container3: {
       paddingTop: 40, // Added padding to avoid camera notch
       paddingHorizontal: 10,
+        // height: 280,
     },
 
-    // Top weather summary card
-    topCard: {
-      alignItems: "center",
-      backgroundColor: theme.card,
-      borderRadius: 20,
-      padding: 20,
-      marginBottom: 20,
-    },
-
-    // City name
-    location: {
-      fontSize: 22,
-      fontWeight: "bold",
-      color: theme.text,
-      marginBottom: 20,
-      textAlign: "center",
-    },
 
     // Title/subheadings
     title: {
@@ -74,23 +59,26 @@ export const createStyles = (theme: Theme) =>
 
     // Temperature text
     tempText: {
+      padding: 12,
       fontSize: 72,
       fontWeight: "bold",
       color: theme.tempText,
+      textAlign: "center",
     },
 
     // Feels like and other descriptions
     description: {
-      fontSize: 16,
-      color: theme.descriptionText,
-      marginTop: 5,
+      fontSize: 20,
+       color: theme.tempText,
+      fontWeight: "400",
+      padding: 12,
     },
 
      fellslike: {
-      fontSize: 16,
-      color: theme.descriptionText,
-      marginTop: 10,
-      left: "35%"
+      fontSize: 20,
+       color: theme.tempText,
+      fontWeight: "400",
+      padding: 12,  
     },
 
     
@@ -138,29 +126,34 @@ export const createStyles = (theme: Theme) =>
       borderRadius: 16,
       padding: 16,
       backgroundColor: theme.weatherPropertyBg,
+      
     },
 
     weatherTextcontainer: {
+       // ✅ Border
+  borderWidth: 2,
+  borderColor: theme.borderColor, // ← make sure `theme.border` exists (e.g., "#ccc")
+
       backgroundColor: theme.overlay,
       borderRadius: 12,
       paddingVertical: 10,
       paddingHorizontal: 16,
       marginHorizontal: 6,
       marginVertical: 0,
-      height: 80,
+      height: 120,
       flexDirection: "row",
       alignItems: "center",
     },
 
     // Forecast list item
-    forecastItem: {
-      backgroundColor: theme.forecastItemBg,
-      borderRadius: 8,
-      margin: 6,
-      height: 60,
-      padding: 8,
-      // marginTop: "none"
-    },
+    // forecastItem: {
+    //   backgroundColor: theme.forecastItemBg,
+    //   borderRadius: 8,
+    //   margin: 6,
+    //   height: 60,
+    //   padding: 8,
+    //   // marginTop: "none"
+    // },
 
     date: {
       color: theme.forecastDate,
@@ -206,21 +199,6 @@ export const createStyles = (theme: Theme) =>
     },
 
     // Autocomplete suggestions
-    suggestionsContainer: {
-      position: "absolute",
-      top: 50,
-      left: 0,
-      right: 0,
-      backgroundColor: theme.suggestionBg,
-      borderRadius: 8,
-      maxHeight: 200,
-      zIndex: 1000,
-      elevation: 5,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-    },
 
     suggestionItem: {
       padding: 15,
@@ -253,8 +231,120 @@ export const createStyles = (theme: Theme) =>
       marginRight: 10,
     },
 
-    suggestionText: {
-      fontSize: 16,
-      color: theme.suggestionText,
-    },
+   //start new css
+   //done
+// official top card
+topCard: {
+  backgroundColor: theme.card,
+  borderRadius: 25,
+  height: 500,
+  margin: 10,
+  overflow: "hidden",
+
+  // ✅ Border
+  borderWidth: 2,
+  borderColor: theme.borderColor, // ← make sure `theme.border` exists (e.g., "#ccc")
+
+  // ✅ iOS Shadow
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.3,
+  shadowRadius: 6,
+
+  // ✅ Android Shadow
+  elevation: 8,
+},
+
+
+  // done
+      mapCard: {
+     backgroundColor: theme.card,
+    borderRadius: 25,
+    height: 300,
+    margin: 10,
+    overflow: "hidden",
+  },
+  //done
+  forecastItem: {
+     // ✅ Border
+  borderWidth: 2,
+  borderColor: theme.borderColor, // ← make sure `theme.border` exists (e.g., "#ccc")
+
+    margin: 8,
+    flex: 1,
+    backgroundColor: theme.forecastItemBg,
+    justifyContent: "space-between",
+    padding: 20,
+    borderRadius: 25,
+  },
+
+
+
+//done
+  dayName: {
+    color: theme.tempText,
+    fontSize: 22,
+    fontWeight: "700",
+      padding: 12,
+  },
+  dayDate: {
+    color: theme.tempText,
+    fontSize: 14,
+  },
+location: {
+  marginTop: 10,
+  // padding: 5,
+  // marginBottom: "auto",
+  color: theme.tempText,
+  fontSize: 30,
+  fontWeight: "700",
+  textAlign: "center", //  This centers the text horizontally
+},
+
+  weatherInfo: {
+    marginBottom: 10,
+  },
+
+  weatherDesc: {
+    fontSize: 18,
+    color: theme.tempText,
+  },
+
+  forecastIcon: {
+  textAlign: "right", // aligns the text content to the right
+  fontSize: 16,
+  fontWeight: "500",
+  marginTop: -28,
+  // right: 1000
+  position: "static"
+},
+tempDisplay: {
+  textAlign: "center",
+    padding: 12,
+      fontSize: 72,
+      fontWeight: "bold",
+      color: theme.tempText,
+},
+
+
+buttons: {
+  flexDirection: "row",
+  // alignItems: "center",
+  justifyContent: "space-between", // ✅ THIS is what you want
+  // padding: 12,
+  marginRight: 80,
+  // marginTop: 8,
+},
+
+  buttonItem: {
+    width: "100%",
+    // height: 5,
+    // marginBottom: 10,
+    flex: 1,
+    backgroundColor: theme.forecastItemBg,
+    // justifyContent: "space-between",
+    padding: 25,
+    // borderRadius: 25,
+  },
+
   });

@@ -79,11 +79,6 @@ const [polygonCoords, setPolygonCoords] = useState([
   { latitude: 33.5004686, longitude: -111.9027061 },
 ]);
 
-
-
-
-
-
   const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
   const APIUrl = `https://api.openweathermap.org/data/2.5`;
   const lat = location?.coords.latitude;
@@ -232,22 +227,28 @@ const [polygonCoords, setPolygonCoords] = useState([
           />
 
           <View style={styles.topCard}>
+            
             <Text style={styles.location}>
-              <FontAwesome5 name="map-marker-alt" size={20} color={theme.icon} /> {weather.name}
+              <FontAwesome5 name="map-marker-alt" size={30} color={theme.icon} /> {weather.name}
             </Text>
 
-            <Text style={styles.description}>
-              <FontAwesome5 name="clock" size={14} color={theme.icon} />{" "}
-              {currentTime.format("dddd, MMMM D • h:mm:ss A")}
-            </Text>
-
+        
             <Text style={styles.tempText}>
               {convertTemperature(weather.main.temp).toFixed(1)}°{isCelsius ? "C" : "F"}
             </Text>
-
-            <Text style={styles.fellslike}>
-              Feels Like: {convertTemperature(weather.main.feels_like).toFixed(1)}°{isCelsius ? "C" : "F"}
+            <Text style={styles.dayName}>
+              <FontAwesome5 name="calendar-alt" size={14} color={theme.icon} />{" "}
+              {currentTime.format("dddd, MMMM D")}
+              {"\n\n"}
+              <FontAwesome5 name="clock" size={14} color={theme.icon} />{" "}
+              {currentTime.format("h:mm:ss A")}
             </Text>
+
+          <Text style={styles.fellslike}>
+  <FontAwesome5 name="thermometer-half" size={14} color={theme.icon} />{" "}
+  Feels Like: {convertTemperature(weather.main.feels_like).toFixed(1)}°
+  {isCelsius ? "C" : "F"}
+</Text>
 
             <View style={styles.tempRange}>
               <Text style={styles.description}>
@@ -258,18 +259,20 @@ const [polygonCoords, setPolygonCoords] = useState([
                 <FontAwesome5 name="arrow-down" size={14} color={theme.icon} /> Min:{" "}
                 {convertTemperature(weather.main.temp_min).toFixed(1)}°{isCelsius ? "C" : "F"}
               </Text>
-            </View>
-
-            <View style={{ flexDirection: "row", gap: 10, alignItems: "center", left: 10 }}>
+              </View>
+           
+<View style={styles.buttonItem}>
+             <View style={styles.buttons}>
               <TempUnitToggle isCelsius={isCelsius} onToggle={toggleUnit} theme={theme} />
               <ThemeToggle onThemeChange={setIsDark} />
             </View>
+          </View>
           </View>
 
           <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
 
 <MapView
-  style={{ width: '100%', height: 300, marginTop: 20, borderRadius: 10 }}
+  style={styles.mapCard}
   region={mapRegion} // ✅ dynamically controlled
 >
 

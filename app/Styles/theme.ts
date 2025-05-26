@@ -4,14 +4,14 @@ export const lightTheme: Theme = {
   background: "#FFFFFF",
   text: "#000000",
   textOpposite: "#FFFFFF",
-  card: "rgba(240, 240, 240, 0.7)",
-  overlay: "rgba(240, 240, 240, 0.7)",
+  card: "rgba(240, 240, 240, 0.8)",
+  overlay: "rgba(240, 240, 240, 0.9)",
   accent: "#007AFF",
   tempText: "#000000",
   descriptionText: "#666666",
-  toggleBg: "rgba(0, 0, 0, 0.1)",
+  toggleBg: "rgba(0, 0, 0, 0.9)",
   weatherPropertyBg: "#F5F5F5",
-  forecastItemBg: "rgba(240, 240, 240, 0.7)",
+  forecastItemBg: "rgba(42, 123, 155, 0.4) ",
   forecastDate: "#000000",
   forecastTemp: "#000000",
   inputBg: "#F5F5F5",
@@ -19,7 +19,8 @@ export const lightTheme: Theme = {
   suggestionText: "#000000",
   sidebarBg: "#FFFFFF",
   divider: "#E0E0E0",
-   icon: "#000000",
+  icon: "rgba(91, 91, 197, 0.7)",
+  borderColor: "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(96, 87, 199, 1) 91%, rgba(237, 221, 83, 1) 100%)"
 };
 
 export const darkTheme: Theme = {
@@ -33,7 +34,7 @@ export const darkTheme: Theme = {
   descriptionText: "#CCCCCC",
   toggleBg: "rgba(255, 255, 255, 0.1)",
   weatherPropertyBg: "#2C2C2E",
-  forecastItemBg: "rgba(28, 28, 30, 0.7)",
+  forecastItemBg: "rgba(91, 91, 197, 0.7)",
   forecastDate: "#FFFFFF",
   forecastTemp: "#FFFFFF",
   inputBg: "#1C1C1E",
@@ -42,4 +43,6 @@ export const darkTheme: Theme = {
   sidebarBg: "#1C1C1E",
   divider: "#38383A",
    icon: "#FFD700",
+   borderColor: "#ccc",
+
 };
