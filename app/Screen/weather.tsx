@@ -24,7 +24,6 @@ import { createStyles } from "../Styles/weather";
 import { background } from "./background";
 // import Compass from "../components/compass";
 import AirQualityInfo from "../components/airQuality";
-import Compass from "../components/compass";
 import LocationInfo from "../components/locationItem";
 import SunInfo from "../components/sunInfo";
 import WindInfo from "../components/windInfo";
@@ -432,6 +431,15 @@ const WeatherScreen = () => {
             </View>
           </View>
 
+          {airQuality && (
+            <AirQualityInfo
+              aqi={airQuality.aqi}
+              co={airQuality.co}
+              no2={airQuality.no2}
+              isDark={isDark}
+            />
+          )}
+
           {location && (
             <LocationInfo
               latitude={location.coords.latitude}
@@ -473,35 +481,6 @@ const WeatherScreen = () => {
           </View>
 
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
-
-          <Compass
-            userLocation={{
-              latitude: location?.coords.latitude ?? 0,
-              longitude: location?.coords.longitude ?? 0,
-            }}
-            isDark={isDark} // ✅ Pass this to match theme
-            targetLocation={{
-              latitude: 0,
-              longitude: 0,
-            }}
-          />
-
-          {airQuality && (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{ marginVertical: 16 }}
-              contentContainerStyle={{ paddingHorizontal: 10 }}
-            >
-              <AirQualityInfo
-                aqi={airQuality.aqi}
-                co={airQuality.co}
-                no2={airQuality.no2}
-                isDark={isDark}
-              />
-              {/* You can repeat this or map through multiple entries if needed */}
-            </ScrollView>
-          )}
         </ScrollView>
       </ImageBackground>
     </GestureHandlerRootView>

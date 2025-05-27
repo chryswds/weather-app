@@ -1,3 +1,4 @@
+import { pad } from "lodash";
 import { StyleSheet } from "react-native";
 
 // Theme interface for typed styling
@@ -426,73 +427,4 @@ export const createStyles = (theme: Theme) =>
       fontSize: 11,
       margin: 8,
     },
-
-    containerCompass: {
-      backgroundColor: theme.sidebarBg,
-      borderRadius: 25,
-      height: 250,
-      margin: 10,
-      overflow: "hidden",
-
-      // ✅ Border
-      borderWidth: 2,
-      borderColor: theme.borderColor, // ← make sure `theme.border` exists (e.g., "#ccc")
-
-      // ✅ iOS Shadow
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.3,
-      shadowRadius: 6,
-
-      // ✅ Android Shadow
-      elevation: 8,
-    },
-    compassWrapper: {
-      //  backgroundColor: "rgba(141, 141, 255, 0.7)",
-      width: 180,
-      height: 180,
-      marginRight: 12,
-      borderRadius: 90,
-      justifyContent: "center",
-      alignItems: "center",
-      // backgroundColor: "white",
-      elevation: 5,
-      shadowColor: "#000",
-      shadowOpacity: 0.3,
-      shadowOffset: { width: 0, height: 2 },
-      shadowRadius: 5,
-    },
-    compassImage: {
-      width: 150,
-
-      height: 150,
-    },
-    headingLabel: {
-      //  backgroundColor: "rgba(141, 141, 255, 0.7)",
-      marginTop: 10,
-      fontSize: 16,
-      color: "#333",
-      fontWeight: "bold",
-    },
-    labelOverlay: {
-      backgroundColor: "rgba(141, 141, 255, 0.7)",
-      borderRadius: "50%",
-      position: "absolute",
-      width: 180,
-      height: 180,
-      zIndex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    direction: {
-      marginLeft: 16,
-      position: "absolute",
-      fontSize: 18,
-      fontWeight: "bold",
-      color: "#222",
-    },
-    north: { top: 0 },
-    south: { bottom: 0 },
-    east: { right: 0 },
-    west: { left: 0 },
   });

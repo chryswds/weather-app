@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { createStyles } from "../Styles/weather";
+import { Text, View } from "react-native";
 import { Theme, darkTheme, lightTheme } from "../Styles/theme";
+import { createStyles } from "../Styles/weather";
 
 type Props = {
   aqi: number;
@@ -23,10 +23,12 @@ const AirQualityInfo: React.FC<Props> = ({ aqi, co, no2, isDark }) => {
   };
 
   return (
-    <View style={styles.weatherTextcontainer}>
-      <Text style={styles.description}>AQI: {aqi} ({aqiLabel(aqi)})</Text>
-      <Text style={styles.description}>CO: {co} µg/m³</Text>
-      <Text style={styles.description}>NO₂: {no2} µg/m³</Text>
+    <View style={styles.locationCard}>
+      <Text style={styles.descriptionLoc}>
+        AQI: {aqi} ({aqiLabel(aqi)})
+      </Text>
+      <Text style={styles.descriptionLoc}>CO: {co} µg/m³</Text>
+      <Text style={styles.descriptionLoc}>NO₂: {no2} µg/m³</Text>
     </View>
   );
 };
