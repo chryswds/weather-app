@@ -444,6 +444,8 @@ const WeatherScreen = () => {
               </ImageBackground>
             </View>
 
+            <ForecastList forecast={forecast ?? []} isDark={isDark} />
+
             <View
               style={{
                 flexDirection: "row",
@@ -517,8 +519,6 @@ const WeatherScreen = () => {
                 ))}
               </View>
             </View>
-
-            <ForecastList forecast={forecast ?? []} isDark={isDark} />
           </View>
         )}
       />
