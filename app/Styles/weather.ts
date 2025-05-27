@@ -73,6 +73,13 @@ export const createStyles = (theme: Theme) =>
       paddingLeft: 30,
     },
 
+    forecastDescription: {
+      fontSize: 14,
+      color: theme.tempText,
+      textAlign: "right",
+      textTransform: "capitalize",
+    },
+
     fellslike: {
       fontSize: 20,
       textAlign: "center",
@@ -152,8 +159,7 @@ export const createStyles = (theme: Theme) =>
     // },
 
     date: {
-      color: theme.forecastDate,
-      padding: 4,
+      color: theme.text,
       fontWeight: "bold",
       fontSize: 16,
     },
@@ -291,15 +297,16 @@ export const createStyles = (theme: Theme) =>
     },
     //done
     forecastItem: {
+      flexDirection: "row",
       // ✅ Border
       borderWidth: 2,
       borderColor: theme.borderColor, // ← make sure `theme.border` exists (e.g., "#ccc")
 
       margin: 8,
       flex: 1,
-      backgroundColor: theme.forecastItemBg,
+      backgroundColor: theme.card,
       justifyContent: "space-between",
-      padding: 20,
+      padding: 10,
       borderRadius: 25,
     },
 
@@ -349,12 +356,9 @@ export const createStyles = (theme: Theme) =>
     },
 
     forecastIcon: {
-      textAlign: "right", // aligns the text content to the right
+      textAlign: "right",
       fontSize: 16,
-      fontWeight: "500",
-      marginTop: -28,
       // right: 1000
-      position: "static",
     },
     tempDisplay: {
       textAlign: "center",

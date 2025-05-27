@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
-import weekday from "dayjs/plugin/weekday";
-import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+import weekday from "dayjs/plugin/weekday";
+import React, { useEffect, useState } from "react";
+import { FlatList, Text, View } from "react-native";
 
 import { darkTheme, lightTheme } from "../Styles/theme";
 import { createStyles } from "../Styles/weather";
@@ -65,21 +65,22 @@ const ForecastList: React.FC<Props> = ({ forecast, isDark }) => {
   }, []);
 
   return (
- <FlatList
+    <FlatList
       data={forecast}
       keyExtractor={(item) => item.dt.toString()}
       renderItem={({ item }) => {
         const iconName = getWeatherIcon(item.weather[0].main);
         return (
           <View style={styles.forecastItem}>
-       <Text style={styles.date}>
-  {currentTime.format("dddd, MMMM D") + "\n" + currentTime.format("h:mm:ss A")}
-          
-        
-</Text>
-    <Text style={styles.forecastIcon}>
+            <Text style={styles.date}>
+              {dayjs.unix(item.dt).format("dddd, MMMM D")}
+            </Text>
+            <Text style={styles.forecastDescription}>
+              {item.weather[0].description}
+            </Text>
+            <Text style={[styles.forecastIcon, { color: theme.tempText }]}>
               <FontAwesome5 size={16} color={theme.icon} name={iconName} />{" "}
-              {item.main.temp} °C
+              <Text style={{ color: theme.tempText }}>{item.main.temp} °C</Text>
             </Text>
           </View>
         );
