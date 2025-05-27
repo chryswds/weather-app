@@ -46,3 +46,5 @@ export const darkTheme: Theme = {
    borderColor: "#ccc",
 
 };
+export { Theme };
+

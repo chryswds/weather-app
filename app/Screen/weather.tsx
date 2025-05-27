@@ -17,12 +17,16 @@ import TempUnitToggle from "../components/weatherToggle";
 import { useTemperatureUnit } from "../hooks/useTemperatureUnit";
 import ForecastList from "../Screen/forecastItem";
 import { searchLocation } from "../Screen/searchLocation";
-import { darkTheme, lightTheme } from "../Styles/theme";
+import { darkTheme, lightTheme } from '../Styles/theme';
 import { createStyles } from "../Styles/weather";
 import { getWeatherData } from "../utils/fetcheWeatherData";
 import { background } from "./background";
+import localeData from 'dayjs/plugin/localeData';
 import dayjs from "dayjs";
 import MapView, { Polygon } from "react-native-maps";
+// import Compass from "../components/compass";
+import Compass from "../components/compass";
+
 
 // Types for weather data structure
 
@@ -64,6 +68,10 @@ const WeatherScreen = () => {
   const [isDark, setIsDark] = useState(false);
   const theme = isDark ? darkTheme : lightTheme;
   const styles = createStyles(theme);
+
+  const [searchedLat, setSearchedLat] = useState<number | null>(null);
+const [searchedLon, setSearchedLon] = useState<number | null>(null);
+
 
   const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
 
@@ -202,20 +210,20 @@ useEffect(() => {
     }
   };
 
-  const handleCitySelect = (lat: number, lon: number) => {
-    setLocation({
-      coords: {
-        latitude: lat,
-        longitude: lon,
-        altitude: 0,
-        accuracy: 0,
-        altitudeAccuracy: 0,
-        heading: 0,
-        speed: 0,
-      },
-      timestamp: Date.now(),
-    });
-  };
+  // const handleCitySelect = (lat: number, lon: number) => {
+  //   setLocation({
+  //     coords: {
+  //       latitude: lat,
+  //       longitude: lon,
+  //       altitude: 0,
+  //       accuracy: 0,
+  //       altitudeAccuracy: 0,
+  //       heading: 0,
+  //       speed: 0,
+  //     },
+  //     timestamp: Date.now(),
+  //   });
+  // };
 
   if (!weather) return <ActivityIndicator />;
 
@@ -239,6 +247,24 @@ useEffect(() => {
       setErrorMsg("Error getting current location");
     }
   };
+
+  const handleCitySelect = (lat: number, lon: number) => {
+  setSearchedLat(lat);
+  setSearchedLon(lon);
+  setLocation({
+    coords: {
+      latitude: lat,
+      longitude: lon,
+      altitude: 0,
+      accuracy: 0,
+      altitudeAccuracy: 0,
+      heading: 0,
+      speed: 0,
+    },
+    timestamp: Date.now(),
+  });
+};
+
   
   
   return (
@@ -309,6 +335,9 @@ useEffect(() => {
           </View>
           </View>
 
+      
+{/* <Compass /> */}
+
           <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
 
 <MapView
@@ -335,7 +364,27 @@ useEffect(() => {
 
 
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
-          
+
+
+
+<View style={{ padding: 20, backgroundColor: "#fff", marginVertical: 20, borderRadius: 10 }}>
+  <Compass
+    userLocation={{
+      latitude: location?.coords.latitude ?? 0,
+      longitude: location?.coords.longitude ?? 0,
+    }}
+    targetLocation={{
+      latitude: searchedLat,
+      longitude: searchedLon,
+    }}
+  />
+</View>
+
+
+
+
+
+
 
         </ScrollView>
       </ImageBackground>
