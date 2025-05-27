@@ -17,8 +17,8 @@ const WindInfo: React.FC<Props> = ({ speed, direction, isDark }) => {
   const rotation = direction + "deg";
 
   return (
-    <View style={styles.weatherTextcontainer}>
-      <FontAwesome5 name="wind" size={24} color={theme.icon} style={{ marginRight: 12 }} />
+    <View style={styles.forecastItem} >
+      <FontAwesome5 name="wind" size={24} color={theme.icon} style={{ margin: 10 }} />
       <View>
         <Text style={{ color: theme.tempText, fontSize: 18, fontWeight: "bold" }}>
           Wind Speed: {speed.toFixed(1)} km/h

@@ -27,6 +27,9 @@ import MapView, { Polygon } from "react-native-maps";
 // import Compass from "../components/compass";
 import Compass from "../components/compass";
 import WindInfo from "../components/windInfo";
+import SunInfo from "../components/sunInfo";
+import LocationInfo from "../components/locationItem";
+import AirQualityInfo from "../components/airQuality";
 
 
 // Types for weather data structure
@@ -36,8 +39,27 @@ type Wind = {
   deg: number;   // direction in degrees
 };
 
+type Weather = {
+  name: string;
+  main: MainWeather;
+  weather: WeatherConditionType[];
+  wind: {
+    speed: number;
+    deg: number;
+  };
+  sys: {
+    sunrise: number;
+    sunset: number;
+  };
+};
 
 
+// type Props = {
+//   latitude: number;
+//   longitude: number;
+//   altitude?: number;
+//   isDark: boolean;
+// };
 
 type MainWeather = {
   temp: number;
@@ -55,12 +77,6 @@ type WeatherConditionType = {
   description: string;
 };
 
-type Weather = {
-  name: string;
-  main: MainWeather;
-  weather: WeatherConditionType[];
-  wind: Wind; // ← ✅ Add this
-};
 // ... all your imports
 // import { background } from "./background"; // ✅ Import your background util
 
@@ -220,6 +236,26 @@ useEffect(() => {
     }
   };
 
+  const fetchAirQuality = async (lat: number, lon: number) => {
+  const response = await fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${APIKey}`);
+  const data = await response.json();
+  return {
+    aqi: data.list[0].main.aqi,
+    co: data.list[0].components.co,
+    no2: data.list[0].components.no2
+  };
+};
+
+const [airQuality, setAirQuality] = useState<{ aqi: number; co: number; no2: number } | null>(null);
+
+
+
+useEffect(() => {
+  if (location) {
+    fetchAirQuality(location.coords.latitude, location.coords.longitude).then(setAirQuality);
+  }
+}, [location]);
+
   // const handleCitySelect = (lat: number, lon: number) => {
   //   setLocation({
   //     coords: {
@@ -345,6 +381,14 @@ useEffect(() => {
             </View>
           </View>
           </View>
+
+                    {weather?.sys && (
+  <SunInfo
+    sunrise={weather.sys.sunrise}
+    sunset={weather.sys.sunset}
+    isDark={isDark}
+  />
+)}
 {weather?.wind && (
   <WindInfo
     speed={weather.wind.speed * 3.6} // convert m/s to km/h
@@ -357,6 +401,7 @@ useEffect(() => {
 {/* <Compass /> */}
 
           <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
+
 
 <MapView
   style={styles.mapCard}
@@ -384,6 +429,18 @@ useEffect(() => {
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
 
 
+{location && (
+  <LocationInfo
+    latitude={location.coords.latitude}
+    longitude={location.coords.longitude}
+     altitude={location.coords.altitude ?? undefined}
+    isDark={isDark}
+  />
+)}
+
+
+
+
 
   <Compass
               userLocation={{
@@ -395,6 +452,23 @@ useEffect(() => {
                 latitude: 0,
                 longitude: 0
               }}  />
+
+              {airQuality && (
+  <ScrollView
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    style={{ marginVertical: 16 }}
+    contentContainerStyle={{ paddingHorizontal: 10 }}
+  >
+    <AirQualityInfo
+      aqi={airQuality.aqi}
+      co={airQuality.co}
+      no2={airQuality.no2}
+      isDark={isDark}
+    />
+    {/* You can repeat this or map through multiple entries if needed */}
+  </ScrollView>
+)}
 
         </ScrollView>
       </ImageBackground>
