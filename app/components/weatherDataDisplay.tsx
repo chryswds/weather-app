@@ -1,6 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
-import { FlatList, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { darkTheme, lightTheme } from "../Styles/theme";
 import { createStyles } from "../Styles/weather";
 
@@ -20,21 +20,20 @@ const WeatherDetailsSlider: React.FC<Props> = ({ weatherDetails, isDark }) => {
   const styles = createStyles(theme);
 
   return (
-    <FlatList
-      data={weatherDetails}
+    <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      keyExtractor={(item) => item.id}
       contentContainerStyle={{ paddingHorizontal: 8 }}
-      renderItem={({ item }) => (
-        <View style={styles.weatherTextcontainer}>
+    >
+      {weatherDetails.map((item) => (
+        <View key={item.id} style={styles.weatherTextcontainer}>
           <FontAwesome5 size={20} color={theme.icon} name={item.icon} />
           <Text style={[styles.label, { color: theme.text }]}>
             {item.label}
           </Text>
         </View>
-      )}
-    />
+      ))}
+    </ScrollView>
   );
 };
 

@@ -383,6 +383,10 @@ export const createStyles = (theme: Theme) =>
       borderRadius: 25,
     },
 
+    forecastContainer: {
+      marginVertical: 10,
+    },
+
     windSpeedCard: {
       borderWidth: 2,
       borderColor: theme.borderColor, // ← make sure `theme.border` exists (e.g., "#ccc")

@@ -5,7 +5,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import weekday from "dayjs/plugin/weekday";
 import React, { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { darkTheme, lightTheme } from "../Styles/theme";
 import { createStyles } from "../Styles/weather";
@@ -65,13 +65,11 @@ const ForecastList: React.FC<Props> = ({ forecast, isDark }) => {
   }, []);
 
   return (
-    <FlatList
-      data={forecast}
-      keyExtractor={(item) => item.dt.toString()}
-      renderItem={({ item }) => {
+    <View style={styles.forecastContainer}>
+      {forecast.map((item) => {
         const iconName = getWeatherIcon(item.weather[0].main);
         return (
-          <View style={styles.forecastItem}>
+          <View key={item.dt.toString()} style={styles.forecastItem}>
             <Text style={styles.date}>
               {dayjs.unix(item.dt).format("dddd, MMMM D")}
             </Text>
@@ -84,8 +82,8 @@ const ForecastList: React.FC<Props> = ({ forecast, isDark }) => {
             </Text>
           </View>
         );
-      }}
-    />
+      })}
+    </View>
   );
 };
 
