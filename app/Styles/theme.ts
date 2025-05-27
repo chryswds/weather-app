@@ -1,7 +1,7 @@
 import { Theme } from "./weather";
 
 export const lightTheme: Theme = {
-  background: "#FFFFFF",
+  background: "rgb(219, 236, 243)",
   backgroundContainer: "rgba(255, 255, 255, 0.5)",
   text: "#000000",
   textOpposite: "#FFFFFF",
@@ -20,12 +20,13 @@ export const lightTheme: Theme = {
   suggestionText: "#000000",
   sidebarBg: "#FFFFFF",
   divider: "#E0E0E0",
-  icon: "rgba(91, 91, 197, 0.7)",
-  borderColor: "rgba(0, 0, 0, 0.9)",
+  icon: "rgb(91, 91, 197)",
+  polygon: "rgba(91,91, 197,0.5)",
+  borderColor: "rgba(0, 0, 0, 0.6)",
 };
 
 export const darkTheme: Theme = {
-  background: "#000000",
+  background: "rgb(44, 51, 66)",
   backgroundContainer: "rgba(0, 0, 0, 0.5)",
   text: "#FFFFFF",
   textOpposite: "#000000",
@@ -45,6 +46,7 @@ export const darkTheme: Theme = {
   sidebarBg: "#1C1C1E",
   divider: "#38383A",
   icon: "#FFD700",
+  polygon: "#FFD700",
   borderColor: "#ccc",
 };
 export { Theme };

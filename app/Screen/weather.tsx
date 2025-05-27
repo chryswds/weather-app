@@ -492,8 +492,8 @@ const WeatherScreen = () => {
             >
               <Polygon
                 coordinates={polygonCoords}
-                fillColor={`${theme.icon}50`}
-                strokeColor={theme.icon}
+                fillColor={`${theme.polygon}50`}
+                strokeColor={theme.polygon}
                 strokeWidth={2}
               />
             </MapView>

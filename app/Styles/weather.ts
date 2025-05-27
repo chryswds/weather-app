@@ -22,6 +22,7 @@ export type Theme = {
   sidebarBg: string;
   divider: string;
   icon: string;
+  polygon: string;
   borderColor: string;
 };
 
@@ -206,7 +207,6 @@ export const createStyles = (theme: Theme) =>
 
     locationContainer: {
       margin: 10,
-      left: 50,
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
@@ -214,7 +214,7 @@ export const createStyles = (theme: Theme) =>
       borderColor: theme.borderColor,
       borderRadius: 25,
       backgroundColor: theme.backgroundContainer,
-      width: "70%",
+      width: "95%",
       padding: 10,
       paddingTop: -5,
       paddingHorizontal: 30,
