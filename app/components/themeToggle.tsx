@@ -1,5 +1,5 @@
 import { FontAwesome5 } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 
 const ThemeToggle = ({
@@ -9,12 +9,13 @@ const ThemeToggle = ({
 }) => {
   const [isDark, setIsDark] = useState(false);
 
+  // Use useEffect to call onThemeChange when isDark changes
+  useEffect(() => {
+    onThemeChange(isDark);
+  }, [isDark, onThemeChange]);
+
   const toggleSwitch = () => {
-    setIsDark((prev) => {
-      const newValue = !prev;
-      onThemeChange(newValue);
-      return newValue;
-    });
+    setIsDark((prev) => !prev);
   };
 
   return (

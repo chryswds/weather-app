@@ -20,20 +20,22 @@ const WeatherDetailsSlider: React.FC<Props> = ({ weatherDetails, isDark }) => {
   const styles = createStyles(theme);
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 8 }}
-    >
-      {weatherDetails.map((item) => (
-        <View key={item.id} style={styles.weatherTextcontainer}>
-          <FontAwesome5 size={20} color={theme.icon} name={item.icon} />
-          <Text style={[styles.label, { color: theme.text }]}>
-            {item.label}
-          </Text>
-        </View>
-      ))}
-    </ScrollView>
+    <View style={{ marginVertical: 10 }}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 8 }}
+      >
+        {weatherDetails.map((item) => (
+          <View key={item.id} style={styles.weatherTextcontainer}>
+            <FontAwesome5 size={20} color={theme.icon} name={item.icon} />
+            <Text style={[styles.label, { color: theme.text }]}>
+              {item.label}
+            </Text>
+          </View>
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 
