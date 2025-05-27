@@ -13,7 +13,13 @@ const TempUnitToggle: React.FC<Props> = ({ isCelsius, onToggle, theme }) => {
   return (
     <View style={styles(theme).toggleRow}>
       <FontAwesome5 name="temperature-high" size={18} color={theme.tempText} />
-      <Text style={[styles(theme).label, { color: theme.tempText }]}>
+      <Text
+        style={[
+          styles(theme).label,
+          { color: theme.tempText },
+          { fontWeight: "bold" },
+        ]}
+      >
         Show {isCelsius ? "°F" : "°C"}
       </Text>
       <Switch
@@ -32,13 +38,13 @@ const styles = (theme: Theme) =>
     toggleRow: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 8,
+      gap: 4,
       alignSelf: "flex-end",
       marginBottom: 20,
-      paddingRight: 16,
+      paddingLeft: 10,
     },
     label: {
-      fontSize: 16,
+      fontSize: 14,
       marginHorizontal: 6,
     },
   });

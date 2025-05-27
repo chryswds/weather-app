@@ -2,6 +2,7 @@ import { Theme } from "./weather";
 
 export const lightTheme: Theme = {
   background: "#FFFFFF",
+  backgroundContainer: "rgba(255, 255, 255, 0.5)",
   text: "#000000",
   textOpposite: "#FFFFFF",
   card: "rgba(240, 240, 240, 0.8)",
@@ -20,12 +21,12 @@ export const lightTheme: Theme = {
   sidebarBg: "#FFFFFF",
   divider: "#E0E0E0",
   icon: "rgba(91, 91, 197, 0.7)",
-  borderColor:
-    "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(96, 87, 199, 1) 91%, rgb(255, 255, 255) 100%)",
+  borderColor: "rgba(0, 0, 0, 0.9)",
 };
 
 export const darkTheme: Theme = {
   background: "#000000",
+  backgroundContainer: "rgba(0, 0, 0, 0.5)",
   text: "#FFFFFF",
   textOpposite: "#000000",
   card: "rgba(28, 28, 30, 0.7)",

@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, Switch, StyleSheet } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { StyleSheet, Switch, Text, View } from "react-native";
 
-const ThemeToggle = ({ onThemeChange }: { onThemeChange: (isDark: boolean) => void }) => {
+const ThemeToggle = ({
+  onThemeChange,
+}: {
+  onThemeChange: (isDark: boolean) => void;
+}) => {
   const [isDark, setIsDark] = useState(false);
 
   const toggleSwitch = () => {
@@ -16,13 +20,19 @@ const ThemeToggle = ({ onThemeChange }: { onThemeChange: (isDark: boolean) => vo
   return (
     <View style={styles.toggleContainer}>
       <FontAwesome5
-        name={isDark ? 'moon' : 'sun'}
+        name={isDark ? "moon" : "sun"}
         size={16}
-        color={isDark ? '#fff' : '#000'}
+        color={isDark ? "#fff" : "#000"}
         style={{ marginRight: 8 }}
       />
-      <Text style={[styles.label, { color: isDark ? '#fff' : '#000' }]}>
-        {isDark ? 'Dark Mode' : 'Light Mode'}
+      <Text
+        style={[
+          styles.label,
+          { color: isDark ? "#fff" : "#000" },
+          { fontWeight: "bold" },
+        ]}
+      >
+        {isDark ? "Dark Mode" : "Light Mode"}
       </Text>
       <Switch value={isDark} onValueChange={toggleSwitch} />
     </View>
@@ -31,14 +41,14 @@ const ThemeToggle = ({ onThemeChange }: { onThemeChange: (isDark: boolean) => vo
 
 const styles = StyleSheet.create({
   toggleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-end',
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-end",
     marginBottom: 20,
     paddingRight: 16,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     marginRight: 6,
   },
 });

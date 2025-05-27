@@ -1,9 +1,9 @@
-import { pad } from "lodash";
 import { StyleSheet } from "react-native";
 
 // Theme interface for typed styling
 export type Theme = {
   background: string;
+  backgroundContainer: string;
   text: string;
   textOpposite: string;
   card: string;
@@ -67,10 +67,10 @@ export const createStyles = (theme: Theme) =>
 
     // Feels like and other descriptions
     description: {
-      fontSize: 12,
+      fontSize: 18,
       color: theme.tempText,
-      paddingRight: 30,
-      paddingLeft: 30,
+      padding: 25,
+      fontWeight: "bold",
     },
 
     descriptionLoc: {
@@ -88,21 +88,17 @@ export const createStyles = (theme: Theme) =>
     },
 
     fellslike: {
+      flexDirection: "column",
       fontSize: 20,
-      textAlign: "center",
+      textAlign: "left",
       color: theme.tempText,
       fontWeight: "400",
-      padding: 12,
     },
 
     // Max/Min temperature layout
     tempRange: {
-      marginTop: 20,
-      marginBottom: 20,
-      flexDirection: "row",
       justifyContent: "space-between",
       width: "100%",
-      paddingHorizontal: -40,
       // marginLeft: 12
     },
 
@@ -209,10 +205,69 @@ export const createStyles = (theme: Theme) =>
     },
 
     locationContainer: {
+      margin: 10,
+      left: 50,
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: 20,
+      borderWidth: 2,
+      borderColor: theme.borderColor,
+      borderRadius: 25,
+      backgroundColor: theme.backgroundContainer,
+      width: "70%",
+      padding: 10,
+      paddingTop: -5,
+      paddingHorizontal: 30,
+    },
+
+    temperatureContainer: {
+      margin: 10,
+      left: 50,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: 2,
+      borderColor: theme.borderColor,
+      borderRadius: 25,
+      backgroundColor: theme.backgroundContainer,
+      width: "70%",
+    },
+
+    dateTimeContainer: {
+      margin: 10,
+      marginRight: -50,
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: 2,
+      borderColor: theme.borderColor,
+      borderRadius: 25,
+      backgroundColor: theme.backgroundContainer,
+      width: "50%",
+    },
+
+    tempRangeContainer: {
+      margin: 10,
+      left: 50,
+      alignItems: "center",
+      borderWidth: 2,
+      borderColor: theme.borderColor,
+      borderRadius: 25,
+      backgroundColor: theme.backgroundContainer,
+    },
+
+    buttonsContainer: {
+      margin: 10,
+      marginTop: 50,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: 2,
+      borderColor: theme.borderColor,
+      borderRadius: 25,
+      backgroundColor: theme.backgroundContainer,
+      width: "95%",
+      padding: 5,
+      paddingTop: 20,
     },
 
     currentLocationButton: {
@@ -277,7 +332,7 @@ export const createStyles = (theme: Theme) =>
     topCard: {
       backgroundColor: theme.card,
       borderRadius: 25,
-      height: 425,
+      height: 500,
       margin: 10,
       overflow: "hidden",
 
@@ -345,10 +400,10 @@ export const createStyles = (theme: Theme) =>
     //done
     dayName: {
       color: theme.tempText,
-      fontSize: 22,
+      fontSize: 15,
       fontWeight: "700",
-      padding: 12,
-      textAlign: "center",
+      textAlign: "left",
+      padding: 10,
     },
     dayDate: {
       color: theme.tempText,
@@ -388,17 +443,15 @@ export const createStyles = (theme: Theme) =>
 
     buttons: {
       flexDirection: "row",
-      // alignItems: "center",
+
       justifyContent: "space-between", // ✅ THIS is what you want
-      // padding: 12,
-      marginRight: 80,
-      // marginTop: 8,
+      width: "100%",
     },
 
     buttonItem: {
       flex: 1,
       justifyContent: "space-between",
-      padding: 25,
+      padding: 5,
     },
     suggestionText: {
       color: theme.text,

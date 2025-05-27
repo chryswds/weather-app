@@ -320,26 +320,28 @@ const WeatherScreen = () => {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ImageBackground
-        source={{
-          uri:
-            backgroundUrl ??
-            background(weather.main.temp, weather.weather?.[0]?.main),
-        }}
-        style={{ flex: 1, width: "100%" }}
-        resizeMode="cover"
-      >
-        <ScrollView contentContainerStyle={styles.container3}>
-          <SearchBar
-            searchText={searchText}
-            setSearchText={setSearchText}
-            handleSearch={handleSearch}
-            onCitySelect={handleCitySelect}
-            isDark={isDark}
-          />
+    <GestureHandlerRootView
+      style={{ flex: 1, backgroundColor: theme.background }}
+    >
+      <ScrollView contentContainerStyle={styles.container3}>
+        <SearchBar
+          searchText={searchText}
+          setSearchText={setSearchText}
+          handleSearch={handleSearch}
+          onCitySelect={handleCitySelect}
+          isDark={isDark}
+        />
 
-          <View style={styles.topCard}>
+        <View style={styles.topCard}>
+          <ImageBackground
+            source={{
+              uri:
+                backgroundUrl ??
+                background(weather.main.temp, weather.weather?.[0]?.main),
+            }}
+            style={{ flex: 1, width: "100%" }}
+            resizeMode="cover"
+          >
             <View style={styles.locationContainer}>
               <Text style={styles.location}>
                 <FontAwesome5
@@ -357,44 +359,67 @@ const WeatherScreen = () => {
                 onPress={handleReturnToCurrentLocation}
               />
             </View>
-            <Text style={styles.tempText}>
-              {convertTemperature(weather.main.temp).toFixed(1)}°
-              {isCelsius ? "C" : "F"}
-            </Text>
-
-            <Text style={styles.dayName}>
-              <FontAwesome5 name="calendar-alt" size={14} color={theme.icon} />{" "}
-              {currentTime.format("dddd, MMMM D")}
-              {"\n\n"}
-              <FontAwesome5 name="clock" size={14} color={theme.icon} />{" "}
-              {currentTime.format("h:mm:ss A")}
-            </Text>
-
-            <Text style={styles.fellslike}>
-              <FontAwesome5
-                name="thermometer-half"
-                size={14}
-                color={theme.icon}
-              />{" "}
-              Feels Like:{" "}
-              {convertTemperature(weather.main.feels_like).toFixed(1)}°
-              {isCelsius ? "C" : "F"}
-            </Text>
-
-            <View style={styles.tempRange}>
-              <Text style={styles.description}>
-                <FontAwesome5 name="arrow-up" size={14} color={theme.icon} />{" "}
-                Max: {convertTemperature(weather.main.temp_max).toFixed(1)}°
-                {isCelsius ? "C" : "F"}
-              </Text>
-              <Text style={styles.description}>
-                <FontAwesome5 name="arrow-down" size={14} color={theme.icon} />{" "}
-                Min: {convertTemperature(weather.main.temp_min).toFixed(1)}°
+            <View style={styles.temperatureContainer}>
+              <Text style={styles.tempText}>
+                {convertTemperature(weather.main.temp).toFixed(1)}°
                 {isCelsius ? "C" : "F"}
               </Text>
             </View>
 
-            <View style={styles.buttonItem}>
+            <View style={{ flexDirection: "row", width: "90%" }}>
+              <View style={styles.dateTimeContainer}>
+                <Text style={styles.dayName}>
+                  <FontAwesome5
+                    name="calendar-alt"
+                    size={20}
+                    color={theme.icon}
+                  />{" "}
+                  {currentTime.format("dddd, MMMM D")}
+                  {"\n\n"}
+                  <FontAwesome5
+                    name="clock"
+                    size={20}
+                    color={theme.icon}
+                  />{" "}
+                  {currentTime.format("h:mm:ss A")}
+                </Text>
+                <Text style={styles.dayName}>
+                  <FontAwesome5
+                    name="thermometer-half"
+                    size={20}
+                    color={theme.icon}
+                  />{" "}
+                  Feels Like:{" "}
+                  {convertTemperature(weather.main.feels_like).toFixed(1)}°
+                  {isCelsius ? "C" : "F"}
+                </Text>
+              </View>
+
+              <View style={styles.tempRangeContainer}>
+                <View style={styles.tempRange}>
+                  <Text style={styles.description}>
+                    <FontAwesome5
+                      name="arrow-up"
+                      size={23}
+                      color={theme.icon}
+                    />{" "}
+                    Max: {convertTemperature(weather.main.temp_max).toFixed(1)}°
+                    {isCelsius ? "C" : "F"}
+                  </Text>
+                  <Text style={styles.description}>
+                    <FontAwesome5
+                      name="arrow-down"
+                      size={23}
+                      color={theme.icon}
+                    />{" "}
+                    Min: {convertTemperature(weather.main.temp_min).toFixed(1)}°
+                    {isCelsius ? "C" : "F"}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.buttonsContainer}>
               <View style={styles.buttons}>
                 <TempUnitToggle
                   isCelsius={isCelsius}
@@ -404,85 +429,82 @@ const WeatherScreen = () => {
                 <ThemeToggle onThemeChange={setIsDark} />
               </View>
             </View>
+          </ImageBackground>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+          }}
+        >
+          <View style={{ flex: 1, marginRight: 5 }}>
+            {weather?.sys && (
+              <SunInfo
+                sunrise={weather.sys.sunrise}
+                sunset={weather.sys.sunset}
+                isDark={isDark}
+              />
+            )}
           </View>
-
-          <View
-            style={{
-              flexDirection: "row",
-            }}
-          >
-            <View style={{ flex: 1, marginRight: 5 }}>
-              {weather?.sys && (
-                <SunInfo
-                  sunrise={weather.sys.sunrise}
-                  sunset={weather.sys.sunset}
-                  isDark={isDark}
-                />
-              )}
-            </View>
-            <View style={{ flex: 1, marginLeft: 5 }}>
-              {weather?.wind && (
-                <WindInfo
-                  speed={weather.wind.speed * 3.6} // convert m/s to km/h
-                  direction={weather.wind.deg}
-                  isDark={isDark}
-                />
-              )}
-            </View>
+          <View style={{ flex: 1, marginLeft: 5 }}>
+            {weather?.wind && (
+              <WindInfo
+                speed={weather.wind.speed * 3.6} // convert m/s to km/h
+                direction={weather.wind.deg}
+                isDark={isDark}
+              />
+            )}
           </View>
+        </View>
 
-          {airQuality && (
-            <AirQualityInfo
-              aqi={airQuality.aqi}
-              co={airQuality.co}
-              no2={airQuality.no2}
-              isDark={isDark}
-            />
-          )}
-
-          {location && (
-            <LocationInfo
-              latitude={location.coords.latitude}
-              longitude={location.coords.longitude}
-              altitude={location.coords.altitude ?? undefined}
-              isDark={isDark}
-            />
-          )}
-
-          {/* <Compass /> */}
-
-          <WeatherDetailsSlider
-            weatherDetails={weatherDetails}
+        {airQuality && (
+          <AirQualityInfo
+            aqi={airQuality.aqi}
+            co={airQuality.co}
+            no2={airQuality.no2}
             isDark={isDark}
           />
-          <View style={styles.mapContainer}>
-            <View>
-              <MapView
-                style={styles.mapCard}
-                region={mapRegion} // ✅ dynamically controlled
-              >
-                <Polygon
-                  coordinates={polygonCoords}
-                  fillColor={`${theme.icon}50`}
-                  strokeColor={theme.icon}
-                  strokeWidth={2}
-                />
-              </MapView>
-            </View>
-            <View style={styles.coordBox}>
-              <Text style={styles.coordTitle}>Square Coordinates:</Text>
-              {polygonCoords.map((point, index) => (
-                <Text key={index} style={styles.coordItem}>
-                  {index + 1}: {point.latitude.toFixed(5)},{" "}
-                  {point.longitude.toFixed(5)}
-                </Text>
-              ))}
-            </View>
-          </View>
+        )}
 
-          <ForecastList forecast={forecast ?? []} isDark={isDark} />
-        </ScrollView>
-      </ImageBackground>
+        {location && (
+          <LocationInfo
+            latitude={location.coords.latitude}
+            longitude={location.coords.longitude}
+            altitude={location.coords.altitude ?? undefined}
+            isDark={isDark}
+          />
+        )}
+
+        {/* <Compass /> */}
+
+        <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
+        <View style={styles.mapContainer}>
+          <View>
+            <MapView
+              style={styles.mapCard}
+              region={mapRegion} // ✅ dynamically controlled
+            >
+              <Polygon
+                coordinates={polygonCoords}
+                fillColor={`${theme.icon}50`}
+                strokeColor={theme.icon}
+                strokeWidth={2}
+              />
+            </MapView>
+          </View>
+          <View style={styles.coordBox}>
+            <Text style={styles.coordTitle}>Square Coordinates:</Text>
+            {polygonCoords.map((point, index) => (
+              <Text key={index} style={styles.coordItem}>
+                {index + 1}: {point.latitude.toFixed(5)},{" "}
+                {point.longitude.toFixed(5)}
+              </Text>
+            ))}
+          </View>
+        </View>
+
+        <ForecastList forecast={forecast ?? []} isDark={isDark} />
+      </ScrollView>
     </GestureHandlerRootView>
   );
 };
