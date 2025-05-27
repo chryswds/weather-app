@@ -26,9 +26,18 @@ import dayjs from "dayjs";
 import MapView, { Polygon } from "react-native-maps";
 // import Compass from "../components/compass";
 import Compass from "../components/compass";
+import WindInfo from "../components/windInfo";
 
 
 // Types for weather data structure
+
+type Wind = {
+  speed: number; // in m/s
+  deg: number;   // direction in degrees
+};
+
+
+
 
 type MainWeather = {
   temp: number;
@@ -50,6 +59,7 @@ type Weather = {
   name: string;
   main: MainWeather;
   weather: WeatherConditionType[];
+  wind: Wind; // ← ✅ Add this
 };
 // ... all your imports
 // import { background } from "./background"; // ✅ Import your background util
@@ -265,6 +275,7 @@ useEffect(() => {
   });
 };
 
+
   
   
   return (
@@ -334,6 +345,13 @@ useEffect(() => {
             </View>
           </View>
           </View>
+{weather?.wind && (
+  <WindInfo
+    speed={weather.wind.speed * 3.6} // convert m/s to km/h
+    direction={weather.wind.deg}
+    isDark={isDark}
+  />
+)}
 
       
 {/* <Compass /> */}
@@ -367,24 +385,16 @@ useEffect(() => {
 
 
 
-<View style={{ padding: 20, backgroundColor: "#fff", marginVertical: 20, borderRadius: 10 }}>
   <Compass
-    userLocation={{
-      latitude: location?.coords.latitude ?? 0,
-      longitude: location?.coords.longitude ?? 0,
-    }}
-    targetLocation={{
-      latitude: searchedLat,
-      longitude: searchedLon,
-    }}
-  />
-</View>
-
-
-
-
-
-
+              userLocation={{
+                latitude: location?.coords.latitude ?? 0,
+                longitude: location?.coords.longitude ?? 0,
+              }}
+              isDark={isDark} // ✅ Pass this to match theme
+              targetLocation={{
+                latitude: 0,
+                longitude: 0
+              }}  />
 
         </ScrollView>
       </ImageBackground>
