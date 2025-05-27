@@ -374,24 +374,30 @@ const WeatherScreen = () => {
                     size={20}
                     color={theme.icon}
                   />{" "}
-                  {currentTime.format("dddd, MMMM D")}
+                  <Text style={styles.dayName}>
+                    {currentTime.format("dddd, MMMM D")}
+                  </Text>
                   {"\n\n"}
                   <FontAwesome5
                     name="clock"
                     size={20}
                     color={theme.icon}
                   />{" "}
-                  {currentTime.format("h:mm:ss A")}
+                  <Text style={styles.dayName}>
+                    {currentTime.format("h:mm:ss A")}
+                  </Text>
                 </Text>
-                <Text style={styles.dayName}>
+                <Text>
                   <FontAwesome5
                     name="thermometer-half"
                     size={20}
                     color={theme.icon}
                   />{" "}
-                  Feels Like:{" "}
-                  {convertTemperature(weather.main.feels_like).toFixed(1)}°
-                  {isCelsius ? "C" : "F"}
+                  <Text style={styles.dayName}>
+                    Feels Like:{" "}
+                    {convertTemperature(weather.main.feels_like).toFixed(1)}°
+                    {isCelsius ? "C" : "F"}
+                  </Text>
                 </Text>
               </View>
 

@@ -21,9 +21,7 @@ const SunInfo: React.FC<Props> = ({ sunrise, sunset, isDark }) => {
             : "rgba(240, 240, 240, 0.8)",
         },
         {
-          borderColor: isDark
-            ? "#ccc"
-            : "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(96, 87, 199, 1) 91%, rgb(255, 255, 255) 100%)",
+          borderColor: isDark ? "#ccc" : "rgba(0, 0, 0, 0.9)",
         },
       ]}
     >

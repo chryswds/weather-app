@@ -402,7 +402,7 @@ export const createStyles = (theme: Theme) =>
       color: theme.tempText,
       fontSize: 15,
       fontWeight: "700",
-      textAlign: "left",
+      textAlign: "right",
       padding: 10,
     },
     dayDate: {
