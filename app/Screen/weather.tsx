@@ -248,14 +248,9 @@ const [polygonCoords, setPolygonCoords] = useState([
 
           <View style={styles.topCard}>
             <View style={styles.locationContainer}>
-              <Text style={styles.location}>
-                <FontAwesome5
-                  name="map-marker-alt"
-                  size={20}
-                  color={theme.accent}
-                />{" "}
-                {weather.name}
-              </Text>
+            <Text style={styles.location}>
+              <FontAwesome5 name="map-marker-alt" size={30} color={theme.icon} /> {weather.name}
+            </Text>
               <FontAwesome5
                 name="sync-alt"
                 size={20}
@@ -265,18 +260,22 @@ const [polygonCoords, setPolygonCoords] = useState([
               />
             </View>
 
-            <Text style={styles.description}>
-              <FontAwesome5 name="clock" size={14} color={theme.icon} />{" "}
-              {currentTime.format("dddd, MMMM D • h:mm:ss A")}
-            </Text>
-
-            <Text style={styles.tempText}>
+                <Text style={styles.tempText}>
               {convertTemperature(weather.main.temp).toFixed(1)}°{isCelsius ? "C" : "F"}
             </Text>
-
-            <Text style={styles.fellslike}>
-              Feels Like: {convertTemperature(weather.main.feels_like).toFixed(1)}°{isCelsius ? "C" : "F"}
+            <Text style={styles.dayName}>
+              <FontAwesome5 name="calendar-alt" size={14} color={theme.icon} />{" "}
+              {currentTime.format("dddd, MMMM D")}
+              {"\n\n"}
+              <FontAwesome5 name="clock" size={14} color={theme.icon} />{" "}
+              {currentTime.format("h:mm:ss A")}
             </Text>
+
+                   <Text style={styles.fellslike}>
+  <FontAwesome5 name="thermometer-half" size={14} color={theme.icon} />{" "}
+  Feels Like: {convertTemperature(weather.main.feels_like).toFixed(1)}°
+  {isCelsius ? "C" : "F"}
+</Text>
 
             <View style={styles.tempRange}>
               <Text style={styles.description}>
@@ -287,18 +286,20 @@ const [polygonCoords, setPolygonCoords] = useState([
                 <FontAwesome5 name="arrow-down" size={14} color={theme.icon} /> Min:{" "}
                 {convertTemperature(weather.main.temp_min).toFixed(1)}°{isCelsius ? "C" : "F"}
               </Text>
-            </View>
+              </View>
 
-            <View style={{ flexDirection: "row", gap: 10, alignItems: "center", left: 10 }}>
+            <View style={styles.buttonItem}>
+             <View style={styles.buttons}>
               <TempUnitToggle isCelsius={isCelsius} onToggle={toggleUnit} theme={theme} />
               <ThemeToggle onThemeChange={setIsDark} />
             </View>
+          </View>
           </View>
 
           <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
 
 <MapView
-  style={{ width: '100%', height: 300, marginTop: 20, borderRadius: 10 }}
+  style={styles.mapCard}
   region={mapRegion} // ✅ dynamically controlled
 >
 
@@ -309,6 +310,7 @@ const [polygonCoords, setPolygonCoords] = useState([
     strokeWidth={2}
   />
 </MapView>
+
 
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
           
