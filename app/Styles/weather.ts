@@ -99,7 +99,7 @@ export const createStyles = (theme: Theme) =>
     // Max/Min temperature layout
     tempRange: {
       justifyContent: "space-between",
-      width: "100%",
+      width: 160,
       // marginLeft: 12
     },
 
