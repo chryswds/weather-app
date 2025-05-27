@@ -73,14 +73,27 @@ const [mapRegion, setMapRegion] = useState({
   latitudeDelta: 0.05,
   longitudeDelta: 0.05,
 });
-const [polygonCoords, setPolygonCoords] = useState([
-  { latitude: 33.5362475, longitude: -111.9267386 },
-  { latitude: 33.5104882, longitude: -111.9627875 },
-  { latitude: 33.5004686, longitude: -111.9027061 },
-]);
 
 
+const [polygonCoords, setPolygonCoords] = useState<{ latitude: number; longitude: number }[]>([]);
 
+const generatePolygonAround = (
+  lat: number,
+  lon: number,
+  offset: number = 0.01
+) => [
+  { latitude: lat + offset, longitude: lon + offset },
+  { latitude: lat + offset, longitude: lon - offset },
+  { latitude: lat - offset, longitude: lon - offset },
+  { latitude: lat - offset, longitude: lon + offset },
+];
+
+useEffect(() => {
+  if (location) {
+    const { latitude, longitude } = location.coords;
+    setPolygonCoords(generatePolygonAround(latitude, longitude));
+  }
+}, [location]);
 
 
 
@@ -310,6 +323,15 @@ const [polygonCoords, setPolygonCoords] = useState([
     strokeWidth={2}
   />
 </MapView>
+<View style={styles.coordBox}>
+  <Text style={styles.coordTitle}>Square Coordinates:</Text>
+  {polygonCoords.map((point, index) => (
+    <Text key={index} style={styles.coordItem}>
+      {index + 1}: {point.latitude.toFixed(5)}, {point.longitude.toFixed(5)}
+    </Text>
+  ))}
+</View>
+
 
 
           <ForecastList forecast={forecast ?? []} isDark={isDark} />

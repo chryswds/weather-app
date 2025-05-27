@@ -379,4 +379,25 @@ buttons: {
     color: theme.text,
   },
 
+  coordBox: {
+  padding: 10,
+  backgroundColor: theme.card,
+    borderWidth: 2,
+  borderColor: theme.forecastItemBg,
+  borderRadius: 10,
+  margin: 10,
+},
+
+coordTitle: {
+  fontWeight: "bold",
+  color: theme.tempText,
+  marginBottom: 5,
+},
+
+coordItem: {
+  color: theme.tempText,
+  fontSize: 14,
+  marginBottom: 2,
+},
+
   });
