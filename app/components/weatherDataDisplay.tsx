@@ -20,7 +20,7 @@ const WeatherDetailsSlider: React.FC<Props> = ({ weatherDetails, isDark }) => {
   const styles = createStyles(theme);
 
   return (
-    <FlatList
+     <FlatList
       data={weatherDetails}
       horizontal
       showsHorizontalScrollIndicator={false}
