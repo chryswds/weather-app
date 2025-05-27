@@ -11,7 +11,7 @@ export const lightTheme: Theme = {
   descriptionText: "#666666",
   toggleBg: "rgba(0, 0, 0, 0.9)",
   weatherPropertyBg: "#F5F5F5",
-  forecastItemBg: "rgba(42, 123, 155, 0.4) ",
+  forecastItemBg: "rgba(141, 141, 255, 0.7) ",
   forecastDate: "#000000",
   forecastTemp: "#000000",
   inputBg: "#F5F5F5",
@@ -20,7 +20,7 @@ export const lightTheme: Theme = {
   sidebarBg: "#FFFFFF",
   divider: "#E0E0E0",
   icon: "rgba(91, 91, 197, 0.7)",
-  borderColor: "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(96, 87, 199, 1) 91%, rgba(237, 221, 83, 1) 100%)"
+  borderColor: "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(96, 87, 199, 1) 91%, rgb(255, 255, 255) 100%)"
 };
 
 export const darkTheme: Theme = {

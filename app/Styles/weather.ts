@@ -204,6 +204,29 @@ export const createStyles = (theme: Theme) =>
       justifyContent: "center",
       marginBottom: 20,
     },
+
+      currentLocationButton: {
+      marginLeft: 10,
+      padding: 8,
+      borderRadius: 20,
+      elevation: 3,
+    },
+
+        suggestionsContainer: {
+      position: "absolute",
+      top: 50,
+      left: 0,
+      right: 0,
+      backgroundColor: theme.suggestionBg,
+      borderRadius: 8,
+      maxHeight: 200,
+      zIndex: 1000,
+      elevation: 5,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+    },
     // Autocomplete suggestions
 
     suggestionItem: {
@@ -351,6 +374,9 @@ buttons: {
     // justifyContent: "space-between",
     padding: 25,
     // borderRadius: 25,
+  },
+   suggestionText: {
+    color: theme.text,
   },
 
   });
