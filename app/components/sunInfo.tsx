@@ -20,13 +20,38 @@ const SunInfo: React.FC<Props> = ({ sunrise, sunset, isDark }) => {
             ? "rgba(28, 28, 30, 0.7)"
             : "rgba(240, 240, 240, 0.8)",
         },
+        {
+          borderColor: isDark
+            ? "#ccc"
+            : "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(96, 87, 199, 1) 91%, rgb(255, 255, 255) 100%)",
+        },
       ]}
     >
-      <Text style={[styles.label, { color: isDark ? "#fff" : "#000" }]}>
-        ☀️ Sunrise: {formatTime(sunrise)}
+      <Text
+        style={[
+          styles.label,
+          { color: isDark ? "#fff" : "#000" },
+          { textAlign: "center" },
+          { fontSize: 25 },
+        ]}
+      >
+        ☀️
       </Text>
-      <Text style={[styles.label, { color: isDark ? "#fff" : "#000" }]}>
-        🌙 Sunset: {formatTime(sunset)}
+      <Text style={{ textAlign: "center", color: isDark ? "#fff" : "#000" }}>
+        Sunrise: {formatTime(sunrise)}
+      </Text>
+      <Text
+        style={[
+          styles.label,
+          { color: isDark ? "#fff" : "#000" },
+          { textAlign: "center" },
+          { fontSize: 25 },
+        ]}
+      >
+        🌙
+      </Text>
+      <Text style={{ textAlign: "center", color: isDark ? "#fff" : "#000" }}>
+        Sunset: {formatTime(sunset)}
       </Text>
     </View>
   );
@@ -36,7 +61,7 @@ export default SunInfo;
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 15,
+    borderRadius: 25,
     padding: 16,
     margin: 10,
 
@@ -44,7 +69,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 4,
   },
 });

@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Text, StyleSheet, Animated, Image } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Theme, lightTheme, darkTheme } from "../Styles/theme";
+import React from "react";
+import { Animated, Text, View } from "react-native";
+import { Theme, darkTheme, lightTheme } from "../Styles/theme";
 import { createStyles } from "../Styles/weather";
 
 type Props = {
@@ -17,17 +17,38 @@ const WindInfo: React.FC<Props> = ({ speed, direction, isDark }) => {
   const rotation = direction + "deg";
 
   return (
-    <View style={styles.forecastItem} >
-      <FontAwesome5 name="wind" size={24} color={theme.icon} style={{ margin: 10 }} />
+    <View style={styles.windSpeedCard}>
+      <FontAwesome5
+        name="wind"
+        size={14}
+        color={theme.icon}
+        style={{ textAlign: "center", padding: 13, fontSize: 20 }}
+      />
       <View>
-        <Text style={{ color: theme.tempText, fontSize: 18, fontWeight: "bold" }}>
+        <Text
+          style={{
+            color: theme.tempText,
+            fontSize: 15,
+            fontWeight: "bold",
+            textAlign: "center",
+            marginBottom: 5,
+          }}
+        >
           Wind Speed: {speed.toFixed(1)} km/h
         </Text>
-        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 4 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 13,
+            marginBottom: 10,
+          }}
+        >
           <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-            <FontAwesome5 name="location-arrow" size={18} color={theme.icon} />
+            <FontAwesome5 name="location-arrow" size={14} color={theme.icon} />
           </Animated.View>
-          <Text style={{ color: theme.text, marginLeft: 6 }}>
+          <Text style={{ color: theme.text, marginLeft: 8 }}>
             Direction: {direction.toFixed(0)}°
           </Text>
         </View>

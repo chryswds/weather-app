@@ -407,20 +407,30 @@ const WeatherScreen = () => {
             </View>
           </View>
 
-          {weather?.sys && (
-            <SunInfo
-              sunrise={weather.sys.sunrise}
-              sunset={weather.sys.sunset}
-              isDark={isDark}
-            />
-          )}
-          {weather?.wind && (
-            <WindInfo
-              speed={weather.wind.speed * 3.6} // convert m/s to km/h
-              direction={weather.wind.deg}
-              isDark={isDark}
-            />
-          )}
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <View style={{ flex: 1, marginRight: 5 }}>
+              {weather?.sys && (
+                <SunInfo
+                  sunrise={weather.sys.sunrise}
+                  sunset={weather.sys.sunset}
+                  isDark={isDark}
+                />
+              )}
+            </View>
+            <View style={{ flex: 1, marginLeft: 5 }}>
+              {weather?.wind && (
+                <WindInfo
+                  speed={weather.wind.speed * 3.6} // convert m/s to km/h
+                  direction={weather.wind.deg}
+                  isDark={isDark}
+                />
+              )}
+            </View>
+          </View>
 
           {/* <Compass /> */}
 

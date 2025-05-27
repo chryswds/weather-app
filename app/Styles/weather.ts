@@ -110,10 +110,9 @@ export const createStyles = (theme: Theme) =>
     },
 
     label: {
-      fontSize: 16,
-      marginHorizontal: 6,
       fontWeight: "bold",
       marginLeft: 8,
+      textAlign: "center",
     },
 
     // Weather info items (humidity, pressure, etc)
@@ -299,6 +298,20 @@ export const createStyles = (theme: Theme) =>
       justifyContent: "space-between",
       padding: 20,
       borderRadius: 25,
+    },
+
+    windSpeedCard: {
+      borderWidth: 2,
+      borderColor: theme.borderColor, // ← make sure `theme.border` exists (e.g., "#ccc")
+
+      margin: 8,
+      flex: 1,
+      backgroundColor: theme.card,
+      justifyContent: "space-between",
+      padding: 5,
+      borderRadius: 25,
+      paddingLeft: 15,
+      paddingBottom: 10,
     },
 
     //done

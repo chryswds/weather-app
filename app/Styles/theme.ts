@@ -20,7 +20,8 @@ export const lightTheme: Theme = {
   sidebarBg: "#FFFFFF",
   divider: "#E0E0E0",
   icon: "rgba(91, 91, 197, 0.7)",
-  borderColor: "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(96, 87, 199, 1) 91%, rgb(255, 255, 255) 100%)"
+  borderColor:
+    "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(96, 87, 199, 1) 91%, rgb(255, 255, 255) 100%)",
 };
 
 export const darkTheme: Theme = {
@@ -42,9 +43,7 @@ export const darkTheme: Theme = {
   suggestionText: "#FFFFFF",
   sidebarBg: "#1C1C1E",
   divider: "#38383A",
-   icon: "#FFD700",
-   borderColor: "#ccc",
-
+  icon: "#FFD700",
+  borderColor: "#ccc",
 };
 export { Theme };
-
