@@ -28,9 +28,10 @@ const WindInfo: React.FC<Props> = ({ speed, direction, isDark }) => {
         <Text
           style={{
             color: theme.tempText,
-            fontSize: 15,
+            fontSize: 13,
             fontWeight: "bold",
             textAlign: "center",
+            paddingRight: 10,
             marginBottom: 5,
           }}
         >

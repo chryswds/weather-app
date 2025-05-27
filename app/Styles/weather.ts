@@ -386,6 +386,7 @@ export const createStyles = (theme: Theme) =>
     windSpeedCard: {
       borderWidth: 2,
       borderColor: theme.borderColor, // ← make sure `theme.border` exists (e.g., "#ccc")
+      height: 100,
 
       margin: 8,
       flex: 1,
