@@ -43,6 +43,10 @@ export const createStyles = (theme: Theme) =>
       // height: 280,
     },
 
+    mapContainer: {
+      flexDirection: "row",
+    },
+
     // Title/subheadings
     title: {
       fontSize: 20,
@@ -279,9 +283,9 @@ export const createStyles = (theme: Theme) =>
 
     // done
     mapCard: {
-      backgroundColor: theme.card,
       borderRadius: 25,
-      height: 300,
+      height: 150,
+      width: 180,
       margin: 10,
       overflow: "hidden",
     },
@@ -382,9 +386,10 @@ export const createStyles = (theme: Theme) =>
       padding: 10,
       backgroundColor: theme.card,
       borderWidth: 2,
-      borderColor: theme.forecastItemBg,
+      borderColor: theme.borderColor,
       borderRadius: 10,
       margin: 10,
+      alignItems: "center",
     },
 
     coordTitle: {
@@ -395,8 +400,10 @@ export const createStyles = (theme: Theme) =>
 
     coordItem: {
       color: theme.tempText,
-      fontSize: 14,
-      marginBottom: 2,
+      textAlign: "left",
+      fontWeight: "bold",
+      fontSize: 11,
+      margin: 8,
     },
 
     containerCompass: {

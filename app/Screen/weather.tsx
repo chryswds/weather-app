@@ -438,26 +438,29 @@ const WeatherScreen = () => {
             weatherDetails={weatherDetails}
             isDark={isDark}
           />
-
-          <MapView
-            style={styles.mapCard}
-            region={mapRegion} // ✅ dynamically controlled
-          >
-            <Polygon
-              coordinates={polygonCoords}
-              fillColor="rgba(255, 0, 0, 0.3)"
-              strokeColor="#FF0000"
-              strokeWidth={2}
-            />
-          </MapView>
-          <View style={styles.coordBox}>
-            <Text style={styles.coordTitle}>Square Coordinates:</Text>
-            {polygonCoords.map((point, index) => (
-              <Text key={index} style={styles.coordItem}>
-                {index + 1}: {point.latitude.toFixed(5)},{" "}
-                {point.longitude.toFixed(5)}
-              </Text>
-            ))}
+          <View style={styles.mapContainer}>
+            <View>
+              <MapView
+                style={styles.mapCard}
+                region={mapRegion} // ✅ dynamically controlled
+              >
+                <Polygon
+                  coordinates={polygonCoords}
+                  fillColor={`${theme.icon}50`}
+                  strokeColor={theme.icon}
+                  strokeWidth={2}
+                />
+              </MapView>
+            </View>
+            <View style={styles.coordBox}>
+              <Text style={styles.coordTitle}>Square Coordinates:</Text>
+              {polygonCoords.map((point, index) => (
+                <Text key={index} style={styles.coordItem}>
+                  {index + 1}: {point.latitude.toFixed(5)},{" "}
+                  {point.longitude.toFixed(5)}
+                </Text>
+              ))}
+            </View>
           </View>
 
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
