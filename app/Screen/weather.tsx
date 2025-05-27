@@ -432,6 +432,15 @@ const WeatherScreen = () => {
             </View>
           </View>
 
+          {location && (
+            <LocationInfo
+              latitude={location.coords.latitude}
+              longitude={location.coords.longitude}
+              altitude={location.coords.altitude ?? undefined}
+              isDark={isDark}
+            />
+          )}
+
           {/* <Compass /> */}
 
           <WeatherDetailsSlider
@@ -464,15 +473,6 @@ const WeatherScreen = () => {
           </View>
 
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
-
-          {location && (
-            <LocationInfo
-              latitude={location.coords.latitude}
-              longitude={location.coords.longitude}
-              altitude={location.coords.altitude ?? undefined}
-              isDark={isDark}
-            />
-          )}
 
           <Compass
             userLocation={{

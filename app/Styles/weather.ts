@@ -66,11 +66,17 @@ export const createStyles = (theme: Theme) =>
 
     // Feels like and other descriptions
     description: {
-      fontSize: 20,
+      fontSize: 12,
       color: theme.tempText,
-      fontWeight: "400",
       paddingRight: 30,
       paddingLeft: 30,
+    },
+
+    descriptionLoc: {
+      fontSize: 12,
+      color: theme.tempText,
+      textAlign: "center",
+      fontWeight: "bold",
     },
 
     forecastDescription: {
@@ -123,7 +129,8 @@ export const createStyles = (theme: Theme) =>
     label: {
       fontWeight: "bold",
       marginLeft: 8,
-      textAlign: "center",
+      textAlign: "left",
+      margin: 5,
     },
 
     // Weather info items (humidity, pressure, etc)
@@ -285,6 +292,16 @@ export const createStyles = (theme: Theme) =>
 
       // ✅ Android Shadow
       elevation: 8,
+    },
+
+    locationCard: {
+      flexDirection: "row",
+      backgroundColor: theme.card,
+      borderRadius: 25,
+      borderWidth: 2,
+      borderColor: theme.borderColor,
+      padding: 10,
+      justifyContent: "space-between",
     },
 
     // done
