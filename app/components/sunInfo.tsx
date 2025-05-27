@@ -1,20 +1,33 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
 import dayjs from "dayjs";
-
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 type Props = {
   sunrise: number; // UNIX timestamp
-  sunset: number;  // UNIX timestamp
+  sunset: number; // UNIX timestamp
   isDark: boolean;
 };
 
 const SunInfo: React.FC<Props> = ({ sunrise, sunset, isDark }) => {
-  const formatTime = (timestamp: number) => dayjs.unix(timestamp).format("h:mm A");
+  const formatTime = (timestamp: number) =>
+    dayjs.unix(timestamp).format("h:mm A");
 
   return (
-    <View style={[styles.container, { backgroundColor: isDark ? "#666666" : "#F5F5F5" }]}>
-      <Text style={styles.label}>☀️ Sunrise: {formatTime(sunrise)}</Text>
-      <Text style={styles.label}>🌙 Sunset: {formatTime(sunset)}</Text>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: isDark
+            ? "rgba(28, 28, 30, 0.7)"
+            : "rgba(240, 240, 240, 0.8)",
+        },
+      ]}
+    >
+      <Text style={[styles.label, { color: isDark ? "#fff" : "#000" }]}>
+        ☀️ Sunrise: {formatTime(sunrise)}
+      </Text>
+      <Text style={[styles.label, { color: isDark ? "#fff" : "#000" }]}>
+        🌙 Sunset: {formatTime(sunset)}
+      </Text>
     </View>
   );
 };
@@ -26,11 +39,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 16,
     margin: 10,
-    elevation: 4,
+
+    borderWidth: 2,
+    borderColor: "white",
   },
   label: {
     fontSize: 16,
-    fontWeight: "bold",
     marginBottom: 4,
   },
 });

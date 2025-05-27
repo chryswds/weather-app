@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import dayjs from "dayjs";
+import MapView, { Polygon } from "react-native-maps";
 import SearchBar from "../components/searchbar";
 import ThemeToggle from "../components/themeToggle";
 import WeatherDetailsSlider from "../components/weatherDataDisplay";
@@ -17,26 +19,21 @@ import TempUnitToggle from "../components/weatherToggle";
 import { useTemperatureUnit } from "../hooks/useTemperatureUnit";
 import ForecastList from "../Screen/forecastItem";
 import { searchLocation } from "../Screen/searchLocation";
-import { darkTheme, lightTheme } from '../Styles/theme';
+import { darkTheme, lightTheme } from "../Styles/theme";
 import { createStyles } from "../Styles/weather";
-import { getWeatherData } from "../utils/fetcheWeatherData";
 import { background } from "./background";
-import localeData from 'dayjs/plugin/localeData';
-import dayjs from "dayjs";
-import MapView, { Polygon } from "react-native-maps";
 // import Compass from "../components/compass";
-import Compass from "../components/compass";
-import WindInfo from "../components/windInfo";
-import SunInfo from "../components/sunInfo";
-import LocationInfo from "../components/locationItem";
 import AirQualityInfo from "../components/airQuality";
-
+import Compass from "../components/compass";
+import LocationInfo from "../components/locationItem";
+import SunInfo from "../components/sunInfo";
+import WindInfo from "../components/windInfo";
 
 // Types for weather data structure
 
 type Wind = {
   speed: number; // in m/s
-  deg: number;   // direction in degrees
+  deg: number; // direction in degrees
 };
 
 type Weather = {
@@ -52,7 +49,6 @@ type Weather = {
     sunset: number;
   };
 };
-
 
 // type Props = {
 //   latitude: number;
@@ -84,7 +80,9 @@ type WeatherConditionType = {
 
 const WeatherScreen = () => {
   const [weather, setWeather] = useState<Weather | null>(null);
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
   const [errorMsg, setErrorMsg] = useState("");
   const [forecast, setForecast] = useState<[]>();
   const [searchText, setSearchText] = useState("");
@@ -96,40 +94,38 @@ const WeatherScreen = () => {
   const styles = createStyles(theme);
 
   const [searchedLat, setSearchedLat] = useState<number | null>(null);
-const [searchedLon, setSearchedLon] = useState<number | null>(null);
-
+  const [searchedLon, setSearchedLon] = useState<number | null>(null);
 
   const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
 
-const [mapRegion, setMapRegion] = useState({
-  latitude: location?.coords.latitude ?? 0,
-  longitude: location?.coords.longitude ?? 0,
-  latitudeDelta: 0.05,
-  longitudeDelta: 0.05,
-});
+  const [mapRegion, setMapRegion] = useState({
+    latitude: location?.coords.latitude ?? 0,
+    longitude: location?.coords.longitude ?? 0,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05,
+  });
 
+  const [polygonCoords, setPolygonCoords] = useState<
+    { latitude: number; longitude: number }[]
+  >([]);
 
-const [polygonCoords, setPolygonCoords] = useState<{ latitude: number; longitude: number }[]>([]);
+  const generatePolygonAround = (
+    lat: number,
+    lon: number,
+    offset: number = 0.01
+  ) => [
+    { latitude: lat + offset, longitude: lon + offset },
+    { latitude: lat + offset, longitude: lon - offset },
+    { latitude: lat - offset, longitude: lon - offset },
+    { latitude: lat - offset, longitude: lon + offset },
+  ];
 
-const generatePolygonAround = (
-  lat: number,
-  lon: number,
-  offset: number = 0.01
-) => [
-  { latitude: lat + offset, longitude: lon + offset },
-  { latitude: lat + offset, longitude: lon - offset },
-  { latitude: lat - offset, longitude: lon - offset },
-  { latitude: lat - offset, longitude: lon + offset },
-];
-
-useEffect(() => {
-  if (location) {
-    const { latitude, longitude } = location.coords;
-    setPolygonCoords(generatePolygonAround(latitude, longitude));
-  }
-}, [location]);
-
-
+  useEffect(() => {
+    if (location) {
+      const { latitude, longitude } = location.coords;
+      setPolygonCoords(generatePolygonAround(latitude, longitude));
+    }
+  }, [location]);
 
   const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
   const APIUrl = `https://api.openweathermap.org/data/2.5`;
@@ -166,21 +162,18 @@ useEffect(() => {
     fetchForecast();
     const interval = setInterval(fetchCurrentWeather, 5 * 60 * 1000);
     return () => clearInterval(interval);
-
-    
   }, [location]);
 
   useEffect(() => {
-  if (location) {
-    setMapRegion({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      latitudeDelta: 0.05,
-      longitudeDelta: 0.05,
-    });
-  }
-}, [location]);
-
+    if (location) {
+      setMapRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      });
+    }
+  }, [location]);
 
   // ✅ Get device location
   useEffect(() => {
@@ -237,24 +230,30 @@ useEffect(() => {
   };
 
   const fetchAirQuality = async (lat: number, lon: number) => {
-  const response = await fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${APIKey}`);
-  const data = await response.json();
-  return {
-    aqi: data.list[0].main.aqi,
-    co: data.list[0].components.co,
-    no2: data.list[0].components.no2
+    const response = await fetch(
+      `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${APIKey}`
+    );
+    const data = await response.json();
+    return {
+      aqi: data.list[0].main.aqi,
+      co: data.list[0].components.co,
+      no2: data.list[0].components.no2,
+    };
   };
-};
 
-const [airQuality, setAirQuality] = useState<{ aqi: number; co: number; no2: number } | null>(null);
+  const [airQuality, setAirQuality] = useState<{
+    aqi: number;
+    co: number;
+    no2: number;
+  } | null>(null);
 
-
-
-useEffect(() => {
-  if (location) {
-    fetchAirQuality(location.coords.latitude, location.coords.longitude).then(setAirQuality);
-  }
-}, [location]);
+  useEffect(() => {
+    if (location) {
+      fetchAirQuality(location.coords.latitude, location.coords.longitude).then(
+        setAirQuality
+      );
+    }
+  }, [location]);
 
   // const handleCitySelect = (lat: number, lon: number) => {
   //   setLocation({
@@ -275,12 +274,22 @@ useEffect(() => {
 
   const weatherDetails = [
     { id: "1", icon: "tint", label: `Humidity: ${weather.main.humidity}%` },
-    { id: "2", icon: "tachometer-alt", label: `Pressure: ${weather.main.pressure} hPa` },
-    { id: "3", icon: "water", label: `Sea Level: ${weather.main.sea_level ?? "N/A"} hPa` },
-    { id: "4", icon: "globe", label: `Ground Level: ${weather.main.grnd_level ?? "N/A"} hPa` },
+    {
+      id: "2",
+      icon: "tachometer-alt",
+      label: `Pressure: ${weather.main.pressure} hPa`,
+    },
+    {
+      id: "3",
+      icon: "water",
+      label: `Sea Level: ${weather.main.sea_level ?? "N/A"} hPa`,
+    },
+    {
+      id: "4",
+      icon: "globe",
+      label: `Ground Level: ${weather.main.grnd_level ?? "N/A"} hPa`,
+    },
   ];
-
-
 
   // Function to handle returning to current location
   const handleReturnToCurrentLocation = async () => {
@@ -295,30 +304,29 @@ useEffect(() => {
   };
 
   const handleCitySelect = (lat: number, lon: number) => {
-  setSearchedLat(lat);
-  setSearchedLon(lon);
-  setLocation({
-    coords: {
-      latitude: lat,
-      longitude: lon,
-      altitude: 0,
-      accuracy: 0,
-      altitudeAccuracy: 0,
-      heading: 0,
-      speed: 0,
-    },
-    timestamp: Date.now(),
-  });
-};
+    setSearchedLat(lat);
+    setSearchedLon(lon);
+    setLocation({
+      coords: {
+        latitude: lat,
+        longitude: lon,
+        altitude: 0,
+        accuracy: 0,
+        altitudeAccuracy: 0,
+        heading: 0,
+        speed: 0,
+      },
+      timestamp: Date.now(),
+    });
+  };
 
-
-  
-  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ImageBackground
         source={{
-          uri: backgroundUrl ?? background(weather.main.temp, weather.weather?.[0]?.main),
+          uri:
+            backgroundUrl ??
+            background(weather.main.temp, weather.weather?.[0]?.main),
         }}
         style={{ flex: 1, width: "100%" }}
         resizeMode="cover"
@@ -334,9 +342,14 @@ useEffect(() => {
 
           <View style={styles.topCard}>
             <View style={styles.locationContainer}>
-            <Text style={styles.location}>
-              <FontAwesome5 name="map-marker-alt" size={30} color={theme.icon} /> {weather.name}
-            </Text>
+              <Text style={styles.location}>
+                <FontAwesome5
+                  name="map-marker-alt"
+                  size={30}
+                  color={theme.icon}
+                />{" "}
+                {weather.name}
+              </Text>
               <FontAwesome5
                 name="sync-alt"
                 size={20}
@@ -345,10 +358,11 @@ useEffect(() => {
                 onPress={handleReturnToCurrentLocation}
               />
             </View>
-
-                <Text style={styles.tempText}>
-              {convertTemperature(weather.main.temp).toFixed(1)}°{isCelsius ? "C" : "F"}
+            <Text style={styles.tempText}>
+              {convertTemperature(weather.main.temp).toFixed(1)}°
+              {isCelsius ? "C" : "F"}
             </Text>
+
             <Text style={styles.dayName}>
               <FontAwesome5 name="calendar-alt" size={14} color={theme.icon} />{" "}
               {currentTime.format("dddd, MMMM D")}
@@ -357,119 +371,124 @@ useEffect(() => {
               {currentTime.format("h:mm:ss A")}
             </Text>
 
-                   <Text style={styles.fellslike}>
-  <FontAwesome5 name="thermometer-half" size={14} color={theme.icon} />{" "}
-  Feels Like: {convertTemperature(weather.main.feels_like).toFixed(1)}°
-  {isCelsius ? "C" : "F"}
-</Text>
+            <Text style={styles.fellslike}>
+              <FontAwesome5
+                name="thermometer-half"
+                size={14}
+                color={theme.icon}
+              />{" "}
+              Feels Like:{" "}
+              {convertTemperature(weather.main.feels_like).toFixed(1)}°
+              {isCelsius ? "C" : "F"}
+            </Text>
 
             <View style={styles.tempRange}>
               <Text style={styles.description}>
-                <FontAwesome5 name="arrow-up" size={14} color={theme.icon} /> Max:{" "}
-                {convertTemperature(weather.main.temp_max).toFixed(1)}°{isCelsius ? "C" : "F"}
+                <FontAwesome5 name="arrow-up" size={14} color={theme.icon} />{" "}
+                Max: {convertTemperature(weather.main.temp_max).toFixed(1)}°
+                {isCelsius ? "C" : "F"}
               </Text>
               <Text style={styles.description}>
-                <FontAwesome5 name="arrow-down" size={14} color={theme.icon} /> Min:{" "}
-                {convertTemperature(weather.main.temp_min).toFixed(1)}°{isCelsius ? "C" : "F"}
+                <FontAwesome5 name="arrow-down" size={14} color={theme.icon} />{" "}
+                Min: {convertTemperature(weather.main.temp_min).toFixed(1)}°
+                {isCelsius ? "C" : "F"}
               </Text>
-              </View>
+            </View>
 
             <View style={styles.buttonItem}>
-             <View style={styles.buttons}>
-              <TempUnitToggle isCelsius={isCelsius} onToggle={toggleUnit} theme={theme} />
-              <ThemeToggle onThemeChange={setIsDark} />
+              <View style={styles.buttons}>
+                <TempUnitToggle
+                  isCelsius={isCelsius}
+                  onToggle={toggleUnit}
+                  theme={theme}
+                />
+                <ThemeToggle onThemeChange={setIsDark} />
+              </View>
             </View>
           </View>
+
+          {weather?.sys && (
+            <SunInfo
+              sunrise={weather.sys.sunrise}
+              sunset={weather.sys.sunset}
+              isDark={isDark}
+            />
+          )}
+          {weather?.wind && (
+            <WindInfo
+              speed={weather.wind.speed * 3.6} // convert m/s to km/h
+              direction={weather.wind.deg}
+              isDark={isDark}
+            />
+          )}
+
+          {/* <Compass /> */}
+
+          <WeatherDetailsSlider
+            weatherDetails={weatherDetails}
+            isDark={isDark}
+          />
+
+          <MapView
+            style={styles.mapCard}
+            region={mapRegion} // ✅ dynamically controlled
+          >
+            <Polygon
+              coordinates={polygonCoords}
+              fillColor="rgba(255, 0, 0, 0.3)"
+              strokeColor="#FF0000"
+              strokeWidth={2}
+            />
+          </MapView>
+          <View style={styles.coordBox}>
+            <Text style={styles.coordTitle}>Square Coordinates:</Text>
+            {polygonCoords.map((point, index) => (
+              <Text key={index} style={styles.coordItem}>
+                {index + 1}: {point.latitude.toFixed(5)},{" "}
+                {point.longitude.toFixed(5)}
+              </Text>
+            ))}
           </View>
-
-                    {weather?.sys && (
-  <SunInfo
-    sunrise={weather.sys.sunrise}
-    sunset={weather.sys.sunset}
-    isDark={isDark}
-  />
-)}
-{weather?.wind && (
-  <WindInfo
-    speed={weather.wind.speed * 3.6} // convert m/s to km/h
-    direction={weather.wind.deg}
-    isDark={isDark}
-  />
-)}
-
-      
-{/* <Compass /> */}
-
-          <WeatherDetailsSlider weatherDetails={weatherDetails} isDark={isDark} />
-
-
-<MapView
-  style={styles.mapCard}
-  region={mapRegion} // ✅ dynamically controlled
->
-
-  <Polygon
-    coordinates={polygonCoords}
-    fillColor="rgba(255, 0, 0, 0.3)"
-    strokeColor="#FF0000"
-    strokeWidth={2}
-  />
-</MapView>
-<View style={styles.coordBox}>
-  <Text style={styles.coordTitle}>Square Coordinates:</Text>
-  {polygonCoords.map((point, index) => (
-    <Text key={index} style={styles.coordItem}>
-      {index + 1}: {point.latitude.toFixed(5)}, {point.longitude.toFixed(5)}
-    </Text>
-  ))}
-</View>
-
-
 
           <ForecastList forecast={forecast ?? []} isDark={isDark} />
 
+          {location && (
+            <LocationInfo
+              latitude={location.coords.latitude}
+              longitude={location.coords.longitude}
+              altitude={location.coords.altitude ?? undefined}
+              isDark={isDark}
+            />
+          )}
 
-{location && (
-  <LocationInfo
-    latitude={location.coords.latitude}
-    longitude={location.coords.longitude}
-     altitude={location.coords.altitude ?? undefined}
-    isDark={isDark}
-  />
-)}
+          <Compass
+            userLocation={{
+              latitude: location?.coords.latitude ?? 0,
+              longitude: location?.coords.longitude ?? 0,
+            }}
+            isDark={isDark} // ✅ Pass this to match theme
+            targetLocation={{
+              latitude: 0,
+              longitude: 0,
+            }}
+          />
 
-
-
-
-
-  <Compass
-              userLocation={{
-                latitude: location?.coords.latitude ?? 0,
-                longitude: location?.coords.longitude ?? 0,
-              }}
-              isDark={isDark} // ✅ Pass this to match theme
-              targetLocation={{
-                latitude: 0,
-                longitude: 0
-              }}  />
-
-              {airQuality && (
-  <ScrollView
-    horizontal
-    showsHorizontalScrollIndicator={false}
-    style={{ marginVertical: 16 }}
-    contentContainerStyle={{ paddingHorizontal: 10 }}
-  >
-    <AirQualityInfo
-      aqi={airQuality.aqi}
-      co={airQuality.co}
-      no2={airQuality.no2}
-      isDark={isDark}
-    />
-    {/* You can repeat this or map through multiple entries if needed */}
-  </ScrollView>
-)}
-
+          {airQuality && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{ marginVertical: 16 }}
+              contentContainerStyle={{ paddingHorizontal: 10 }}
+            >
+              <AirQualityInfo
+                aqi={airQuality.aqi}
+                co={airQuality.co}
+                no2={airQuality.no2}
+                isDark={isDark}
+              />
+              {/* You can repeat this or map through multiple entries if needed */}
+            </ScrollView>
+          )}
         </ScrollView>
       </ImageBackground>
     </GestureHandlerRootView>
