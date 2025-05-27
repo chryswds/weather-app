@@ -133,7 +133,6 @@ export const createStyles = (theme: Theme) =>
       paddingHorizontal: 16,
       marginHorizontal: 6,
       marginVertical: 0,
-      height: 120,
       flexDirection: "row",
       alignItems: "center",
     },
