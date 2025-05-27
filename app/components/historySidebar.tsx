@@ -1,3 +1,4 @@
+// Import required dependencies
 import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -12,6 +13,7 @@ import {
 import { Theme } from "../Styles/weather";
 import { SearchHistoryItem } from "../utils/searchHistory";
 
+// Props definition for the sidebar component
 interface HistorySidebarProps {
   isVisible: boolean;
   onClose: () => void;
@@ -22,8 +24,10 @@ interface HistorySidebarProps {
   isDark: boolean;
 }
 
+// Set sidebar width to 80% of screen width
 const SIDEBAR_WIDTH = Dimensions.get("window").width * 0.8;
 
+// History sidebar component that slides in from the right
 const HistorySidebar: React.FC<HistorySidebarProps> = ({
   isVisible,
   onClose,
@@ -33,8 +37,10 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
   theme,
   isDark,
 }) => {
+  // Animation value for sliding effect
   const translateX = React.useRef(new Animated.Value(SIDEBAR_WIDTH)).current;
 
+  // Animate sidebar when visibility changes
   React.useEffect(() => {
     Animated.timing(translateX, {
       toValue: isVisible ? 0 : SIDEBAR_WIDTH,
@@ -69,10 +75,10 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
             <Text style={[styles.clearButton, { color: theme.accent }]}>
               Clear All
             </Text>
-            
           </TouchableOpacity>
         </View>
 
+        {/* Show history list or empty state message */}
         {history.length > 0 ? (
           <FlatList
             data={history}
@@ -112,6 +118,7 @@ const HistorySidebar: React.FC<HistorySidebarProps> = ({
   );
 };
 
+// Styles for the sidebar components
 const styles = StyleSheet.create({
   container: {
     position: "absolute",

@@ -1,31 +1,37 @@
+// Import required dependencies
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
 
+// Theme toggle component with dark/light mode switch
 const ThemeToggle = ({
   onThemeChange,
 }: {
-  onThemeChange: (isDark: boolean) => void;
+  onThemeChange: (isDark: boolean) => void; // Callback when theme changes
 }) => {
+  // Track dark mode state
   const [isDark, setIsDark] = useState(false);
 
-  // Use useEffect to call onThemeChange when isDark changes
+  // Notify parent component when theme changes
   useEffect(() => {
     onThemeChange(isDark);
   }, [isDark, onThemeChange]);
 
+  // Handle switch toggle
   const toggleSwitch = () => {
     setIsDark((prev) => !prev);
   };
 
   return (
     <View style={styles.toggleContainer}>
+      {/* Theme icon (sun/moon) */}
       <FontAwesome5
         name={isDark ? "moon" : "sun"}
         size={16}
         color={isDark ? "#fff" : "#000"}
         style={{ marginRight: 8 }}
       />
+      {/* Theme label */}
       <Text
         style={[
           styles.label,
@@ -35,11 +41,13 @@ const ThemeToggle = ({
       >
         {isDark ? "Dark Mode" : "Light Mode"}
       </Text>
+      {/* Theme toggle switch */}
       <Switch value={isDark} onValueChange={toggleSwitch} />
     </View>
   );
 };
 
+// Component styles
 const styles = StyleSheet.create({
   toggleContainer: {
     flexDirection: "row",

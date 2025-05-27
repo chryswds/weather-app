@@ -1,18 +1,24 @@
+// Import required dependencies
 import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Switch, Text, View } from "react-native";
-import { Theme } from "../Styles/weather"; // Importa o tipo do tema
+import { Theme } from "../Styles/weather";
 
+// Define component props
 type Props = {
-  isCelsius: boolean;
-  onToggle: () => void;
-  theme: Theme; // 👈 recebe o tema como prop
+  isCelsius: boolean; // Current temperature unit state
+  onToggle: () => void; // Handler for unit toggle
+  theme: Theme; // Theme for styling
 };
 
+// Temperature unit toggle component (Celsius/Fahrenheit)
 const TempUnitToggle: React.FC<Props> = ({ isCelsius, onToggle, theme }) => {
   return (
     <View style={styles(theme).toggleRow}>
+      {/* Temperature icon */}
       <FontAwesome5 name="temperature-high" size={18} color={theme.tempText} />
+
+      {/* Toggle label showing the unit to switch to */}
       <Text
         style={[
           styles(theme).label,
@@ -22,9 +28,12 @@ const TempUnitToggle: React.FC<Props> = ({ isCelsius, onToggle, theme }) => {
       >
         Show {isCelsius ? "°F" : "°C"}
       </Text>
+
+      {/* Toggle switch (inverted value since label shows the opposite unit) */}
       <Switch
         value={!isCelsius}
         onValueChange={onToggle}
+        // Commented out custom styling options
         // thumbColor="#fff"
         // trackColor={{ true: theme.accent, false: '#888' }}
       />
@@ -32,7 +41,7 @@ const TempUnitToggle: React.FC<Props> = ({ isCelsius, onToggle, theme }) => {
   );
 };
 
-// 🔧 Dynamic styles based on theme
+// Theme-based styles
 const styles = (theme: Theme) =>
   StyleSheet.create({
     toggleRow: {

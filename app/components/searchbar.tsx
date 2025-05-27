@@ -1,6 +1,6 @@
+// Import required dependencies
 import { FontAwesome5 } from "@expo/vector-icons";
 import debounce from "lodash/debounce";
-
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -19,6 +19,7 @@ import {
 } from "../utils/searchHistory";
 import HistorySidebar from "./historySidebar";
 
+// Define city data structure
 type City = {
   name: string;
   lat: number;
@@ -26,6 +27,7 @@ type City = {
   country: string;
 };
 
+// Define component props
 type Props = {
   searchText: string;
   setSearchText: (text: string) => void;
@@ -34,6 +36,7 @@ type Props = {
   isDark: boolean;
 };
 
+// Search bar component with city suggestions and history
 const SearchBar: React.FC<Props> = ({
   searchText,
   setSearchText,
@@ -41,22 +44,29 @@ const SearchBar: React.FC<Props> = ({
   onCitySelect,
   isDark,
 }) => {
+  // Set theme based on dark mode
   const theme = isDark ? darkTheme : lightTheme;
   const styles = createStyles(theme);
+
+  // State management
   const [suggestions, setSuggestions] = useState<City[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suppressSuggestions, setSuppressSuggestions] = useState(false);
   const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[]>([]);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
+  // Load search history on component mount
   useEffect(() => {
     loadSearchHistory();
   }, []);
 
+  // Load search history from storage
   const loadSearchHistory = async () => {
     const history = await getSearchHistory();
     setSearchHistory(history);
   };
+
+  // Fetch city suggestions from OpenWeatherMap API
   const fetchCitySuggestions = async (query: string) => {
     if (query.length < 3) {
       setSuggestions([]);
@@ -77,8 +87,10 @@ const SearchBar: React.FC<Props> = ({
     }
   };
 
+  // Debounce API calls to prevent too many requests
   const debouncedFetch = debounce(fetchCitySuggestions, 300);
 
+  // Fetch suggestions when search text changes
   useEffect(() => {
     if (!suppressSuggestions) {
       debouncedFetch(searchText);
@@ -88,15 +100,16 @@ const SearchBar: React.FC<Props> = ({
     };
   }, [searchText, suppressSuggestions]);
 
+  // Handle city selection from suggestions
   const handleCitySelect = async (city: City) => {
     setSearchText(`${city.name}, ${city.country}`);
-    setShowSuggestions(false); // Hide suggestions
-    setSuggestions([]); // Clear suggestions array
-    setSuppressSuggestions(true); // Prevent suggestions from showing again
+    setShowSuggestions(false);
+    setSuggestions([]);
+    setSuppressSuggestions(true);
     setIsSidebarVisible(false);
     onCitySelect(city.lat, city.lon);
 
-    // Add to search history
+    // Save to search history
     await addToSearchHistory({
       name: `${city.name}, ${city.country}`,
       lat: city.lat,
@@ -105,15 +118,17 @@ const SearchBar: React.FC<Props> = ({
     loadSearchHistory();
   };
 
+  // Handle selection from search history
   const handleHistorySelect = (item: SearchHistoryItem) => {
     setSearchText(item.name);
-    setShowSuggestions(false); // Hide suggestions
-    setSuggestions([]); // Clear suggestions array
-    setSuppressSuggestions(true); // Prevent suggestions from showing again
+    setShowSuggestions(false);
+    setSuggestions([]);
+    setSuppressSuggestions(true);
     setIsSidebarVisible(false);
     onCitySelect(item.lat, item.lon);
   };
 
+  // Clear search history
   const handleClearHistory = async () => {
     await clearSearchHistory();
     setSearchHistory([]);
@@ -123,6 +138,7 @@ const SearchBar: React.FC<Props> = ({
   return (
     <>
       <View style={styles.searchWrapper}>
+        {/* Search input with history button */}
         <View style={styles.searchContainer}>
           <FontAwesome5 name="search" size={20} style={styles.icon} />
           <TextInput
@@ -131,14 +147,14 @@ const SearchBar: React.FC<Props> = ({
             value={searchText}
             onChangeText={(text) => {
               setSearchText(text);
-              setSuppressSuggestions(false); // Allow suggestions to show again when typing
+              setSuppressSuggestions(false);
             }}
             returnKeyType="search"
             onSubmitEditing={() => {
               handleSearch();
               setShowSuggestions(false);
               setSuggestions([]);
-              setSuppressSuggestions(true); // Prevent suggestions from showing again
+              setSuppressSuggestions(true);
             }}
             placeholderTextColor="#aaa"
           />
@@ -150,6 +166,7 @@ const SearchBar: React.FC<Props> = ({
           </TouchableOpacity>
         </View>
 
+        {/* City suggestions dropdown */}
         {showSuggestions &&
           suggestions.length > 0 &&
           searchText.length >= 3 &&
@@ -173,6 +190,7 @@ const SearchBar: React.FC<Props> = ({
           )}
       </View>
 
+      {/* History sidebar component */}
       <HistorySidebar
         isVisible={isSidebarVisible}
         onClose={() => setIsSidebarVisible(false)}

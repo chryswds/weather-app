@@ -1,3 +1,4 @@
+// Import required dependencies
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
@@ -28,8 +29,7 @@ import LocationInfo from "../components/locationItem";
 import SunInfo from "../components/sunInfo";
 import WindInfo from "../components/windInfo";
 
-// Types for weather data structure
-
+// Type definitions for weather data structures
 type Wind = {
   speed: number; // in m/s
   deg: number; // direction in degrees
@@ -49,6 +49,7 @@ type Weather = {
   };
 };
 
+// Commented out for future reference
 // type Props = {
 //   latitude: number;
 //   longitude: number;
@@ -56,6 +57,7 @@ type Weather = {
 //   isDark: boolean;
 // };
 
+// Type for main weather data
 type MainWeather = {
   temp: number;
   feels_like: number;
@@ -67,17 +69,15 @@ type MainWeather = {
   grnd_level: number;
 };
 
+// Type for weather condition description
 type WeatherConditionType = {
   main: string;
   description: string;
 };
 
-// ... all your imports
-// import { background } from "./background"; // ✅ Import your background util
-
-// ... MainWeather, WeatherConditionType, Weather types stay the same
-
+// Main weather screen component
 const WeatherScreen = () => {
+  // State for weather data and location
   const [weather, setWeather] = useState<Weather | null>(null);
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
@@ -88,15 +88,19 @@ const WeatherScreen = () => {
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(dayjs());
 
+  // Theme state and styling
   const [isDark, setIsDark] = useState(false);
   const theme = isDark ? darkTheme : lightTheme;
   const styles = createStyles(theme);
 
+  // State for searched location coordinates
   const [searchedLat, setSearchedLat] = useState<number | null>(null);
   const [searchedLon, setSearchedLon] = useState<number | null>(null);
 
+  // Temperature unit conversion hook
   const { isCelsius, toggleUnit, convertTemperature } = useTemperatureUnit();
 
+  // Map view region state
   const [mapRegion, setMapRegion] = useState({
     latitude: location?.coords.latitude ?? 0,
     longitude: location?.coords.longitude ?? 0,
@@ -104,10 +108,12 @@ const WeatherScreen = () => {
     longitudeDelta: 0.05,
   });
 
+  // State for polygon coordinates on map
   const [polygonCoords, setPolygonCoords] = useState<
     { latitude: number; longitude: number }[]
   >([]);
 
+  // Helper function to generate polygon coordinates around a point
   const generatePolygonAround = (
     lat: number,
     lon: number,
@@ -119,6 +125,7 @@ const WeatherScreen = () => {
     { latitude: lat - offset, longitude: lon + offset },
   ];
 
+  // Update polygon coordinates when location changes
   useEffect(() => {
     if (location) {
       const { latitude, longitude } = location.coords;
@@ -126,12 +133,14 @@ const WeatherScreen = () => {
     }
   }, [location]);
 
+  // API configuration
   const APIKey = `127ec3a0b8768a330c3b0f8c3ef48420`;
   const APIUrl = `https://api.openweathermap.org/data/2.5`;
   const lat = location?.coords.latitude;
   const lon = location?.coords.longitude;
 
   // ✅ NEW: Fetch weather and update background URL
+  // Fetch current weather data and update background
   const fetchCurrentWeather = async () => {
     if (!location) return;
 
@@ -147,6 +156,7 @@ const WeatherScreen = () => {
   };
 
   // ✅ Live clock
+  // Update current time every second
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(dayjs());
@@ -155,6 +165,7 @@ const WeatherScreen = () => {
   }, []);
 
   // ✅ Weather refresh + forecast
+  // Fetch weather data and forecast when location changes
   useEffect(() => {
     if (!location) return;
     fetchCurrentWeather();
@@ -163,6 +174,7 @@ const WeatherScreen = () => {
     return () => clearInterval(interval);
   }, [location]);
 
+  // Update map region when location changes
   useEffect(() => {
     if (location) {
       setMapRegion({
@@ -175,6 +187,7 @@ const WeatherScreen = () => {
   }, [location]);
 
   // ✅ Get device location
+  // Request location permission and get initial location
   useEffect(() => {
     async function getCurrentLocation() {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -189,6 +202,7 @@ const WeatherScreen = () => {
   }, []);
 
   // ✅ Forecast
+  // Fetch 5-day forecast data
   const fetchForecast = async () => {
     if (!location) return;
     const results = await fetch(
@@ -202,6 +216,7 @@ const WeatherScreen = () => {
   };
 
   // ✅ Manual search
+  // Handle location search by city name
   const handleSearch = async () => {
     if (!searchText) return;
     try {
@@ -228,6 +243,7 @@ const WeatherScreen = () => {
     }
   };
 
+  // Fetch air quality data for current location
   const fetchAirQuality = async (lat: number, lon: number) => {
     const response = await fetch(
       `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${APIKey}`
@@ -246,6 +262,7 @@ const WeatherScreen = () => {
     no2: number;
   } | null>(null);
 
+  // Update air quality data when location changes
   useEffect(() => {
     if (location) {
       fetchAirQuality(location.coords.latitude, location.coords.longitude).then(
@@ -291,6 +308,7 @@ const WeatherScreen = () => {
   ];
 
   // Function to handle returning to current location
+  // Handle returning to current device location
   const handleReturnToCurrentLocation = async () => {
     try {
       const currentLocation = await Location.getCurrentPositionAsync({});
@@ -302,6 +320,7 @@ const WeatherScreen = () => {
     }
   };
 
+  // Handle selection of city from search results
   const handleCitySelect = (lat: number, lon: number) => {
     setSearchedLat(lat);
     setSearchedLon(lon);
